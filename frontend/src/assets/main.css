@@ -1,0 +1,212 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brand Color Variables */
+:root {
+  --primary-color: #000000; /* Changed from blue to black */
+  --primary-hover: #333333;
+  --sunset-orange: #EBA472;
+  --sunset-brown: #A15E3B;
+  --midnight-black: #000000;
+}
+
+/* Background utilities */
+.bg-midnight-black {
+  background-color: var(--midnight-black) !important;
+}
+
+/* Hero section styling */
+.hero-section {
+  position: relative;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(235, 164, 114, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(235, 164, 114, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Text utilities */
+.text-white-50 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Force Bootstrap overrides */
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  color: #ffffff !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--sunset-orange) !important;
+}
+
+.border-primary {
+  border-color: var(--primary-color) !important;
+}
+
+.btn-outline-primary {
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+/* Admin Page Styling */
+.admin-page {
+  padding-top: 80px; /* Account for fixed navbar */
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.admin-page .container-fluid {
+  max-width: 1400px;
+}
+
+.admin-page .card {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.admin-page .card-header {
+  border-radius: 10px 10px 0 0 !important;
+  border-bottom: none;
+  font-weight: 600;
+}
+
+.admin-page .form-control {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+}
+
+.admin-page .form-control:focus {
+  border-color: #EBA472;
+  box-shadow: 0 0 0 0.2rem rgba(235, 164, 114, 0.25);
+}
+
+.admin-page .btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+}
+
+/* Custom Brand Color Classes */
+.bg-midnight-black {
+  background-color: #000000 !important;
+}
+
+.bg-warm-sunset {
+  background-color: #EBA472 !important;
+}
+
+.bg-modern-white {
+  background-color: #FFFFFF !important;
+}
+
+.bg-slate-gray {
+  background-color: #4A4A4A !important;
+}
+
+.text-midnight-black {
+  color: #000000 !important;
+}
+
+.text-warm-sunset {
+  color: #EBA472 !important;
+}
+
+.text-modern-white {
+  color: #FFFFFF !important;
+}
+
+.text-slate-gray {
+  color: #4A4A4A !important;
+}
+
+.border-warm-sunset {
+  border-color: #EBA472 !important;
+}
+
+/* Navbar specific overrides */
+.navbar-light .navbar-brand {
+  color: #EBA472 !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #4A4A4A !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #EBA472 !important;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: #EBA472 !important;
+}
+
+/* General body styling */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #4A4A4A;
+  background-color: #FFFFFF;
+}
+
+/* Remove any conflicting blue colors */
+.text-blue-600,
+.text-blue-500 {
+  color: #EBA472 !important;
+}
+
+.bg-blue-600,
+.bg-blue-500 {
+  background-color: #EBA472 !important;
+}
+
+/* Custom button variant for midnight black */
+.btn-midnight-black {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+.btn-midnight-black:hover,
+.btn-midnight-black:focus,
+.btn-midnight-black:active {
+  background-color: #333333 !important;
+  border-color: #333333 !important;
+  color: #FFFFFF !important;
+}
+
+
+
+

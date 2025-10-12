@@ -1,0 +1,32 @@
+{
+  "name": "make-it-home-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --force",
+    "build": "vite build",
+    "preview": "vite preview",
+    "dev:clean": "rm -rf node_modules/.vite && vite"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.10",
+    "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.2.0",
+    "@popperjs/core": "^2.11.8",
+    "aos": "^2.3.4",
+    "axios": "^1.6.0",
+    "bootstrap": "^5.3.2",
+    "framer-motion": "^12.23.9",
+    "lucide-vue-next": "^0.527.0",
+    "sharp": "^0.34.3",
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "sass": "^1.69.5",
+    "sass-embedded": "^1.90.0",
+    "vite": "^5.0.0"
+  }
+}

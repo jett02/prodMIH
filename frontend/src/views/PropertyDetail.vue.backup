@@ -1,0 +1,2561 @@
+<template>
+  <div v-if="property" class="property-detail-page">
+    <!-- Animated Background -->
+    <div class="detail-background-container">
+      <div class="detail-gradient"></div>
+      <div class="detail-stars"></div>
+      <div class="detail-twinkling"></div>
+      <div class="detail-glass-orbs"></div>
+    </div>
+
+    <!-- Image Carousel - Full Width at Top with Text Overlay -->
+    <div class="container-fluid p-0 mb-5">
+      <div v-if="allImages && allImages.length > 0"
+           id="propertyCarousel" class="carousel slide carousel-fade cube-carousel cube-auto-carousel"
+           data-bs-ride="carousel" data-bs-interval="4000" data-bs-pause="hover">
+        <div class="carousel-inner">
+          <div v-for="(image, index) in allImages" :key="index"
+               class="carousel-item cube-slide" :class="{ active: index === 0 }">
+            <img :src="getImageUrl(image)" :alt="`${property.address} - Image ${index + 1}`"
+                 class="d-block w-100 cube-image" style="height: 400px; object-fit: cover;">
+            <div class="cube-overlay"></div>
+            <div class="cube-shimmer"></div>
+          </div>
+        </div>
+
+        <!-- Text Overlay on Carousel -->
+        <div class="carousel-text-overlay">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-8 text-center">
+                <h1 class="carousel-title mb-3">{{ property.address }}</h1>
+                <p class="carousel-subtitle">{{ property.title }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- existing carousel controls -->
+        <button v-if="allImages.length > 1"
+                class="carousel-control-prev cube-nav" type="button"
+                data-bs-target="#propertyCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon cube-arrow"></span>
+        </button>
+        <button v-if="allImages.length > 1"
+                class="carousel-control-next cube-nav" type="button"
+                data-bs-target="#propertyCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon cube-arrow"></span>
+        </button>
+
+        <div v-if="allImages.length > 1" class="carousel-indicators cube-indicators">
+          <button v-for="(image, index) in allImages" :key="index"
+                  type="button" data-bs-target="#propertyCarousel"
+                  :data-bs-slide-to="index" :class="{ active: index === 0 }"
+                  class="cube-dot">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="container">
+      <div class="row">
+        <!-- Left Side: Property Images + Property Details (spans 9 columns) -->
+        <div class="col-lg-9">
+          <!-- Property Images Gallery Section -->
+          <div class="property-gallery-section">
+            <div class="gallery-header">
+              <h3 class="gallery-title">Property Images</h3>
+              <div class="gallery-count">{{ allImages.length }} Photos</div>
+            </div>
+            <div class="gallery-body">
+
+            <!-- Main Thumbnail Carousel -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <div class="position-relative thumbnail-carousel-container">
+                  <div id="thumbnailCarousel" class="carousel slide" data-bs-ride="false">
+                    <div class="carousel-inner rounded">
+                      <div v-for="(image, index) in allImages" :key="index"
+                           class="carousel-item" :class="{ active: index === 0 }">
+                        <img :src="getImageUrl(image)"
+                             :alt="`${property.address} - Image ${index + 1}`"
+                             class="d-block w-100 main-thumbnail-image"
+                             @click="openImageModal(image)">
+                      </div>
+                    </div>
+
+                    <!-- Carousel Controls -->
+                    <button v-if="allImages.length > 1"
+                            class="carousel-control-prev thumbnail-nav" type="button"
+                            data-bs-target="#thumbnailCarousel" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button v-if="allImages.length > 1"
+                            class="carousel-control-next thumbnail-nav" type="button"
+                            data-bs-target="#thumbnailCarousel" data-bs-slide="next">
+                      <span class="carousel-control-next-icon"></span>
+                    </button>
+
+                    <!-- Image Counter -->
+                    <div v-if="allImages.length > 1" class="image-counter">
+                      <span class="badge bg-dark bg-opacity-75 px-3 py-2">
+                        <span id="currentImageIndex">1</span> / {{ allImages.length }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thumbnail Grid -->
+            <div class="row g-2">
+              <div v-for="(image, index) in allImages.slice(0, 6)" :key="index"
+                   class="col-lg-2 col-md-3 col-4">
+                <img :src="getImageUrl(image)"
+                     :alt="`${property.address} - Thumbnail ${index + 1}`"
+                     class="img-fluid rounded shadow-sm cursor-pointer thumbnail-grid-image"
+                     :class="{ 'active-thumbnail': index === currentThumbnailIndex }"
+                     @click="goToThumbnailSlide(index)">
+              </div>
+
+              <!-- View All Button -->
+              <div v-if="allImages.length > 6" class="col-lg-2 col-md-3 col-4">
+                <div class="position-relative h-100 d-flex align-items-center justify-content-center rounded cursor-pointer view-all-box"
+                     @click="openImageModal(allImages[0])">
+                  <div class="text-white text-center">
+                    <i class="fas fa-images fa-lg mb-1"></i>
+                    <div class="small fw-bold">+{{ allImages.length - 6 }} More</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <!-- Property Information Section - Better Structured -->
+          <div class="property-info-section p-4 mb-4">
+                <!-- Property Address and Title -->
+                <div class="row justify-content-center mb-3">
+                  <div class="col-lg-12 text-center">
+                    <!-- Status Indicator -->
+                    <div class="property-status-indicator mb-2">
+                      <span class="status-dot" :class="getStatusClass(property.status)"></span>
+                      <span class="status-text">{{ getStatusText(property.status) }}</span>
+                    </div>
+                    <h2 class="h4 fw-bold mb-2 property-title">{{ property.address }}</h2>
+                    <p class="mb-2 property-subtitle">{{ property.title }}</p>
+                    <div class="property-price-display mb-3">
+                      <span class="h3 fw-bold" style="color: #d34f2d;">${{ formatPrice(property.price) }}</span>
+                      <span v-if="property.type === 'rental'" class="text-muted ms-2">/ month</span>
+                    </div>
+                  </div>
+                </div>
+
+            <!-- Property Details Grid - Compact and Centered -->
+            <div class="row justify-content-center mb-4">
+              <div class="col-lg-8">
+                <div class="row text-center">
+                  <div class="col-3">
+                    <div class="property-stat">
+                      <i class="fas fa-bed fa-lg mb-2" style="color: #f08d34;"></i>
+                      <h6 class="text-dark mb-0">{{ property.bedrooms }}</h6>
+                      <small class="text-muted">Bedrooms</small>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="property-stat">
+                      <i class="fas fa-bath fa-lg mb-2" style="color: #f08d34;"></i>
+                      <h6 class="text-dark mb-0">{{ property.bathrooms }}</h6>
+                      <small class="text-muted">Bathrooms</small>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="property-stat">
+                      <i class="fas fa-ruler-combined fa-lg mb-2" style="color: #f08d34;"></i>
+                      <h6 class="text-dark mb-0">{{ property.sqft?.toLocaleString() || 'N/A' }}</h6>
+                      <small class="text-muted">Sq Ft</small>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="property-stat">
+                      <i class="fas fa-home fa-lg mb-2" style="color: #f08d34;"></i>
+                      <h6 class="text-dark mb-0">{{ property.type }}</h6>
+                      <small class="text-muted">Type</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property Description - Compact -->
+            <div class="row justify-content-center mb-4">
+              <div class="col-lg-10">
+                <h5 class="text-dark mb-3 text-center">Description</h5>
+                <div class="property-description text-center">
+                  <p class="text-dark">{{ property.description }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Features Section - Compact -->
+            <div class="row justify-content-center" v-if="property.features && property.features.length > 0">
+              <div class="col-lg-10">
+                <h5 class="text-dark mb-3 text-center">Features</h5>
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                  <span v-for="feature in property.features" :key="feature"
+                        class="feature-badge px-3 py-1 rounded-pill small">
+                    <i class="fas fa-check me-1"></i>{{ feature }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Extended Property Information -->
+            <div class="row justify-content-center mt-5">
+              <div class="col-lg-10">
+                <h4 class="text-dark mb-4 text-center">Property Details</h4>
+
+                <!-- Property Details Cards -->
+                <div class="row g-4">
+                  <!-- Exterior & Interior -->
+                  <div class="col-md-6">
+                    <div class="property-detail-card h-100">
+                      <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-home text-primary me-2"></i>Exterior & Interior</h5>
+                      </div>
+                      <div class="card-body">
+                        <!-- Exterior Info -->
+                        <div v-if="hasExteriorInfo" class="mb-3">
+                          <h6 class="text-primary mb-2">Exterior</h6>
+                          <div class="detail-grid">
+                            <div v-if="property.exterior?.yearBuilt" class="detail-item">
+                              <span class="detail-label">Year Built:</span>
+                              <span class="detail-value">{{ property.exterior.yearBuilt }}</span>
+                            </div>
+                            <div v-if="property.exterior?.lotSize" class="detail-item">
+                              <span class="detail-label">Lot Size:</span>
+                              <span class="detail-value">{{ property.exterior.lotSize }}</span>
+                            </div>
+                            <div v-if="property.exterior?.roofType" class="detail-item">
+                              <span class="detail-label">Roof:</span>
+                              <span class="detail-value">{{ property.exterior.roofType }}</span>
+                            </div>
+                            <div v-if="property.exterior?.exteriorMaterial" class="detail-item">
+                              <span class="detail-label">Exterior:</span>
+                              <span class="detail-value">{{ property.exterior.exteriorMaterial }}</span>
+                            </div>
+                            <div v-if="property.exterior?.landscaping" class="detail-item">
+                              <span class="detail-label">Landscaping:</span>
+                              <span class="detail-value">{{ property.exterior.landscaping }}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Interior Info -->
+                        <div v-if="hasInteriorInfo">
+                          <h6 class="text-primary mb-2">Interior</h6>
+                          <div class="detail-grid">
+                            <div v-if="property.interior?.flooring" class="detail-item">
+                              <span class="detail-label">Flooring:</span>
+                              <span class="detail-value">{{ property.interior.flooring }}</span>
+                            </div>
+                            <div v-if="property.interior?.heating" class="detail-item">
+                              <span class="detail-label">Heating:</span>
+                              <span class="detail-value">{{ property.interior.heating }}</span>
+                            </div>
+                            <div v-if="property.interior?.cooling" class="detail-item">
+                              <span class="detail-label">Cooling:</span>
+                              <span class="detail-value">{{ property.interior.cooling }}</span>
+                            </div>
+                            <div v-if="property.interior?.basement" class="detail-item">
+                              <span class="detail-label">Basement:</span>
+                              <span class="detail-value">{{ property.interior.basement }}</span>
+                            </div>
+                            <div v-if="property.interior?.laundry" class="detail-item">
+                              <span class="detail-label">Laundry:</span>
+                              <span class="detail-value">{{ property.interior.laundry }}</span>
+                            </div>
+                            <div v-if="property.interior?.fireplace" class="detail-item">
+                              <span class="detail-label">Fireplace:</span>
+                              <span class="detail-value"><i class="fas fa-check text-success"></i> Yes</span>
+                            </div>
+                            <div v-if="property.interior?.appliances && property.interior.appliances.length > 0" class="detail-item">
+                              <span class="detail-label">Appliances:</span>
+                              <span class="detail-value">{{ property.interior.appliances.join(', ') }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Parking & Location -->
+                  <div class="col-md-6">
+                    <div class="property-detail-card h-100">
+                      <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-car text-primary me-2"></i>Parking & Location</h5>
+                      </div>
+                      <div class="card-body">
+                        <!-- Parking Info -->
+                        <div v-if="hasParkingInfo" class="mb-3">
+                          <h6 class="text-primary mb-2">Parking</h6>
+                          <div class="detail-grid">
+                            <div v-if="property.parking?.type" class="detail-item">
+                              <span class="detail-label">Type:</span>
+                              <span class="detail-value">{{ property.parking.type }}</span>
+                            </div>
+                            <div v-if="property.parking?.spaces" class="detail-item">
+                              <span class="detail-label">Spaces:</span>
+                              <span class="detail-value">{{ property.parking.spaces }}</span>
+                            </div>
+                            <div v-if="property.parking?.garageType" class="detail-item">
+                              <span class="detail-label">Garage:</span>
+                              <span class="detail-value">{{ property.parking.garageType }}</span>
+                            </div>
+                            <div v-if="property.parking?.description" class="detail-item">
+                              <span class="detail-label">Details:</span>
+                              <span class="detail-value">{{ property.parking.description }}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Location Info -->
+                        <div v-if="hasLocationInfo">
+                          <h6 class="text-primary mb-2">Location</h6>
+                          <div class="detail-grid">
+                            <div v-if="property.location?.county" class="detail-item">
+                              <span class="detail-label">County:</span>
+                              <span class="detail-value">{{ property.location.county }}</span>
+                            </div>
+                            <div v-if="property.location?.neighborhood" class="detail-item">
+                              <span class="detail-label">Neighborhood:</span>
+                              <span class="detail-value">{{ property.location.neighborhood }}</span>
+                            </div>
+                            <div v-if="property.location?.schoolDistrict" class="detail-item">
+                              <span class="detail-label">School District:</span>
+                              <span class="detail-value">{{ property.location.schoolDistrict }}</span>
+                            </div>
+                            <div v-if="property.location?.walkScore" class="detail-item">
+                              <span class="detail-label">Walk Score:</span>
+                              <span class="detail-value">{{ property.location.walkScore }}/100</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- HOA Information -->
+                  <div class="col-md-6" v-if="hasHOAInfo">
+                    <div class="property-detail-card h-100">
+                      <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-users text-primary me-2"></i>HOA Information</h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="detail-grid">
+                          <div v-if="property.hoa?.hasHOA" class="detail-item">
+                            <span class="detail-label">HOA Fee:</span>
+                            <span class="detail-value">${{ property.hoa.fee }} {{ property.hoa.frequency?.toLowerCase() || '' }}</span>
+                          </div>
+                          <div v-if="property.hoa?.amenities && property.hoa.amenities.length > 0" class="detail-item">
+                            <span class="detail-label">Amenities:</span>
+                            <span class="detail-value">{{ property.hoa.amenities.join(', ') }}</span>
+                          </div>
+                          <div v-if="property.hoa?.restrictions" class="detail-item">
+                            <span class="detail-label">Restrictions:</span>
+                            <span class="detail-value">{{ property.hoa.restrictions }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Building Information -->
+                  <div class="col-md-6" v-if="hasBuildingInfo">
+                    <div class="property-detail-card h-100">
+                      <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-building text-primary me-2"></i>Building Information</h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="detail-grid">
+                          <div v-if="property.building?.stories" class="detail-item">
+                            <span class="detail-label">Stories:</span>
+                            <span class="detail-value">{{ property.building.stories }}</span>
+                          </div>
+                          <div v-if="property.building?.totalUnits && property.building.totalUnits > 1" class="detail-item">
+                            <span class="detail-label">Total Units:</span>
+                            <span class="detail-value">{{ property.building.totalUnits }}</span>
+                          </div>
+                          <div v-if="property.building?.petPolicy" class="detail-item">
+                            <span class="detail-label">Pet Policy:</span>
+                            <span class="detail-value">{{ property.building.petPolicy }}</span>
+                          </div>
+                          <div v-if="property.building?.accessibility && property.building.accessibility.length > 0" class="detail-item">
+                            <span class="detail-label">Accessibility:</span>
+                            <span class="detail-value">{{ property.building.accessibility.join(', ') }}</span>
+                          </div>
+                          <div v-if="property.building?.utilities && property.building.utilities.length > 0" class="detail-item">
+                            <span class="detail-label">Utilities:</span>
+                            <span class="detail-value">{{ property.building.utilities.join(', ') }}</span>
+                          </div>
+                          <div v-if="property.building?.security && property.building.security.length > 0" class="detail-item">
+                            <span class="detail-label">Security:</span>
+                            <span class="detail-value">{{ property.building.security.join(', ') }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Contact Section (spans 3 columns) -->
+        <div class="col-lg-3">
+          <!-- Contact Section -->
+          <div class="contact-section">
+            <div class="contact-header">
+              <h4 class="contact-title">Contact Agent</h4>
+            </div>
+            <div class="contact-body">
+              <div class="price-display-card">
+                <div class="price-amount">
+                  ${{ formatPrice(property.price) }}
+                  <span v-if="property.type === 'rental'" class="price-period">/month</span>
+                </div>
+                <span class="property-type-badge" :class="property.type">
+                  {{ property.type === 'sale' ? 'For Sale' : 'For Rent' }}
+                </span>
+              </div>
+
+            <!-- Agent Information -->
+            <div v-if="property.agent" class="mb-4 pb-4 border-bottom">
+              <h6 class="fw-bold text-dark mb-3">
+                <i class="fas fa-user-tie text-primary me-2"></i>
+                Listing Agent
+              </h6>
+              <div class="d-flex align-items-center mb-3">
+                <img :src="getAgentImageUrl(property.agent.photo)"
+                     :alt="property.agent.name"
+                     class="rounded-circle me-3"
+                     style="width: 50px; height: 50px; object-fit: cover;"
+                     @error="handleAgentImageError">
+                <div>
+                  <div class="fw-semibold text-dark">{{ property.agent.name }}</div>
+                  <div class="text-dark small">{{ property.agent.title }}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div v-if="!showContactForm && !showTourForm" class="d-grid gap-2">
+              <button @click="showContactForm = true" class="btn btn-sunset-gradient btn-lg">
+                Contact Agent
+              </button>
+              <button @click="showTourForm = true" class="btn btn-outline-dark">Schedule Tour</button>
+            </div>
+
+            <!-- Schedule Tour Form -->
+            <div v-else-if="showTourForm" class="tour-form-container">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-dark mb-0">Schedule Tour</h6>
+                <button @click="closeTourForm" class="btn-close" aria-label="Close"></button>
+              </div>
+
+              <!-- Step 1: Date Selection -->
+              <div class="tour-step">
+                <h6 class="text-muted mb-3">Select a Date</h6>
+                <div class="date-carousel">
+                  <button @click="previousDates" class="carousel-btn" :disabled="dateStartIndex === 0">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <div class="date-options">
+                    <div v-for="date in visibleDates" :key="date.value"
+                         class="date-option"
+                         :class="{ active: selectedDate === date.value }"
+                         @click="selectDate(date.value)">
+                      <div class="date-month">{{ date.month }}</div>
+                      <div class="date-day">{{ date.day }}</div>
+                      <div class="date-date">{{ date.date }}</div>
+                    </div>
+                  </div>
+                  <button @click="nextDates" class="carousel-btn" :disabled="dateStartIndex >= availableDates.length - 3">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+
+                <!-- Selected Date Display -->
+                <div v-if="selectedDate" class="selected-info mb-3 p-2 bg-light rounded">
+                  <small class="text-success">✓ Selected Date: {{ getSelectedDateDisplay() }}</small>
+                </div>
+              </div>
+
+              <!-- Step 2: Time Selection (only show if date selected) -->
+              <div v-if="selectedDate" class="tour-step mt-4">
+                <h6 class="text-muted mb-3">Select a Time</h6>
+                <div class="time-carousel">
+                  <button @click="previousTimes" class="carousel-btn" :disabled="timeStartIndex === 0">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <div class="time-options">
+                    <div v-for="time in visibleTimes" :key="time"
+                         class="time-option"
+                         :class="{ active: selectedTime === time }"
+                         @click="selectTime(time)">
+                      {{ time }}
+                    </div>
+                  </div>
+                  <button @click="nextTimes" class="carousel-btn" :disabled="timeStartIndex >= timeSlots.length - 2">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+
+                <!-- Selected Time Display -->
+                <div v-if="selectedTime" class="selected-info mb-3 p-2 bg-light rounded">
+                  <small class="text-success">✓ Selected Time: {{ selectedTime }}</small>
+                </div>
+              </div>
+
+              <!-- Step 3: Contact Information (only show if both date and time selected) -->
+              <div v-if="selectedDate && selectedTime" class="tour-step mt-4">
+                <h6 class="text-muted mb-3">Your Information</h6>
+
+                <div class="mb-3">
+                  <input v-model="tourForm.name" type="text" class="form-control form-control-sm" placeholder="Your Name *" required>
+                </div>
+                <div class="mb-3">
+                  <input v-model="tourForm.email" type="email" class="form-control form-control-sm" placeholder="Your Email *" required>
+                </div>
+                <div class="mb-3">
+                  <input v-model="tourForm.phone" type="tel" class="form-control form-control-sm" placeholder="Phone Number (Optional)">
+                </div>
+                <div class="mb-3">
+                  <textarea v-model="tourForm.message" class="form-control form-control-sm" rows="3"
+                            placeholder="Any special requests or questions?"></textarea>
+                </div>
+
+                <div v-if="tourMessage" class="alert alert-sm" :class="tourSuccess ? 'alert-success' : 'alert-danger'">
+                  {{ tourMessage }}
+                </div>
+
+                <div class="d-flex gap-2">
+                  <button @click="closeTourForm" class="btn btn-outline-secondary btn-sm">Cancel</button>
+                  <button @click="submitTourRequest" class="btn btn-primary btn-sm" :disabled="!tourForm.name || !tourForm.email">
+                    Send Request
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Extended Contact Form -->
+            <div v-else class="contact-form-container">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-dark mb-0">Contact {{ property.agent ? property.agent.name : 'Agent' }}</h6>
+                <button @click="closeContactForm" class="btn-close" aria-label="Close"></button>
+              </div>
+
+              <form @submit.prevent="submitContactForm" class="mb-3">
+                <div class="mb-3">
+                  <label class="form-label small fw-medium">Name *</label>
+                  <input v-model="contactForm.name" type="text" required
+                         class="form-control form-control-sm" placeholder="Your full name">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-medium">Email *</label>
+                  <input v-model="contactForm.email" type="email" required
+                         class="form-control form-control-sm" placeholder="your@email.com">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-medium">Phone</label>
+                  <input v-model="contactForm.phone" type="tel"
+                         class="form-control form-control-sm" placeholder="(555) 123-4567">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-medium">Message *</label>
+                  <textarea v-model="contactForm.message" rows="4" required
+                            class="form-control form-control-sm"
+                            :placeholder="`Hi, I'm interested in ${property.address}. Please contact me with more information.`"></textarea>
+                </div>
+
+                <!-- Success/Error Messages -->
+                <div v-if="contactMessage" class="alert alert-sm mb-3"
+                     :class="contactSuccess ? 'alert-success' : 'alert-danger'" role="alert">
+                  {{ contactMessage }}
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button type="submit" :disabled="isSubmittingContact" class="btn btn-primary">
+                    {{ isSubmittingContact ? 'Sending...' : 'Send Message' }}
+                  </button>
+                  <button type="button" @click="closeContactForm" class="btn btn-outline-secondary btn-sm">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Get Pre-Qualified Section - Only for Sale Properties -->
+            <div v-if="property.type === 'sale'" class="mt-4 pt-4 border-top">
+              <div class="pre-qualify-card-compact">
+                <div class="text-center mb-3">
+                  <div class="bank-logo-container-compact mb-2">
+                    <img src="/businessimages/ExchangeBank.png" alt="Exchange Bank" class="bank-logo-compact"
+                         @error="$event.target.src='/placeholder-home.jpg'" />
+                  </div>
+                  <h6 class="pre-qualify-title-compact mb-2">Ready to Make an Offer?</h6>
+                  <p class="pre-qualify-description-compact small mb-3">
+                    Get pre-qualified for your mortgage and strengthen your buying power.
+                  </p>
+                  <a
+                    href="https://eb-us.com/pre-qualify-app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-outline-primary btn-sm w-100">
+                    <i class="fas fa-external-link-alt me-1"></i>
+                    Get Pre-Qualified
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mortgage Calculator Section - Only for Sale Properties -->
+    <div v-if="property && property.type === 'sale'" class="mortgage-section-wrapper">
+      <div class="mortgage-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center mb-5">
+            <h2 class="section-title" data-aos="fade-up">Calculate Your Monthly Payment</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+              Get an estimate of your monthly mortgage payment for this property
+            </p>
+          </div>
+        </div>
+
+        <div class="row align-items-start">
+          <div class="col-lg-8" data-aos="fade-right">
+            <MortgageCalculator :property-price="property.price" />
+          </div>
+
+          <div class="col-lg-4" data-aos="fade-left" data-aos-delay="200">
+            <div class="mortgage-info-cards">
+              <div class="info-card mb-4">
+                <div class="info-icon">
+                  <i class="fas fa-calculator"></i>
+                </div>
+                <h5>Accurate Estimates</h5>
+                <p>Get precise monthly payment calculations based on current interest rates and loan terms.</p>
+              </div>
+
+              <div class="info-card mb-4">
+                <div class="info-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <h5>Compare Options</h5>
+                <p>Adjust down payment and loan terms to see how they affect your monthly payment.</p>
+              </div>
+
+              <div class="info-card">
+                <div class="info-icon">
+                  <i class="fas fa-home"></i>
+                </div>
+                <h5>Plan Your Budget</h5>
+                <p>Understand the total cost of homeownership including taxes and insurance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  <div v-else class="container text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+import MortgageCalculator from '@/components/MortgageCalculator.vue'
+import AgentCard from '../components/AgentCard.vue'
+
+export default {
+  name: 'PropertyDetail',
+  components: {
+    MortgageCalculator,
+    AgentCard
+  },
+  data() {
+    return {
+      property: null,
+      showContactForm: false,
+      contactForm: {
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+      },
+      isSubmittingContact: false,
+      contactMessage: '',
+      contactSuccess: false,
+      showTourForm: false,
+      tourStep: 1,
+      selectedDate: null,
+      selectedTime: null,
+      dateStartIndex: 0,
+      timeStartIndex: 0,
+      tourForm: {
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+      },
+      tourMessage: '',
+      tourSuccess: false,
+      timeSlots: [
+        '8:00 AM - 10:00 AM',
+        '10:00 AM - 12:00 PM',
+        '12:00 PM - 2:00 PM',
+        '2:00 PM - 4:00 PM',
+        '4:00 PM - 6:00 PM'
+      ],
+      currentThumbnailIndex: 0
+    }
+  },
+  computed: {
+    allImages() {
+      const images = []
+      // Add thumbnail first if it exists
+      if (this.property?.thumbnail) {
+        images.push(this.property.thumbnail)
+      }
+      // Add gallery images
+      if (this.property?.images && this.property.images.length > 0) {
+        images.push(...this.property.images)
+      }
+      return images
+    },
+
+    displayGalleryImages() {
+      if (!this.property?.images || this.property.images.length === 0) return []
+
+      // Show first 3 gallery images, or all if 3 or fewer
+      return this.property.images.slice(0, 3)
+    },
+
+    hasMoreImages() {
+      return this.property?.images && this.property.images.length > 3
+    },
+
+    totalGalleryImages() {
+      return (this.property?.images?.length || 0) + (this.property?.thumbnail ? 1 : 0)
+    },
+
+    // Extended property information computed properties
+    hasExteriorInfo() {
+      const ext = this.property?.exterior
+      return ext && (ext.yearBuilt || ext.lotSize || ext.roofType || ext.exteriorMaterial || ext.landscaping)
+    },
+
+    hasInteriorInfo() {
+      const int = this.property?.interior
+      return int && (int.flooring || int.heating || int.cooling || int.basement || int.laundry ||
+                     int.fireplace || (int.appliances && int.appliances.length > 0))
+    },
+
+    hasParkingInfo() {
+      const park = this.property?.parking
+      return park && (park.type || park.spaces || park.garageType || park.description)
+    },
+
+    hasLocationInfo() {
+      const loc = this.property?.location
+      return loc && (loc.county || loc.neighborhood || loc.schoolDistrict || loc.walkScore)
+    },
+
+    hasHOAInfo() {
+      const hoa = this.property?.hoa
+      return hoa && (hoa.hasHOA || hoa.fee || (hoa.amenities && hoa.amenities.length > 0) || hoa.restrictions)
+    },
+
+    hasBuildingInfo() {
+      const bldg = this.property?.building
+      return bldg && (bldg.stories || bldg.totalUnits || bldg.petPolicy ||
+                      (bldg.accessibility && bldg.accessibility.length > 0) ||
+                      (bldg.utilities && bldg.utilities.length > 0) ||
+                      (bldg.security && bldg.security.length > 0))
+    },
+    availableDates() {
+      const dates = []
+      const today = new Date()
+      for (let i = 1; i <= 14; i++) { // Next 14 days
+        const date = new Date(today)
+        date.setDate(today.getDate() + i)
+        dates.push({
+          value: date.toISOString().split('T')[0],
+          month: date.toLocaleDateString('en-US', { month: 'short' }),
+          day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+          date: date.getDate(),
+          fullDate: date
+        })
+      }
+      return dates
+    },
+    visibleDates() {
+      return this.availableDates.slice(this.dateStartIndex, this.dateStartIndex + 3)
+    },
+    visibleTimes() {
+      return this.timeSlots.slice(this.timeStartIndex, this.timeStartIndex + 2)
+    }
+  },
+  async mounted() {
+    this.loadProperty().then(() => {
+      // Initialize both carousels
+      this.initializeThumbnailCarousel()
+
+      this.$nextTick(() => {
+        if (this.allImages && this.allImages.length > 1) {
+          const carouselElement = document.getElementById('propertyCarousel');
+          if (carouselElement && window.bootstrap) {
+            new window.bootstrap.Carousel(carouselElement, {
+              interval: 4000,
+              ride: 'carousel',
+              pause: 'hover',
+              wrap: true
+            });
+          }
+        }
+      });
+    });
+  },
+  methods: {
+    getStatusClass(status) {
+      const statusClasses = {
+        'available': 'status-available',
+        'pending': 'status-pending',
+        'sold': 'status-sold',
+        'rented': 'status-rented',
+        'upcoming': 'status-upcoming'
+      }
+      return statusClasses[status] || 'status-available'
+    },
+
+    getStatusText(status) {
+      const statusTexts = {
+        'available': 'Available',
+        'pending': 'Pending',
+        'sold': 'Sold',
+        'rented': 'Rented',
+        'upcoming': 'Coming Soon'
+      }
+      return statusTexts[status] || 'Available'
+    },
+
+    async loadProperty() {
+      try {
+        const response = await axios.get(`/api/properties/${this.$route.params.id}`)
+        this.property = response.data
+
+        // Load agent data if assigned
+        if (this.property.agent) {
+          try {
+            const agentResponse = await axios.get(`/api/agents/${this.property.agent}`)
+            this.property.agent = agentResponse.data
+          } catch (agentError) {
+            console.error('Error loading agent:', agentError)
+            this.property.agent = null
+          }
+        }
+
+        // Set default message
+        this.resetContactForm()
+
+      } catch (error) {
+        console.error('Error loading property:', error)
+        this.$router.push('/properties')
+      }
+    },
+
+    closeContactForm() {
+      this.showContactForm = false
+      this.resetContactForm()
+      this.contactMessage = ''
+    },
+
+    resetContactForm() {
+      this.contactForm = {
+        name: '',
+        email: '',
+        phone: '',
+        message: `Hi, I'm interested in ${this.property?.address || 'this property'}. Please contact me with more information.`
+      }
+    },
+
+    async submitContactForm() {
+      if (this.isSubmittingContact) return
+
+      this.isSubmittingContact = true
+      this.contactMessage = ''
+
+      try {
+        await axios.post('/api/contact/agent', {
+          propertyId: this.property._id,
+          propertyAddress: this.property.address,
+          agentEmail: this.property.agent?.email,
+          agentName: this.property.agent?.name,
+          clientName: this.contactForm.name,
+          clientEmail: this.contactForm.email,
+          clientPhone: this.contactForm.phone || '',
+          message: this.contactForm.message,
+          type: 'property-inquiry',
+          subject: `Property Inquiry - ${this.property.address}`
+        })
+
+        this.contactMessage = 'Your message has been sent successfully! The agent will contact you soon.'
+        this.contactSuccess = true
+        this.resetContactForm()
+
+        // Auto-close form after 3 seconds
+        setTimeout(() => {
+          this.closeContactForm()
+        }, 3000)
+
+      } catch (error) {
+        console.error('Error sending message:', error)
+        this.contactMessage = 'Sorry, there was an error sending your message. Please try again or contact the agent directly.'
+        this.contactSuccess = false
+      } finally {
+        this.isSubmittingContact = false
+      }
+    },
+
+    getAgentImageUrl(imagePath) {
+      if (!imagePath) return '/placeholder-person.jpg'
+      if (imagePath.startsWith('http')) return imagePath
+      if (imagePath.startsWith('/uploads/')) {
+        return `http://localhost:5000${imagePath}`
+      }
+      return `http://localhost:5000${imagePath}`
+    },
+
+    handleAgentImageError(event) {
+      event.target.src = '/placeholder-person.jpg'
+    },
+
+    formatPrice(price) {
+      return new Intl.NumberFormat().format(price)
+    },
+
+    getImageUrl(imagePath) {
+      if (!imagePath) return '/placeholder-home.jpg'
+      if (imagePath.startsWith('http')) return imagePath
+      if (imagePath.startsWith('/uploads/')) {
+        return `http://localhost:5000${imagePath}`
+      }
+      return `http://localhost:5000${imagePath}`
+    },
+    openImageModal(imageSrc) {
+      // Find the index of the clicked image
+      this.currentModalImageIndex = this.allImages.findIndex(img => img === imageSrc)
+
+      const modal = document.createElement('div')
+      modal.className = 'modal fade show d-block'
+      modal.style.backgroundColor = 'rgba(0,0,0,0.9)'
+      modal.innerHTML = `
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content bg-transparent border-0">
+            <div class="modal-header border-0 justify-content-end">
+              <button type="button" class="btn-close btn-close-white" onclick="this.closest('.modal').remove()"></button>
+            </div>
+            <div class="modal-body text-center position-relative">
+              <img id="modalImage" src="${this.getImageUrl(this.allImages[this.currentModalImageIndex])}"
+                   class="img-fluid" style="max-height: 80vh;">
+
+              ${this.allImages.length > 1 ? `
+                <button class="btn btn-light position-absolute top-50 start-0 translate-middle-y ms-3"
+                        style="z-index: 1060;" onclick="window.previousModalImage()">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="btn btn-light position-absolute top-50 end-0 translate-middle-y me-3"
+                        style="z-index: 1060;" onclick="window.nextModalImage()">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3">
+                  <span class="badge bg-dark bg-opacity-75 px-3 py-2">
+                    ${this.currentModalImageIndex + 1} / ${this.allImages.length}
+                  </span>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `
+
+      // Add navigation functions to window
+      window.previousModalImage = () => {
+        this.currentModalImageIndex = this.currentModalImageIndex > 0
+          ? this.currentModalImageIndex - 1
+          : this.allImages.length - 1
+        document.getElementById('modalImage').src = this.getImageUrl(this.allImages[this.currentModalImageIndex])
+        document.querySelector('.badge').textContent = `${this.currentModalImageIndex + 1} / ${this.allImages.length}`
+      }
+
+      window.nextModalImage = () => {
+        this.currentModalImageIndex = this.currentModalImageIndex < this.allImages.length - 1
+          ? this.currentModalImageIndex + 1
+          : 0
+        document.getElementById('modalImage').src = this.getImageUrl(this.allImages[this.currentModalImageIndex])
+        document.querySelector('.badge').textContent = `${this.currentModalImageIndex + 1} / ${this.allImages.length}`
+      }
+
+      // Keyboard navigation
+      const handleKeydown = (e) => {
+        if (e.key === 'ArrowLeft') window.previousModalImage()
+        if (e.key === 'ArrowRight') window.nextModalImage()
+        if (e.key === 'Escape') modal.remove()
+      }
+
+      document.addEventListener('keydown', handleKeydown)
+
+      modal.onclick = (e) => {
+        if (e.target === modal) {
+          document.removeEventListener('keydown', handleKeydown)
+          delete window.previousModalImage
+          delete window.nextModalImage
+          modal.remove()
+        }
+      }
+
+      // Cleanup when modal is removed
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'childList' && !document.contains(modal)) {
+            document.removeEventListener('keydown', handleKeydown)
+            delete window.previousModalImage
+            delete window.nextModalImage
+            observer.disconnect()
+          }
+        })
+      })
+      observer.observe(document.body, { childList: true })
+
+      document.body.appendChild(modal)
+    },
+    getAgentImageUrl(imagePath) {
+      if (!imagePath) return '/placeholder-person.jpg'
+      if (imagePath.startsWith('http')) return imagePath
+      if (imagePath.startsWith('/uploads/')) {
+        return `http://localhost:5000${imagePath}`
+      }
+      return `http://localhost:5000${imagePath}`
+    },
+    handleAgentImageError(event) {
+      event.target.src = '/placeholder-person.jpg'
+    },
+    closeTourForm() {
+      this.showTourForm = false
+      this.tourStep = 1
+      this.selectedDate = null
+      this.selectedTime = null
+      this.dateStartIndex = 0
+      this.timeStartIndex = 0
+      this.resetTourForm()
+    },
+    resetTourForm() {
+      this.tourForm = {
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+      }
+      this.tourMessage = ''
+      this.tourSuccess = false
+    },
+    selectDate(date) {
+      this.selectedDate = date
+    },
+    selectTime(time) {
+      this.selectedTime = time
+    },
+    previousDates() {
+      if (this.dateStartIndex > 0) {
+        this.dateStartIndex--
+      }
+    },
+    nextDates() {
+      if (this.dateStartIndex < this.availableDates.length - 3) {
+        this.dateStartIndex++
+      }
+    },
+    previousTimes() {
+      if (this.timeStartIndex > 0) {
+        this.timeStartIndex--
+      }
+    },
+    nextTimes() {
+      if (this.timeStartIndex < this.timeSlots.length - 2) {
+        this.timeStartIndex++
+      }
+    },
+    getSelectedDateDisplay() {
+      if (!this.selectedDate) return ''
+      const date = new Date(this.selectedDate)
+      return date.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    },
+    formatSelectedDateTime() {
+      if (!this.selectedDate || !this.selectedTime) return ''
+      return `${this.getSelectedDateDisplay()} at ${this.selectedTime}`
+    },
+    async submitTourRequest() {
+      try {
+        await axios.post('/api/contact/tour', {
+          propertyId: this.property._id,
+          propertyAddress: this.property.address,
+          agentEmail: this.property.agent?.email,
+          agentName: this.property.agent?.name,
+          clientName: this.tourForm.name,
+          clientEmail: this.tourForm.email,
+          clientPhone: this.tourForm.phone || '',
+          message: this.tourForm.message || 'No additional message',
+          selectedDate: this.selectedDate,
+          selectedTime: this.selectedTime,
+          type: 'tour-request',
+          subject: `Tour Request - ${this.property.address}`
+        })
+
+        this.tourMessage = 'Tour request sent successfully! The agent will contact you to confirm.'
+        this.tourSuccess = true
+        this.resetTourForm()
+
+        setTimeout(() => {
+          this.closeTourForm()
+        }, 3000)
+
+      } catch (error) {
+        console.error('Error submitting tour request:', error)
+        this.tourMessage = error.response?.data?.message || 'Error sending tour request. Please try again.'
+        this.tourSuccess = false
+      }
+    },
+    goToThumbnailSlide(index) {
+      this.currentThumbnailIndex = index
+      const carousel = document.getElementById('thumbnailCarousel')
+      if (carousel && window.bootstrap) {
+        const bsCarousel = window.bootstrap.Carousel.getInstance(carousel) || new window.bootstrap.Carousel(carousel)
+        bsCarousel.to(index)
+      }
+    },
+    initializeThumbnailCarousel() {
+      this.$nextTick(() => {
+        const carouselElement = document.getElementById('thumbnailCarousel')
+        if (carouselElement && window.bootstrap) {
+          const carousel = new window.bootstrap.Carousel(carouselElement, {
+            interval: false,
+            ride: false,
+            wrap: true
+          })
+
+          // Update counter on slide
+          carouselElement.addEventListener('slid.bs.carousel', (event) => {
+            this.currentThumbnailIndex = event.to
+            const counter = document.getElementById('currentImageIndex')
+            if (counter) {
+              counter.textContent = event.to + 1
+            }
+          })
+        }
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* CSS Variables for easy text size adjustment - using pixels */
+:root {
+  --carousel-title-size: 80px;
+  --carousel-subtitle-size: 28px;
+}
+
+/* Main page styling with white background */
+.property-detail-page {
+  background: #cea482;
+  min-height: 100vh;
+  color: #333333;
+}
+
+/* Property info cards with mortgage calculator styling */
+.property-info-section {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(240, 141, 52, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.property-info-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+}
+
+.property-gallery-section {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(34, 34, 34, 0.1);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(240, 141, 52, 0.2);
+  margin-bottom: 2rem;
+}
+
+.gallery-header {
+  background: linear-gradient(135deg, #222222 0%, #555555 100%);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.gallery-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f08d34 0%, #f7cc76 50%, #d34f2d 100%);
+}
+
+.gallery-title {
+  color: #ffffff;
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.gallery-count {
+  background: rgba(240, 141, 52, 0.2);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(240, 141, 52, 0.3);
+}
+
+.gallery-body {
+  padding: 2rem;
+}
+
+.property-gallery-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+}
+
+/* Text styling for clean white background */
+.property-title {
+  color: #1f2937;
+  text-shadow: none;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.property-price {
+  color: #EBA472;
+  text-shadow: none;
+  font-weight: 700;
+}
+
+.property-details {
+  color: #6b7280;
+}
+
+.property-description {
+  color: #4b5563;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Feature badges */
+.feature-badge {
+  background: rgba(235, 164, 114, 0.1);
+  border: 1px solid #EBA472;
+  color: #A15E3B;
+  backdrop-filter: none;
+}
+
+/* Contact section - Redesigned with branding */
+.contact-section {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(34, 34, 34, 0.1);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(240, 141, 52, 0.2);
+}
+
+.contact-header {
+  background: linear-gradient(135deg, #222222 0%, #555555 100%);
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.contact-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f08d34 0%, #f7cc76 50%, #d34f2d 100%);
+}
+
+.contact-title {
+  color: #ffffff;
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.contact-body {
+  padding: 2rem 1.5rem;
+}
+
+.price-display-card {
+  background: linear-gradient(135deg, rgba(240, 141, 52, 0.05) 0%, rgba(247, 204, 118, 0.05) 100%);
+  border: 2px solid rgba(240, 141, 52, 0.2);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.price-display-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #f08d34 0%, #f7cc76 100%);
+}
+
+.price-amount {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #d34f2d;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.price-period {
+  font-size: 1rem;
+  color: #555555;
+  font-weight: 500;
+}
+
+.property-type-badge {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.property-type-badge.sale {
+  background: linear-gradient(135deg, #1d4b40 0%, #2d6b50 100%);
+  color: #ffffff;
+}
+
+.property-type-badge.rental {
+  background: linear-gradient(135deg, #f08d34 0%, #f7cc76 100%);
+  color: #222222;
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+}
+
+/* Form controls for white background */
+.form-control {
+  background: #ffffff;
+  border: 1px solid #EBA472;
+  color: #333333;
+  backdrop-filter: none;
+}
+
+.form-control:focus {
+  background: #ffffff;
+  border-color: #A15E3B;
+  color: #333333;
+  box-shadow: 0 0 0 0.2rem rgba(235, 164, 114, 0.25);
+}
+
+.form-control::placeholder {
+  color: #999999;
+}
+
+.form-label {
+  color: #333333;
+  font-weight: 500;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cursor-pointer:hover {
+  transform: scale(1.05);
+}
+
+.mortgage-section-wrapper {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  margin-top: 3rem;
+  border-top: 3px solid #EBA472;
+}
+
+.mortgage-section {
+  padding: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mortgage-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23EBA472" opacity="0.1"/><circle cx="80" cy="40" r="3" fill="%23A15E3B" opacity="0.1"/><circle cx="40" cy="80" r="2" fill="%23EBA472" opacity="0.1"/></svg>');
+  pointer-events: none;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mortgage-info-cards {
+  position: sticky;
+  top: 20px;
+}
+
+.info-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 1px solid rgba(235, 164, 114, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(235, 164, 114, 0.2);
+}
+
+.info-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.info-card h5 {
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.info-card p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cube-title {
+  position: relative;
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cube-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+  border-radius: 2px;
+}
+
+.cube-subtitle {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 20px;
+}
+
+.cube-subtitle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+  border-radius: 2px;
+}
+
+.pre-qualify-section {
+  margin: 2rem 0;
+}
+
+.pre-qualify-card-small {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: white;
+  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.25);
+}
+
+.pre-qualify-title-small {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.pre-qualify-description-small {
+  font-size: 1rem;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.pre-qualify-card-small .btn-light {
+  color: #f97316;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pre-qualify-card-small .btn-light:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  color: #ea580c;
+}
+
+.bank-logo-container-small {
+  background: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bank-logo-small {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .pre-qualify-card-small {
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .pre-qualify-title-small {
+    font-size: 1.125rem;
+  }
+
+  .pre-qualify-description-small {
+    font-size: 0.9rem;
+  }
+}
+
+.bank-logo-container-compact {
+  background: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 180px;
+  width: 180px;
+}
+
+.bank-logo-compact {
+  height: 60px;
+  width: 150px;
+  object-fit: contain;
+  display: block;
+  max-width: 160px;
+  margin: 0 auto;
+}
+
+.pre-qualify-card-compact {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.pre-qualify-title-compact {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.pre-qualify-description-compact {
+  color: #6c757d;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.cube-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.cube-auto-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.cube-auto-carousel .carousel-item {
+  transition: opacity 1.2s ease-in-out;
+}
+
+.cube-slide {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.cube-image {
+  transition: transform 8s ease-in-out;
+  animation: slowZoom 8s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+.cube-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(235, 164, 114, 0.3),
+    transparent
+  );
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+.cube-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(235, 164, 114, 0.1), rgba(161, 94, 59, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cube-carousel:hover .cube-overlay {
+  opacity: 1;
+}
+
+.cube-floating-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cube-float {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(235, 164, 114, 0.15);
+  animation: float 6s ease-in-out infinite;
+}
+
+.cube-float-1 {
+  width: 80px;
+  height: 80px;
+  top: 15%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.cube-float-2 {
+  width: 60px;
+  height: 60px;
+  bottom: 25%;
+  left: 8%;
+  animation-delay: -2s;
+}
+
+.cube-float-3 {
+  width: 40px;
+  height: 40px;
+  top: 70%;
+  right: 25%;
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-15px) rotate(180deg);
+    opacity: 0.7;
+  }
+}
+
+.cube-nav {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.cube-nav:hover {
+  background: rgba(235, 164, 114, 0.8);
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.4);
+}
+
+.cube-indicators {
+  bottom: 20px;
+}
+
+.cube-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(235, 164, 114, 0.8);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cube-dot.active {
+  background: #EBA472;
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(235, 164, 114, 0.6);
+}
+
+.cube-dot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.cube-dot:hover::before {
+  left: 100%;
+}
+
+.btn-sunset-gradient {
+  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-sunset-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.4);
+  color: white;
+}
+
+/* Carousel text overlay */
+.carousel-text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 3;
+  color: white;
+}
+
+.carousel-title {
+  font-size: 72px !important;
+  font-weight: 300 !important;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.carousel-subtitle {
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+  opacity: 0.95;
+  letter-spacing: 1px;
+}
+
+/* Responsive banner text */
+@media (max-width: 768px) {
+  .carousel-title {
+    font-size: 40px !important;
+  }
+
+  .carousel-subtitle {
+    font-size: 20px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-title {
+    font-size: 32px !important;
+  }
+
+  .carousel-subtitle {
+    font-size: 16px !important;
+  }
+}
+
+/* Property details section styling - Updated for visibility */
+.property-info-section .property-title {
+  color: #222222 !important;
+  text-shadow: none !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px;
+  font-size: 1.5rem !important;
+}
+
+.property-info-section .property-subtitle {
+  color: #555555 !important;
+  font-size: 1rem !important;
+}
+
+/* Status Indicator Styling */
+.property-status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+}
+
+.status-dot::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-available {
+  background-color: #1d4b40;
+  box-shadow: 0 0 10px rgba(29, 75, 64, 0.5);
+}
+
+.status-available::before {
+  background-color: rgba(29, 75, 64, 0.3);
+}
+
+.status-pending {
+  background-color: #f7cc76;
+  box-shadow: 0 0 10px rgba(247, 204, 118, 0.5);
+}
+
+.status-pending::before {
+  background-color: rgba(247, 204, 118, 0.3);
+}
+
+.status-sold, .status-rented {
+  background-color: #d34f2d;
+  box-shadow: 0 0 10px rgba(211, 79, 45, 0.5);
+}
+
+.status-sold::before, .status-rented::before {
+  background-color: rgba(211, 79, 45, 0.3);
+}
+
+.status-upcoming {
+  background-color: #f08d34;
+  box-shadow: 0 0 10px rgba(240, 141, 52, 0.5);
+}
+
+.status-upcoming::before {
+  background-color: rgba(240, 141, 52, 0.3);
+}
+
+.status-text {
+  font-weight: 600;
+  color: #555555;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.property-price-display {
+  color: #EBA472;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Compact property stats */
+.property-stat {
+  padding: 1rem 0.5rem;
+  border-radius: 8px;
+  background: rgba(235, 164, 114, 0.05);
+  border: 1px solid rgba(235, 164, 114, 0.2);
+  margin-bottom: 0;
+}
+
+.property-stat h6 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+.property-stat small {
+  font-size: 0.8rem;
+  color: #666666;
+}
+
+/* View All box styling for white background */
+.view-all-box {
+  border: 2px dashed #EBA472;
+  transition: all 0.3s ease;
+  color: #333333;
+}
+
+.view-all-box:hover {
+  background: #EBA472 !important;
+  border-color: #A15E3B;
+  color: #ffffff !important;
+}
+
+/* Tour Form Styles for white background */
+.tour-form-container {
+  background: #ffffff;
+  border: 2px solid #EBA472;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 20px rgba(235, 164, 114, 0.15);
+  color: #333333;
+  transition: all 0.3s ease;
+}
+
+.tour-step {
+  margin-bottom: 20px;
+}
+
+.tour-step:last-child {
+  margin-bottom: 0;
+}
+
+.tour-step h6 {
+  color: #6c757d !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.date-carousel, .time-carousel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.carousel-btn {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.carousel-btn:hover:not(:disabled) {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.carousel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.date-options {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.time-options {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.date-option {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 6px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 60px;
+  max-width: 70px;
+  flex: 1;
+}
+
+.date-option:hover {
+  border-color: #EBA472;
+}
+
+.date-option.active {
+  border-color: #EBA472;
+  background: #fff5f0;
+}
+
+.date-month {
+  font-size: 9px;
+  color: #6c757d;
+  text-transform: uppercase;
+  margin-bottom: 1px;
+}
+
+.date-day {
+  font-size: 9px;
+  color: #6c757d;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.date-date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #212529;
+}
+
+.time-option {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 10px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  font-size: 13px;
+  color: #212529;
+  flex: 1;
+}
+
+.time-option:hover {
+  border-color: #EBA472;
+}
+
+.time-option.active {
+  border-color: #EBA472;
+  background: #fff5f0;
+  color: #212529;
+}
+
+.selected-info {
+  font-style: italic;
+  background: #f8f9fa !important;
+  color: #495057 !important;
+  border: 1px solid #e9ecef;
+}
+
+.tour-form-container .form-control {
+  font-size: 14px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #dee2e6;
+  color: #212529 !important;
+}
+
+.tour-form-container .form-control:focus {
+  background: white;
+  border-color: #EBA472;
+  color: #212529 !important;
+  box-shadow: 0 0 0 0.2rem rgba(235, 164, 114, 0.25);
+}
+
+.tour-form-container .form-control::placeholder {
+  color: #6c757d !important;
+  opacity: 1;
+}
+
+.tour-form-container textarea.form-control {
+  color: #212529 !important;
+  resize: vertical;
+}
+
+/* Fix button styling - override any gradients */
+.tour-form-container .btn {
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid;
+  background: none;
+  background-image: none !important;
+  text-decoration: none;
+}
+
+.tour-form-container .btn-primary {
+  background-color: #EBA472 !important;
+  border-color: #EBA472 !important;
+  color: #ffffff !important;
+}
+
+.tour-form-container .btn-primary:hover {
+  background-color: #A15E3B !important;
+  border-color: #A15E3B !important;
+}
+
+.tour-form-container .btn-outline-secondary {
+  background-color: transparent !important;
+  border-color: #EBA472 !important;
+  color: #EBA472 !important;
+}
+
+.tour-form-container .btn-outline-secondary:hover {
+  background-color: #EBA472 !important;
+  color: white !important;
+}
+
+.tour-form-container .alert {
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+/* Ensure contact section expands properly */
+.contact-section {
+  transition: all 0.3s ease;
+  overflow: visible;
+}
+
+/* Animated Background */
+.detail-background-container {
+  display: none;
+}
+
+/* Property stats styling for white background */
+.property-stat {
+  padding: 1rem 0.5rem;
+  border-radius: 8px;
+  background: rgba(235, 164, 114, 0.05);
+  border: 1px solid rgba(235, 164, 114, 0.2);
+  margin-bottom: 0;
+}
+
+.property-stat h6 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+.property-stat small {
+  font-size: 0.8rem;
+  color: #666666;
+}
+
+/* View All box styling for white background */
+.view-all-box {
+  border: 2px dashed #EBA472;
+  transition: all 0.3s ease;
+  color: #333333;
+}
+
+.view-all-box:hover {
+  background: #EBA472 !important;
+  border-color: #A15E3B;
+  color: #ffffff !important;
+}
+
+/* Thumbnail Carousel Styling */
+.thumbnail-carousel-container {
+  margin-bottom: 1.5rem;
+}
+
+.main-thumbnail-image {
+  height: 500px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+
+.thumbnail-nav {
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 60% !important;
+  transform: translateY(-50%);
+}
+
+.thumbnail-nav:hover {
+  background: rgba(0,0,0,0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.image-counter {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  z-index: 10;
+}
+
+.thumbnail-grid-image {
+  height: 80px;
+  object-fit: cover;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.thumbnail-grid-image:hover {
+  transform: scale(1.05);
+  border-color: #EBA472;
+}
+
+.active-thumbnail {
+  border-color: #EBA472 !important;
+  transform: scale(1.05);
+}
+
+.view-all-box {
+  background: rgb(0, 0, 0);
+  min-height: 80px;
+  transition: all 0.2s ease;
+}
+
+.view-all-box:hover {
+  background: rgba(0,0,0,0.8);
+  transform: scale(1.05);
+}
+
+/* Extended Property Information Styles - Warm Sunset Branding */
+.property-detail-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(34, 34, 34, 0.08);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(247, 204, 118, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.property-detail-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f08d34 0%, #f7cc76 50%, #d34f2d 100%);
+  z-index: 1;
+}
+
+/* Removed hover transform effect */
+
+.property-detail-card .card-header {
+  background: linear-gradient(135deg, #222222 0%, #555555 100%);
+  color: #ffffff;
+  border-radius: 20px 20px 0 0;
+  padding: 1.25rem 1.75rem;
+  border: none;
+  position: relative;
+  z-index: 2;
+}
+
+.property-detail-card .card-header h5 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.property-detail-card .card-body {
+  padding: 2rem 1.75rem;
+  background: #ffffff;
+}
+
+.detail-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(187, 187, 187, 0.15);
+  transition: all 0.2s ease;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+/* Removed detail item hover effect */
+
+.detail-label {
+  font-weight: 600;
+  color: #555555;
+  flex-shrink: 0;
+  margin-right: 1.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  color: #222222;
+  text-align: right;
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.text-primary {
+  color: #f08d34 !important;
+  font-weight: 600;
+}
+
+/* Section headers within cards */
+.property-detail-card h6.text-primary {
+  color: #d34f2d !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(240, 141, 52, 0.2);
+}
+
+/* Enhanced visual elements */
+.property-detail-card .card-header i {
+  background: linear-gradient(45deg, #f08d34, #f7cc76);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.1rem;
+}
+
+/* Success checkmark styling */
+.detail-value .fa-check {
+  color: #1d4b40;
+  background: rgba(29, 75, 64, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* Property Details main title */
+.property-detail-card + .property-detail-card {
+  margin-top: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .property-detail-card {
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+  }
+
+  .property-detail-card .card-header {
+    padding: 1rem 1.25rem;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .property-detail-card .card-body {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 0;
+  }
+
+  .detail-label {
+    margin-bottom: 0.25rem;
+    margin-right: 0;
+  }
+
+  .detail-value {
+    text-align: left;
+    margin-top: 0;
+  }
+
+  /* Removed hover effect for mobile */
+}
+</style>
+
