@@ -999,7 +999,7 @@ export default {
     async fetchProperty() {
       try {
         const id = this.$route.params.id
-        const response = await fetch(`http://localhost:5000/api/properties/${id}`)
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/properties/${id}`)
         if (response.ok) {
           this.property = await response.json()
           console.log('Property loaded:', this.property) // Debug log
@@ -1030,7 +1030,7 @@ export default {
     },
     async fetchSocialMediaContent() {
       try {
-        const response = await fetch('http://localhost:5000/api/content')
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/content`)
         if (response.ok) {
           const content = await response.json()
           console.log('Content loaded:', content) // Debug log
@@ -1064,7 +1064,7 @@ export default {
     },
     getImageUrl(image) {
       if (typeof image === 'string') {
-        return image.startsWith('http') ? image : `http://localhost:5000${image}`
+        return image.startsWith('http') ? image : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${image}`
       }
       return image?.url || '/placeholder-image.jpg'
     },

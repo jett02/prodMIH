@@ -57,7 +57,7 @@ export default {
     getImageUrl(imagePath) {
       if (!imagePath) return '/placeholder-home.jpg'
       if (imagePath.startsWith('http')) return imagePath
-      return `http://localhost:5000${imagePath}`
+      return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imagePath}`
     },
     getThumbnailUrl() {
       // Use thumbnail first, then first gallery image, then placeholder
