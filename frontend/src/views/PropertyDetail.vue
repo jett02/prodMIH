@@ -1146,7 +1146,7 @@ export default {
     },
     async submitContactForm() {
       try {
-        const response = await fetch('http://localhost:5000/api/contact/agent', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/agent`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -1191,7 +1191,7 @@ export default {
     },
     async submitTourForm() {
       try {
-        const response = await fetch('http://localhost:5000/api/contact/tour', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/tour`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
