@@ -1,5 +1,4 @@
-import { ConfidentialClientApplication } from '@azure/msal-node';
-import axios from 'axios';
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 // Load environment variables
@@ -7,98 +6,57 @@ dotenv.config();
 
 class EmailService {
   constructor() {
-    this.clientApp = null;
+    this.transporter = null;
     this.initialized = false;
   }
 
   initialize() {
     if (this.initialized) return;
 
-    if (!process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET || !process.env.AZURE_TENANT_ID) {
-      throw new Error('Missing required Azure environment variables. Please check AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, and AZURE_TENANT_ID in .env file');
+    // Check for required environment variables
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      throw new Error('Missing required email environment variables. Please check EMAIL_USER and EMAIL_PASS in .env file');
     }
 
-    this.clientApp = new ConfidentialClientApplication({
+    // Create SMTP transporter for Microsoft/Outlook
+    this.transporter = nodemailer.createTransporter({
+      host: process.env.SMTP_HOST || 'smtp-mail.outlook.com',
+      port: parseInt(process.env.SMTP_PORT) || 587,
+      secure: false, // true for 465, false for other ports
       auth: {
-        clientId: process.env.AZURE_CLIENT_ID,
-        clientSecret: process.env.AZURE_CLIENT_SECRET,
-        authority: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}`
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      },
+      tls: {
+        ciphers: 'SSLv3'
       }
     });
 
     this.initialized = true;
   }
 
-  async getAccessToken() {
+  async sendEmail(mailOptions) {
     try {
       this.initialize();
 
-      const clientCredentialRequest = {
-        scopes: ['https://graph.microsoft.com/.default'],
-      };
-
-      const response = await this.clientApp.acquireTokenByClientCredential(clientCredentialRequest);
-      return response.accessToken;
-    } catch (error) {
-      console.error('Error getting access token:', error);
-      throw error;
-    }
-  }
-
-  async sendEmail(mailOptions) {
-    try {
-      const accessToken = await this.getAccessToken();
-      
-      // Convert recipients to Microsoft Graph format
-      const toRecipients = Array.isArray(mailOptions.to) 
-        ? mailOptions.to.map(email => ({ emailAddress: { address: email } }))
-        : [{ emailAddress: { address: mailOptions.to } }];
-
-      const ccRecipients = mailOptions.cc 
-        ? (Array.isArray(mailOptions.cc) 
-          ? mailOptions.cc.map(email => ({ emailAddress: { address: email } }))
-          : [{ emailAddress: { address: mailOptions.cc } }])
-        : [];
-
-      // Create the email message in Microsoft Graph format
-      const message = {
+      // Send email using nodemailer SMTP
+      const info = await this.transporter.sendMail({
+        from: mailOptions.from || process.env.EMAIL_FROM || process.env.EMAIL_USER,
+        to: mailOptions.to,
+        cc: mailOptions.cc,
         subject: mailOptions.subject,
-        body: {
-          contentType: 'HTML',
-          content: mailOptions.html || mailOptions.text || ''
-        },
-        toRecipients: toRecipients,
-        ccRecipients: ccRecipients,
-        from: {
-          emailAddress: {
-            address: mailOptions.from || process.env.EMAIL_FROM
-          }
-        }
-      };
+        html: mailOptions.html,
+        text: mailOptions.text
+      });
 
-      // Send email using Microsoft Graph API
-      const response = await axios.post(
-        `https://graph.microsoft.com/v1.0/users/${process.env.EMAIL_FROM}/sendMail`,
-        {
-          message: message,
-          saveToSentItems: true
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      console.log('Email sent successfully via Microsoft Graph API');
+      console.log('Email sent successfully via SMTP');
       return {
-        messageId: response.headers['request-id'] || 'graph-api-sent',
-        response: 'Email sent successfully'
+        messageId: info.messageId,
+        response: info.response
       };
 
     } catch (error) {
-      console.error('Error sending email via Microsoft Graph:', error.response?.data || error.message);
+      console.error('Error sending email via SMTP:', error.message);
       throw error;
     }
   }
@@ -107,11 +65,11 @@ class EmailService {
   async verify() {
     try {
       this.initialize();
-      const accessToken = await this.getAccessToken();
-      console.log('✅ Microsoft Graph API authentication successful');
+      await this.transporter.verify();
+      console.log('✅ SMTP email service verified successfully');
       return true;
     } catch (error) {
-      console.error('❌ Microsoft Graph API authentication failed:', error.message);
+      console.error('❌ SMTP email service verification failed:', error.message);
       throw error;
     }
   }
