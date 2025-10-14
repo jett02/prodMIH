@@ -195,6 +195,11 @@ export default {
     }
   },
   async mounted() {
+    // Ensure auth header is set
+    const token = sessionStorage.getItem('adminToken')
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    }
     await this.loadAgents()
   },
   methods: {

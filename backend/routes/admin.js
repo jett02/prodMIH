@@ -586,28 +586,10 @@ router.delete('/agents/:id', async (req, res) => {
   }
 });
 
-// Simple test route to verify routing works
-router.post('/agents/test-route', (req, res) => {
-  console.log('=== AGENT TEST ROUTE HIT ===');
-  res.json({ message: 'Agent test route working' });
-});
-
-// Agent photo upload (using Cloudinary) - temporarily remove auth for debugging
+// Agent photo upload (using Cloudinary)
 router.post('/agents/upload-photo', agentUpload.single('photo'), async (req, res) => {
   try {
-    console.log('=== AGENT PHOTO UPLOAD DEBUG ===');
-    console.log('Request received');
-    console.log('Headers:', JSON.stringify(req.headers, null, 2));
-    console.log('File:', JSON.stringify(req.file, null, 2));
-    console.log('Body:', JSON.stringify(req.body, null, 2));
-    console.log('Cloudinary config:', JSON.stringify({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY ? 'Set' : 'Not set',
-      api_secret: process.env.CLOUDINARY_API_SECRET ? 'Set' : 'Not set'
-    }, null, 2));
-
     if (!req.file) {
-      console.log('No file in request');
       return res.status(400).json({ message: 'No photo uploaded' });
     }
 
@@ -615,15 +597,8 @@ router.post('/agents/upload-photo', agentUpload.single('photo'), async (req, res
     console.log('Agent photo uploaded successfully:', photoUrl);
     res.json({ photoUrl });
   } catch (error) {
-    console.error('=== AGENT PHOTO UPLOAD ERROR ===');
-    console.error('Error message:', error.message);
-    console.error('Error stack:', error.stack);
-    console.error('Full error:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
-    res.status(500).json({
-      message: error.message,
-      stack: error.stack,
-      details: 'Check server logs for more information'
-    });
+    console.error('Error uploading agent photo:', error);
+    res.status(500).json({ message: error.message });
   }
 });
 
