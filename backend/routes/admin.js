@@ -566,13 +566,25 @@ router.delete('/agents/:id', async (req, res) => {
 });
 
 // Agent photo upload (using Cloudinary)
-router.post('/agents/upload-photo', agentUpload.single('photo'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'No photo uploaded' });
-  }
+router.post('/agents/upload-photo', agentUpload.single('photo'), async (req, res) => {
+  try {
+    console.log('=== AGENT PHOTO UPLOAD DEBUG ===');
+    console.log('Request received');
+    console.log('File:', req.file);
+    console.log('Body:', req.body);
 
-  const photoUrl = req.file.path; // Cloudinary returns the full URL in path
-  res.json({ photoUrl });
+    if (!req.file) {
+      console.log('No file in request');
+      return res.status(400).json({ message: 'No photo uploaded' });
+    }
+
+    const photoUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('Agent photo uploaded successfully:', photoUrl);
+    res.json({ photoUrl });
+  } catch (error) {
+    console.error('=== AGENT PHOTO UPLOAD ERROR ===', error);
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // Upload multiple hero gallery images
