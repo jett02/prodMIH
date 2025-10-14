@@ -176,7 +176,7 @@ export default {
     getImageUrl(imagePath) {
       if (!imagePath) return '/placeholder-agent.jpg'
       if (imagePath.startsWith('http')) return imagePath
-      return `http://localhost:5000${imagePath}`
+      return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imagePath}`
     },
     handleImageError(event) {
       event.target.src = '/placeholder-agent.jpg'

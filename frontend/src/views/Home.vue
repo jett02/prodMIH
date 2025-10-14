@@ -474,7 +474,7 @@ export default {
     },
     async loadHeroContent() {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/content/public')
+        const response = await axios.get('/api/admin/content/public')
         console.log('Hero content API response:', response.data) // Debug
         if (response.data) {
           this.heroContent = { ...this.heroContent, ...response.data.hero }
@@ -491,7 +491,7 @@ export default {
         if (this.heroContent.backgroundImage.startsWith('http')) {
           return this.heroContent.backgroundImage
         }
-        return `http://localhost:5000${this.heroContent.backgroundImage}`
+        return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${this.heroContent.backgroundImage}`
       }
       // Return empty string instead of placeholder to avoid flicker
       return ''
@@ -503,7 +503,7 @@ export default {
         if (imagePath.startsWith('http')) {
           return imagePath
         }
-        return `http://localhost:5000${imagePath}`
+        return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imagePath}`
       }
 
       // Fallback to single foreground image for backward compatibility
@@ -511,7 +511,7 @@ export default {
         if (this.heroContent.foregroundImage.startsWith('http')) {
           return this.heroContent.foregroundImage
         }
-        return `http://localhost:5000${this.heroContent.foregroundImage}`
+        return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${this.heroContent.foregroundImage}`
       }
       // Return empty string instead of placeholder
       return ''
@@ -519,7 +519,7 @@ export default {
     getImageUrl(imagePath) {
       if (!imagePath) return '/placeholder-home.jpg'
       if (imagePath.startsWith('http')) return imagePath
-      return `http://localhost:5000${imagePath}`
+      return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imagePath}`
     },
     handleImageError(event) {
       event.target.src = '/placeholder-home.jpg'
@@ -552,7 +552,7 @@ export default {
         return null
       }
       if (this.companyImage.startsWith('http')) return this.companyImage
-      const fullUrl = `http://localhost:5000${this.companyImage}`
+      const fullUrl = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${this.companyImage}`
       console.log('Company image URL:', fullUrl) // Debug
       return fullUrl
     },
