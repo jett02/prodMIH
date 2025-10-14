@@ -160,7 +160,7 @@ export default {
       this.submitMessage = ''
       
       try {
-        await axios.post('/api/contact', {
+        await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
           ...this.form,
           type: 'sell-to-us',
           subject: 'Sell To Us Inquiry'

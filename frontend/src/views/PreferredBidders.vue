@@ -543,7 +543,7 @@ export default {
           }
         })
 
-        const response = await axios.post('/api/preferred-bidders', formData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/preferred-bidders`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -574,7 +574,7 @@ export default {
           applicationId: `MIH-${Date.now()}`
         }
 
-        await axios.post('/api/send-confirmation-email', emailData)
+        await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/send-confirmation-email`, emailData)
       } catch (error) {
         console.error('Error sending confirmation email:', error)
         // Don't throw error here - we don't want to fail the whole submission if email fails
