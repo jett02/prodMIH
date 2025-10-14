@@ -5,10 +5,10 @@ const contactSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: String,
   message: { type: String, required: true },
-  type: { 
-    type: String, 
-    enum: ['general-inquiry', 'sell-to-us', 'property-inquiry'], 
-    default: 'general-inquiry' 
+  type: {
+    type: String,
+    enum: ['general-inquiry', 'sell-to-us', 'property-inquiry', 'tour-request'],
+    default: 'general-inquiry'
   },
   subject: String,
   propertyId: String, // For property inquiries

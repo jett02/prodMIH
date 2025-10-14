@@ -808,14 +808,58 @@
     </div>
   </section>
 
-  <div v-else class="container text-center py-5">
-    <div v-if="property === null" class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <!-- Loading State with Skeleton -->
+  <div v-else>
+    <div v-if="property === null" class="property-loading-skeleton">
+      <!-- Skeleton Carousel -->
+      <div class="container-fluid p-0 mb-5">
+        <div class="skeleton-carousel" style="height: 200px; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite;">
+        </div>
+      </div>
+
+      <!-- Skeleton Content -->
+      <div class="container">
+        <div class="row justify-content-center mb-4">
+          <div class="col-lg-8 text-center">
+            <div class="skeleton-line skeleton-title mb-3"></div>
+            <div class="skeleton-line skeleton-subtitle mb-4"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="skeleton-section mb-4">
+              <div class="skeleton-line skeleton-heading mb-3"></div>
+              <div class="skeleton-line mb-2"></div>
+              <div class="skeleton-line mb-2"></div>
+              <div class="skeleton-line skeleton-short"></div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="skeleton-section">
+              <div class="skeleton-line skeleton-heading mb-3"></div>
+              <div class="skeleton-line mb-2"></div>
+              <div class="skeleton-line skeleton-short"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading indicator -->
+        <div class="text-center mt-5">
+          <div class="spinner-border text-primary mb-3" role="status" style="width: 2rem; height: 2rem;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="text-muted">Loading property details...</p>
+        </div>
+      </div>
     </div>
-    <div v-else class="alert alert-warning">
-      <h4>Property Not Found</h4>
-      <p>The property you're looking for could not be found.</p>
-      <router-link to="/properties" class="btn btn-primary">Back to Properties</router-link>
+
+    <div v-else class="container text-center d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+      <div class="alert alert-warning">
+        <h4>Property Not Found</h4>
+        <p>The property you're looking for could not be found.</p>
+        <router-link to="/properties" class="btn btn-primary">Back to Properties</router-link>
+      </div>
     </div>
   </div>
 
@@ -934,8 +978,12 @@ export default {
     }
   },
   async mounted() {
-    await this.fetchProperty()
-    await this.fetchSocialMediaContent()
+    // Fetch property and social media content in parallel for faster loading
+    await Promise.all([
+      this.fetchProperty(),
+      this.fetchSocialMediaContent()
+    ])
+
     if (this.property && this.property.type === 'sale') {
       this.mortgageCalc.homePrice = this.property.price || 0
       this.mortgageCalc.downPayment = Math.round(this.mortgageCalc.homePrice * 0.2)
@@ -1046,7 +1094,7 @@ export default {
     },
     openPrequalificationModal() {
       // Open Exchange Bank pre-qualification in new tab
-      window.open('https://www.exchangebank.com/mortgage-prequalification', '_blank')
+      window.open('https://eb-us.com/pre-qualify-app/', '_blank')
     },
     closeImageModal() {
       this.showImageModal = false
@@ -2395,6 +2443,66 @@ export default {
   border-radius: 8px;
   border: 1px solid rgba(235, 164, 114, 0.2);
   margin-top: 15px;
+}
+
+/* Skeleton Loading Styles */
+.property-loading-skeleton {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.skeleton-line {
+  height: 20px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-title {
+  height: 32px;
+  width: 60%;
+  margin: 0 auto 15px auto;
+}
+
+.skeleton-subtitle {
+  height: 20px;
+  width: 40%;
+  margin: 0 auto 20px auto;
+}
+
+.skeleton-heading {
+  height: 24px;
+  width: 30%;
+}
+
+.skeleton-short {
+  width: 70%;
+}
+
+.skeleton-section {
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .disclosure-text {

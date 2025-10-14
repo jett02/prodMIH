@@ -1,6 +1,6 @@
 import express from 'express';
 import Contact from '../models/Contact.js';
-import nodemailer from 'nodemailer';
+import emailService from '../services/emailService.js';
 
 const router = express.Router();
 
@@ -27,16 +27,7 @@ const cleanProfanity = (text) => {
   return cleanText;
 };
 
-// Configure nodemailer transporter
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// Email service is now handled by emailService.js using Microsoft Graph API
 
 // Submit contact form
 router.post('/', async (req, res) => {
@@ -142,7 +133,7 @@ router.post('/agent', async (req, res) => {
       `
     };
 
-    await transporter.sendMail(mailOptions);
+    await emailService.sendEmail(mailOptions);
 
     res.json({ message: 'Message sent successfully' });
   } catch (error) {
@@ -263,7 +254,7 @@ router.post('/tour', async (req, res) => {
       `
     };
 
-    await transporter.sendMail(mailOptions);
+    await emailService.sendEmail(mailOptions);
 
     res.json({ message: 'Tour request sent successfully' });
   } catch (error) {
@@ -342,7 +333,7 @@ router.post('/send-confirmation-email', async (req, res) => {
       `
     };
 
-    await transporter.sendMail(mailOptions);
+    await emailService.sendEmail(mailOptions);
     res.json({ message: 'Confirmation email sent successfully' });
   } catch (error) {
     console.error('Error sending confirmation email:', error);

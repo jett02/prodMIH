@@ -8,59 +8,48 @@ import Contact from '../models/Content.js';
 import Content from '../models/Content.js';
 import Agent from '../models/Agent.js';
 import { authenticateToken } from './auth.js';
+import {
+  propertyUpload,
+  heroUpload,
+  teamUpload,
+  agentUpload
+} from '../config/cloudinary.js';
+import cloudinary from '../config/cloudinary.js';
 
 const router = express.Router();
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = 'uploads/team/';
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
+// Note: Upload configurations are now imported from cloudinary.js
+
+// Test Cloudinary configuration
+router.get('/test-cloudinary', (req, res) => {
+  res.json({
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY ? 'Set' : 'Not set',
+    apiSecret: process.env.CLOUDINARY_API_SECRET ? 'Set' : 'Not set',
+    config: cloudinary.config()
+  });
 });
 
-const upload = multer({ storage: storage });
+// Test upload endpoint
+router.post('/test-upload', heroUpload.single('testImage'), (req, res) => {
+  try {
+    console.log('=== TEST UPLOAD DEBUG ===');
+    console.log('File received:', req.file);
 
-// Configure multer for property images
-const propertyStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = 'uploads/properties/';
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
     }
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'property-' + uniqueSuffix + path.extname(file.originalname));
+
+    res.json({
+      success: true,
+      file: req.file,
+      url: req.file.path
+    });
+  } catch (error) {
+    console.error('=== TEST UPLOAD ERROR ===', error);
+    res.status(500).json({ message: error.message });
   }
 });
-
-const propertyUpload = multer({ storage: propertyStorage });
-
-// Configure multer for hero images
-const heroStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = 'uploads/hero/';
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'hero-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-const heroUpload = multer({ storage: heroStorage });
 
 // Public content endpoint (no authentication required)
 router.get('/content/public', async (req, res) => {
@@ -135,7 +124,7 @@ router.post('/properties/upload-thumbnail', propertyUpload.single('thumbnail'), 
       return res.status(400).json({ message: 'No file uploaded' });
     }
     
-    const thumbnailUrl = `/uploads/properties/${req.file.filename}`;
+    const thumbnailUrl = req.file.path; // Cloudinary returns the full URL in path
     console.log('Thumbnail uploaded:', thumbnailUrl);
     res.json({ thumbnailUrl });
   } catch (error) {
@@ -151,7 +140,7 @@ router.post('/properties/upload-image', propertyUpload.single('image'), async (r
       return res.status(400).json({ message: 'No file uploaded' });
     }
     
-    const imageUrl = `/uploads/properties/${req.file.filename}`;
+    const imageUrl = req.file.path; // Cloudinary returns the full URL in path
     console.log('Gallery image uploaded:', imageUrl);
     res.json({ imageUrl });
   } catch (error) {
@@ -163,15 +152,19 @@ router.post('/properties/upload-image', propertyUpload.single('image'), async (r
 // Upload multiple property gallery images - increase limit
 router.post('/properties/upload-images', propertyUpload.array('images', 20), async (req, res) => {
   try {
+    console.log('=== PROPERTY GALLERY UPLOAD DEBUG ===');
+    console.log('Files received:', req.files?.length || 0);
+
     if (!req.files || req.files.length === 0) {
+      console.log('No files in request');
       return res.status(400).json({ message: 'No files uploaded' });
     }
-    
-    const imageUrls = req.files.map(file => `/uploads/properties/${file.filename}`);
-    console.log('Gallery images uploaded:', imageUrls);
+
+    const imageUrls = req.files.map(file => file.path); // Cloudinary returns full URLs
+    console.log('Gallery images uploaded successfully:', imageUrls);
     res.json({ imageUrls });
   } catch (error) {
-    console.error('Error uploading images:', error);
+    console.error('=== PROPERTY GALLERY UPLOAD ERROR ===', error);
     res.status(500).json({ message: error.message });
   }
 });
@@ -357,13 +350,13 @@ router.get('/content', async (req, res) => {
 });
 
 // Upload team member photo
-router.post('/content/team/upload-photo', upload.single('photo'), async (req, res) => {
+router.post('/content/team/upload-photo', teamUpload.single('photo'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
-    
-    const photoUrl = `/uploads/team/${req.file.filename}`;
+
+    const photoUrl = req.file.path; // Cloudinary returns the full URL in path
     res.json({ photoUrl });
   } catch (error) {
     console.error('Error uploading team photo:', error);
@@ -572,44 +565,13 @@ router.delete('/agents/:id', async (req, res) => {
   }
 });
 
-// Ensure uploads directory exists
-const uploadsDir = 'uploads/agents/';
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
-// Configure multer for agent photo uploads
-const agentStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'agent-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-const agentUpload = multer({ 
-  storage: agentStorage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed!'), false);
-    }
-  },
-  limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
-  }
-});
-
-// Agent photo upload
+// Agent photo upload (using Cloudinary)
 router.post('/agents/upload-photo', agentUpload.single('photo'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No photo uploaded' });
   }
-  
-  const photoUrl = `/uploads/agents/${req.file.filename}`;
+
+  const photoUrl = req.file.path; // Cloudinary returns the full URL in path
   res.json({ photoUrl });
 });
 
@@ -620,7 +582,7 @@ router.post('/content/upload-hero-gallery', heroUpload.array('heroImages', 10), 
       return res.status(400).json({ message: 'No files uploaded' });
     }
     
-    const imageUrls = req.files.map(file => `/uploads/hero/${file.filename}`);
+    const imageUrls = req.files.map(file => file.path); // Cloudinary returns full URLs
     console.log('Hero gallery images uploaded:', imageUrls);
     res.json({ imageUrls });
   } catch (error) {
@@ -632,42 +594,35 @@ router.post('/content/upload-hero-gallery', heroUpload.array('heroImages', 10), 
 // Upload hero background image
 router.post('/content/upload-hero-background', heroUpload.single('heroBackground'), async (req, res) => {
   try {
+    console.log('=== HERO BACKGROUND UPLOAD DEBUG ===');
+    console.log('Request received');
+    console.log('File:', req.file);
+    console.log('Body:', req.body);
+
     if (!req.file) {
+      console.log('No file in request');
       return res.status(400).json({ message: 'No file uploaded' });
     }
-    
-    const imageUrl = `/uploads/hero/${req.file.filename}`;
-    console.log('Hero background uploaded:', imageUrl);
+
+    const imageUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('Hero background uploaded successfully:', imageUrl);
     res.json({ imageUrl });
   } catch (error) {
-    console.error('Error uploading hero background:', error);
+    console.error('=== HERO BACKGROUND UPLOAD ERROR ===', error);
     res.status(500).json({ message: error.message });
   }
 });
 
-// Upload hero foreground image with automatic resizing
+// Upload hero foreground image (Cloudinary handles resizing automatically)
 router.post('/content/upload-hero-foreground', heroUpload.single('heroForeground'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
-    
-    // Resize image to 1024x1000px (or maintain aspect ratio with max dimensions)
-    const resizedImagePath = req.file.path.replace(path.extname(req.file.path), '-resized' + path.extname(req.file.path));
-    
-    await sharp(req.file.path)
-      .resize(1024, 1000, {
-        fit: 'inside', // This maintains aspect ratio without cropping
-        withoutEnlargement: true
-      })
-      .jpeg({ quality: 85 })
-      .toFile(resizedImagePath);
-    
-    // Delete original file and use resized version
-    fs.unlinkSync(req.file.path);
-    
-    const imageUrl = `/uploads/hero/${path.basename(resizedImagePath)}`;
-    console.log('Hero foreground uploaded and resized:', imageUrl);
+
+    // Cloudinary automatically handles resizing based on our configuration
+    const imageUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('Hero foreground uploaded:', imageUrl);
     res.json({ imageUrl });
   } catch (error) {
     console.error('Error uploading hero foreground:', error);
@@ -682,7 +637,7 @@ router.post('/content/upload-company-image', heroUpload.single('companyImage'), 
       return res.status(400).json({ message: 'No file uploaded' });
     }
     
-    const imageUrl = `/uploads/hero/${req.file.filename}`;
+    const imageUrl = req.file.path; // Cloudinary returns the full URL in path
     console.log('Company image uploaded:', imageUrl);
     res.json({ imageUrl });
   } catch (error) {
