@@ -51,6 +51,27 @@ router.post('/test-upload', heroUpload.single('testImage'), (req, res) => {
   }
 });
 
+// Test agent upload endpoint
+router.post('/test-agent-upload', agentUpload.single('testImage'), (req, res) => {
+  try {
+    console.log('=== TEST AGENT UPLOAD DEBUG ===');
+    console.log('File received:', req.file);
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    res.json({
+      success: true,
+      file: req.file,
+      url: req.file.path
+    });
+  } catch (error) {
+    console.error('=== TEST AGENT UPLOAD ERROR ===', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Public content endpoint (no authentication required)
 router.get('/content/public', async (req, res) => {
   try {
@@ -566,7 +587,7 @@ router.delete('/agents/:id', async (req, res) => {
 });
 
 // Agent photo upload (using Cloudinary)
-router.post('/agents/upload-photo', agentUpload.single('photo'), async (req, res) => {
+router.post('/agents/upload-photo', authenticateToken, agentUpload.single('photo'), async (req, res) => {
   try {
     console.log('=== AGENT PHOTO UPLOAD DEBUG ===');
     console.log('Request received');
