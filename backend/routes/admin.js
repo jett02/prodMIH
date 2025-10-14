@@ -30,6 +30,46 @@ router.get('/test-cloudinary', (req, res) => {
   });
 });
 
+// Test email configuration
+router.get('/test-email', async (req, res) => {
+  try {
+    const emailService = (await import('../services/emailService.js')).default;
+
+    // Check environment variables
+    const emailConfig = {
+      SMTP_HOST: process.env.SMTP_HOST,
+      SMTP_PORT: process.env.SMTP_PORT,
+      EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not Set',
+      EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not Set',
+      EMAIL_FROM: process.env.EMAIL_FROM
+    };
+
+    console.log('Email config check:', emailConfig);
+
+    // Try to verify the email service
+    await emailService.verify();
+
+    res.json({
+      status: 'success',
+      message: 'Email service verified successfully',
+      config: emailConfig
+    });
+  } catch (error) {
+    console.error('Email test failed:', error);
+    res.status(500).json({
+      status: 'error',
+      message: error.message,
+      config: {
+        SMTP_HOST: process.env.SMTP_HOST,
+        SMTP_PORT: process.env.SMTP_PORT,
+        EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not Set',
+        EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not Set',
+        EMAIL_FROM: process.env.EMAIL_FROM
+      }
+    });
+  }
+});
+
 // Test upload endpoint
 router.post('/test-upload', heroUpload.single('testImage'), (req, res) => {
   try {
