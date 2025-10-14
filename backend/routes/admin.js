@@ -51,7 +51,7 @@ router.post('/test-upload', heroUpload.single('testImage'), (req, res) => {
   }
 });
 
-// Test agent upload endpoint
+// Test agent upload endpoint - compare with hero upload
 router.post('/test-agent-upload', agentUpload.single('testImage'), (req, res) => {
   try {
     console.log('=== TEST AGENT UPLOAD DEBUG ===');
@@ -70,6 +70,15 @@ router.post('/test-agent-upload', agentUpload.single('testImage'), (req, res) =>
     console.error('=== TEST AGENT UPLOAD ERROR ===', error);
     res.status(500).json({ message: error.message });
   }
+});
+
+// Test hero upload for comparison
+router.post('/test-hero-vs-agent', (req, res) => {
+  res.json({
+    message: 'Testing upload configurations',
+    agentStorage: typeof agentUpload,
+    heroStorage: typeof heroUpload
+  });
 });
 
 // Public content endpoint (no authentication required)
@@ -586,18 +595,23 @@ router.delete('/agents/:id', async (req, res) => {
   }
 });
 
-// Agent photo upload (using Cloudinary)
-router.post('/agents/upload-photo', agentUpload.single('photo'), async (req, res) => {
+// Agent photo upload (using Cloudinary) - temporarily use heroUpload for testing
+router.post('/agents/upload-photo', heroUpload.single('photo'), async (req, res) => {
   try {
+    console.log('=== AGENT PHOTO UPLOAD ATTEMPT ===');
+    console.log('Using heroUpload instead of agentUpload for testing');
+
     if (!req.file) {
+      console.log('No file received');
       return res.status(400).json({ message: 'No photo uploaded' });
     }
 
     const photoUrl = req.file.path; // Cloudinary returns the full URL in path
-    console.log('Agent photo uploaded successfully:', photoUrl);
+    console.log('Agent photo uploaded successfully using heroUpload:', photoUrl);
     res.json({ photoUrl });
   } catch (error) {
-    console.error('Error uploading agent photo:', error);
+    console.error('Error uploading agent photo with heroUpload:', error);
+    console.error('Error details:', error.message);
     res.status(500).json({ message: error.message });
   }
 });
