@@ -37,11 +37,12 @@ router.get('/test-email', async (req, res) => {
 
     // Check environment variables
     const emailConfig = {
-      SMTP_HOST: process.env.SMTP_HOST,
-      SMTP_PORT: process.env.SMTP_PORT,
-      EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not Set',
-      EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not Set',
-      EMAIL_FROM: process.env.EMAIL_FROM
+      AZURE_CLIENT_ID: process.env.AZURE_CLIENT_ID ? 'Set' : 'Not Set',
+      AZURE_CLIENT_SECRET: process.env.AZURE_CLIENT_SECRET ? 'Set' : 'Not Set',
+      AZURE_TENANT_ID: process.env.AZURE_TENANT_ID ? 'Set' : 'Not Set',
+      EMAIL_FROM: process.env.EMAIL_FROM,
+      COMPANY_EMAIL: process.env.COMPANY_EMAIL,
+      BACKUP_AGENT_EMAIL: process.env.BACKUP_AGENT_EMAIL
     };
 
     console.log('Email config check:', emailConfig);
@@ -60,11 +61,12 @@ router.get('/test-email', async (req, res) => {
       status: 'error',
       message: error.message,
       config: {
-        SMTP_HOST: process.env.SMTP_HOST,
-        SMTP_PORT: process.env.SMTP_PORT,
-        EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not Set',
-        EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not Set',
-        EMAIL_FROM: process.env.EMAIL_FROM
+        AZURE_CLIENT_ID: process.env.AZURE_CLIENT_ID ? 'Set' : 'Not Set',
+        AZURE_CLIENT_SECRET: process.env.AZURE_CLIENT_SECRET ? 'Set' : 'Not Set',
+        AZURE_TENANT_ID: process.env.AZURE_TENANT_ID ? 'Set' : 'Not Set',
+        EMAIL_FROM: process.env.EMAIL_FROM,
+        COMPANY_EMAIL: process.env.COMPANY_EMAIL,
+        BACKUP_AGENT_EMAIL: process.env.BACKUP_AGENT_EMAIL
       }
     });
   }
