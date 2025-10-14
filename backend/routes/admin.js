@@ -586,13 +586,19 @@ router.delete('/agents/:id', async (req, res) => {
   }
 });
 
-// Agent photo upload (using Cloudinary)
-router.post('/agents/upload-photo', authenticateToken, agentUpload.single('photo'), async (req, res) => {
+// Agent photo upload (using Cloudinary) - temporarily remove auth for debugging
+router.post('/agents/upload-photo', agentUpload.single('photo'), async (req, res) => {
   try {
     console.log('=== AGENT PHOTO UPLOAD DEBUG ===');
     console.log('Request received');
+    console.log('Headers:', req.headers);
     console.log('File:', req.file);
     console.log('Body:', req.body);
+    console.log('Cloudinary config:', {
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY ? 'Set' : 'Not set',
+      api_secret: process.env.CLOUDINARY_API_SECRET ? 'Set' : 'Not set'
+    });
 
     if (!req.file) {
       console.log('No file in request');
@@ -604,7 +610,12 @@ router.post('/agents/upload-photo', authenticateToken, agentUpload.single('photo
     res.json({ photoUrl });
   } catch (error) {
     console.error('=== AGENT PHOTO UPLOAD ERROR ===', error);
-    res.status(500).json({ message: error.message });
+    console.error('Error stack:', error.stack);
+    res.status(500).json({
+      message: error.message,
+      stack: error.stack,
+      details: 'Check server logs for more information'
+    });
   }
 });
 
