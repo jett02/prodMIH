@@ -541,7 +541,7 @@ export default {
     async initializeMap() {
       try {
         const loader = new Loader({
-          apiKey: 'AIzaSyCPDKyo5k6UfUjds0XW0LpVR4glyfqDmS0',
+          apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
           version: 'weekly',
           libraries: ['places']
         })
