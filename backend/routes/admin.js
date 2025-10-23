@@ -221,8 +221,8 @@ router.post('/properties/upload-image', propertyUpload.single('image'), async (r
   }
 });
 
-// Upload multiple property gallery images - increase limit
-router.post('/properties/upload-images', propertyUpload.array('images', 20), async (req, res) => {
+// Upload multiple property gallery images - increased limit for large galleries
+router.post('/properties/upload-images', propertyUpload.array('images', 50), async (req, res) => {
   try {
     console.log('=== PROPERTY GALLERY UPLOAD DEBUG ===');
     console.log('Files received:', req.files?.length || 0);

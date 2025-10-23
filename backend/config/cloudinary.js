@@ -38,9 +38,12 @@ export const teamStorage = createCloudinaryStorage('team');
 export const agentStorage = createCloudinaryStorage('agents');
 
 // Multer configurations
-export const propertyUpload = multer({ 
+export const propertyUpload = multer({
   storage: propertyStorage,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB per file limit
+    files: 50 // Allow up to 50 files
+  }
 });
 
 export const heroUpload = multer({ 
