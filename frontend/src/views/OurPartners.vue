@@ -129,7 +129,7 @@ export default {
     async loadPartners() {
       try {
         this.loading = true
-        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/admin/partners/public`)
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/partners`)
         this.partners = response.data
       } catch (error) {
         console.error('Error loading partners:', error)

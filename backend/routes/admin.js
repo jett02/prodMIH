@@ -798,18 +798,6 @@ router.post('/content/preferred-bidders-banner', async (req, res) => {
 
 // ===== PARTNERS ROUTES =====
 
-// Get all partners (public route for frontend)
-router.get('/partners/public', async (req, res) => {
-  try {
-    const partners = await Partner.find({ isActive: true })
-      .sort({ order: 1, createdAt: 1 });
-    res.json(partners);
-  } catch (error) {
-    console.error('Error fetching partners:', error);
-    res.status(500).json({ message: error.message });
-  }
-});
-
 // Get all partners (admin)
 router.get('/partners', authenticateToken, async (req, res) => {
   try {

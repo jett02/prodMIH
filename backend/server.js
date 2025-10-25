@@ -15,6 +15,7 @@ import authRoutes from './routes/auth.js';
 import adminRoutes from './routes/admin.js';
 import agentRoutes from './routes/agents.js';
 import preferredBiddersRoutes from './routes/preferredBidders.js';
+import Partner from './models/Partner.js';
 
 dotenv.config();
 
@@ -32,6 +33,18 @@ app.use('/uploads', express.static('uploads'));
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/makeithome')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
+
+// Public Partners Route (must be before admin routes)
+app.get('/api/partners', async (req, res) => {
+  try {
+    const partners = await Partner.find({ isActive: true })
+      .sort({ order: 1, createdAt: 1 });
+    res.json(partners);
+  } catch (error) {
+    console.error('Error fetching partners:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
