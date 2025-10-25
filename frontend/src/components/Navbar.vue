@@ -16,34 +16,34 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/">Home</router-link>
+            <router-link class="nav-link text-slate-gray" to="/" @click="closeMobileMenu">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/properties">Buy</router-link>
+            <router-link class="nav-link text-slate-gray" to="/properties" @click="closeMobileMenu">Buy</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/rentals">Rentals</router-link>
+            <router-link class="nav-link text-slate-gray" to="/rentals" @click="closeMobileMenu">Rentals</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/upcoming">Upcoming</router-link>
+            <router-link class="nav-link text-slate-gray" to="/upcoming" @click="closeMobileMenu">Upcoming</router-link>
           </li>
           <li class="nav-item dropdown dropdown-hover">
             <a class="nav-link dropdown-toggle text-slate-gray" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Services
             </a>
             <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
-              <li><router-link class="dropdown-item text-slate-gray" to="/mortgage-calculator">Mortgage Calculator</router-link></li>
-              <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders">Preferred Bidders List</router-link></li>
+              <li><router-link class="dropdown-item text-slate-gray" to="/mortgage-calculator" @click="closeMobileMenu">Mortgage Calculator</router-link></li>
+              <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
             </ul>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/agents">Agents</router-link>
+            <router-link class="nav-link text-slate-gray" to="/agents" @click="closeMobileMenu">Agents</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/about">About</router-link>
+            <router-link class="nav-link text-slate-gray" to="/about" @click="closeMobileMenu">About</router-link>
           </li>
         </ul>
-        <router-link to="/contact" class="btn btn-warm-sunset">Contact Us</router-link>
+        <router-link to="/contact" class="btn btn-warm-sunset" @click="closeMobileMenu">Contact Us</router-link>
       </div>
     </div>
   </nav>
@@ -61,7 +61,24 @@ export default {
   mounted() {
     this.loadLogo()
   },
+  watch: {
+    // Watch for route changes and close mobile menu
+    '$route'() {
+      this.closeMobileMenu()
+    }
+  },
   methods: {
+    // Close mobile menu when route changes
+    closeMobileMenu() {
+      const navbarCollapse = document.getElementById('navbarNav')
+      if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+        // Use Bootstrap's collapse method to close the menu
+        const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+          toggle: false
+        })
+        bsCollapse.hide()
+      }
+    },
     loadLogo() {
       const logoVariations = [
         '/businessimages/makeitHomePNG.PNG',
@@ -69,7 +86,7 @@ export default {
         '/businessimages/makeitHomePNG.jpg',
         '/businessimages/makeitHomePNG.jpeg'
       ]
-      
+
       this.tryLoadLogo(logoVariations, 0)
     },
     tryLoadLogo(variations, index) {
