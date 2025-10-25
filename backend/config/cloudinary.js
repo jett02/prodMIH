@@ -16,17 +16,26 @@ cloudinary.config({
 const createCloudinaryStorage = (folder, allowedFormats = ['jpg', 'jpeg', 'png', 'webp', 'gif']) => {
   return new CloudinaryStorage({
     cloudinary: cloudinary,
-    params: {
-      folder: `makeithome/${folder}`,
-      allowed_formats: allowedFormats,
-      transformation: [
-        { width: 1200, height: 800, crop: 'limit', quality: 'auto', format: 'auto' }
-      ],
-      public_id: (req, file) => {
-        const timestamp = Date.now();
-        const random = Math.round(Math.random() * 1E9);
-        return `${folder}-${timestamp}-${random}`;
-      },
+    params: (req, file) => {
+      const timestamp = Date.now();
+      const random = Math.round(Math.random() * 1E9);
+      const isGif = file.mimetype === 'image/gif';
+
+      return {
+        folder: `makeithome/${folder}`,
+        allowed_formats: allowedFormats,
+        // Different transformations for GIFs vs other images
+        transformation: isGif ? [
+          // For GIFs: preserve animation, limit size but don't change format
+          { width: 1200, height: 800, crop: 'limit', flags: 'animated' }
+        ] : [
+          // For other images: normal optimization
+          { width: 1200, height: 800, crop: 'limit', quality: 'auto', format: 'auto' }
+        ],
+        public_id: `${folder}-${timestamp}-${random}`,
+        // Preserve original format for GIFs
+        format: isGif ? 'gif' : undefined
+      };
     },
   });
 };
@@ -46,9 +55,25 @@ export const propertyUpload = multer({
   }
 });
 
-export const heroUpload = multer({ 
+export const heroUpload = multer({
   storage: heroStorage,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  limits: { fileSize: 15 * 1024 * 1024 }, // 15MB limit to accommodate GIFs
+  fileFilter: (req, file, cb) => {
+    // Allow images including GIFs
+    const allowedMimes = [
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/webp',
+      'image/gif'
+    ];
+
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files (JPG, PNG, WebP, GIF) are allowed!'), false);
+    }
+  }
 });
 
 export const teamUpload = multer({ 

@@ -659,20 +659,47 @@ router.post('/agents/upload-photo', heroUpload.single('photo'), async (req, res)
   }
 });
 
-// Upload multiple hero gallery images
-router.post('/content/upload-hero-gallery', heroUpload.array('heroImages', 10), async (req, res) => {
-  try {
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ message: 'No files uploaded' });
+// Upload multiple hero gallery images (including GIFs)
+router.post('/content/upload-hero-gallery', (req, res) => {
+  heroUpload.array('heroImages', 10)(req, res, async (err) => {
+    try {
+      console.log('=== HERO GALLERY UPLOAD DEBUG ===');
+      console.log('Files received:', req.files?.length || 0);
+
+      if (err) {
+        console.error('Multer error:', err);
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return res.status(400).json({ message: 'File too large. Maximum size is 15MB per file.' });
+        }
+        if (err.message.includes('Only image files')) {
+          return res.status(400).json({ message: 'Only image files (JPG, PNG, WebP, GIF) are allowed.' });
+        }
+        return res.status(400).json({ message: err.message });
+      }
+
+      if (!req.files || req.files.length === 0) {
+        console.log('No files in request');
+        return res.status(400).json({ message: 'No files uploaded' });
+      }
+
+      // Log file details for debugging
+      req.files.forEach((file, index) => {
+        console.log(`File ${index + 1}:`, {
+          originalname: file.originalname,
+          mimetype: file.mimetype,
+          size: file.size,
+          path: file.path
+        });
+      });
+
+      const imageUrls = req.files.map(file => file.path); // Cloudinary returns full URLs
+      console.log('Hero gallery images uploaded successfully:', imageUrls);
+      res.json({ imageUrls });
+    } catch (error) {
+      console.error('=== HERO GALLERY UPLOAD ERROR ===', error);
+      res.status(500).json({ message: error.message });
     }
-    
-    const imageUrls = req.files.map(file => file.path); // Cloudinary returns full URLs
-    console.log('Hero gallery images uploaded:', imageUrls);
-    res.json({ imageUrls });
-  } catch (error) {
-    console.error('Error uploading hero gallery images:', error);
-    res.status(500).json({ message: error.message });
-  }
+  });
 });
 
 // Upload hero background image
