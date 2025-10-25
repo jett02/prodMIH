@@ -45,6 +45,11 @@
               <i class="fas fa-users me-1"></i>Agents
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/admin/partners" class="nav-link" :class="{ active: $route.path === '/admin/partners' }">
+              <i class="fas fa-handshake me-1"></i>Partners
+            </router-link>
+          </li>
         </ul>
         
         <!-- User info and logout -->

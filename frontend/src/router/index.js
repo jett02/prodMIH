@@ -7,6 +7,7 @@ import Contact from '@/views/Contact.vue'
 import PropertyDetail from '@/views/PropertyDetail.vue'
 import Agents from '@/views/Agents.vue'
 import OurLeadership from '@/views/About.vue'
+import OurPartners from '@/views/OurPartners.vue'
 import MortgageCalculator from '@/views/MortgageCalculator.vue'
 import PreferredBidders from '@/views/PreferredBidders.vue'
 import Sitemap from '@/views/Sitemap.vue'
@@ -49,6 +50,11 @@ const routes = [
     path: '/about',
     name: 'OurLeadership',
     component: OurLeadership
+  },
+  {
+    path: '/our-partners',
+    name: 'OurPartners',
+    component: OurPartners
   },
   {
     path: '/mortgage-calculator',
@@ -103,6 +109,12 @@ const routes = [
     path: '/admin/agents',
     name: 'AdminAgents',
     component: () => import('@/views/admin/AdminAgents.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/partners',
+    name: 'AdminPartners',
+    component: () => import('@/views/admin/AdminPartners.vue'),
     meta: { requiresAuth: true }
   }
 ]

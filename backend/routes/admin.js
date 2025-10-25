@@ -7,6 +7,7 @@ import Property from '../models/Property.js';
 import Contact from '../models/Content.js';
 import Content from '../models/Content.js';
 import Agent from '../models/Agent.js';
+import Partner from '../models/Partner.js';
 import { authenticateToken } from './auth.js';
 import {
   propertyUpload,
@@ -795,16 +796,150 @@ router.post('/content/preferred-bidders-banner', async (req, res) => {
   }
 });
 
+// ===== PARTNERS ROUTES =====
+
+// Get all partners (public route for frontend)
+router.get('/partners/public', async (req, res) => {
+  try {
+    const partners = await Partner.find({ isActive: true })
+      .sort({ order: 1, createdAt: 1 });
+    res.json(partners);
+  } catch (error) {
+    console.error('Error fetching partners:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all partners (admin)
+router.get('/partners', authenticateToken, async (req, res) => {
+  try {
+    const partners = await Partner.find()
+      .sort({ order: 1, createdAt: 1 });
+    res.json(partners);
+  } catch (error) {
+    console.error('Error fetching partners:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get single partner
+router.get('/partners/:id', authenticateToken, async (req, res) => {
+  try {
+    const partner = await Partner.findById(req.params.id);
+    if (!partner) {
+      return res.status(404).json({ message: 'Partner not found' });
+    }
+    res.json(partner);
+  } catch (error) {
+    console.error('Error fetching partner:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Upload partner logo
+router.post('/partners/upload-logo', authenticateToken, agentUpload.single('logo'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const logoUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('Partner logo uploaded:', logoUrl);
+    res.json({ logoUrl });
+  } catch (error) {
+    console.error('Error uploading partner logo:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Create new partner
+router.post('/partners', authenticateToken, async (req, res) => {
+  try {
+    const { title, description, logo, phone, email, website, order, isActive } = req.body;
+
+    // Validate required fields
+    if (!title || !description || !logo) {
+      return res.status(400).json({ message: 'Title, description, and logo are required' });
+    }
+
+    const partner = new Partner({
+      title,
+      description,
+      logo,
+      phone,
+      email,
+      website,
+      order: order || 0,
+      isActive: isActive !== undefined ? isActive : true
+    });
+
+    await partner.save();
+    console.log('Partner created successfully:', partner._id);
+    res.status(201).json(partner);
+  } catch (error) {
+    console.error('Error creating partner:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Update partner
+router.put('/partners/:id', authenticateToken, async (req, res) => {
+  try {
+    const { title, description, logo, phone, email, website, order, isActive } = req.body;
+
+    const partner = await Partner.findById(req.params.id);
+    if (!partner) {
+      return res.status(404).json({ message: 'Partner not found' });
+    }
+
+    // Update fields
+    if (title !== undefined) partner.title = title;
+    if (description !== undefined) partner.description = description;
+    if (logo !== undefined) partner.logo = logo;
+    if (phone !== undefined) partner.phone = phone;
+    if (email !== undefined) partner.email = email;
+    if (website !== undefined) partner.website = website;
+    if (order !== undefined) partner.order = order;
+    if (isActive !== undefined) partner.isActive = isActive;
+
+    await partner.save();
+    console.log('Partner updated successfully:', partner._id);
+    res.json(partner);
+  } catch (error) {
+    console.error('Error updating partner:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Delete partner
+router.delete('/partners/:id', authenticateToken, async (req, res) => {
+  try {
+    const partner = await Partner.findById(req.params.id);
+    if (!partner) {
+      return res.status(404).json({ message: 'Partner not found' });
+    }
+
+    // Delete logo from Cloudinary if it exists
+    if (partner.logo) {
+      try {
+        const publicId = partner.logo.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(`makeithome/agents/${publicId}`);
+        console.log('Partner logo deleted from Cloudinary');
+      } catch (cloudinaryError) {
+        console.warn('Could not delete logo from Cloudinary:', cloudinaryError.message);
+      }
+    }
+
+    await Partner.findByIdAndDelete(req.params.id);
+    console.log('Partner deleted successfully:', req.params.id);
+    res.json({ message: 'Partner deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting partner:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
-
-
-
-
-
-
-
-
-
 
 
 
