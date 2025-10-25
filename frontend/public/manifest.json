@@ -1,0 +1,32 @@
+{
+  "name": "Make It Home LLC",
+  "short_name": "Make It Home",
+  "description": "Your trusted real estate partner in Omaha. We help you buy, sell, and rent properties with expert guidance.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#EBA472",
+  "icons": [
+    {
+      "src": "/businessimages/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/businessimages/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/businessimages/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/businessimages/makeitHomePNG.PNG",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

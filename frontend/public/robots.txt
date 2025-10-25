@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://wecanmakeithome.com/sitemap.xml
+
+# Allow all search engines to crawl the site
+# Disallow admin areas for security
+Disallow: /admin/
+Disallow: /api/
+
+# Allow important pages
+Allow: /
+Allow: /properties
+Allow: /rentals
+Allow: /agents
+Allow: /contact
+Allow: /about
+Allow: /our-partners
+Allow: /mortgage-calculator
+Allow: /preferred-bidders
