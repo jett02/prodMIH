@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { nextTick } from 'vue'
 import Home from '@/views/Home.vue'
 import Properties from '@/views/Properties.vue'
 import Rentals from '@/views/Rentals.vue'
@@ -121,7 +122,15 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    // If there's a saved position (back/forward navigation), use it
+    if (savedPosition) {
+      return savedPosition
+    }
+    // For new navigation, scroll to top
+    return { top: 0, behavior: 'smooth' }
+  }
 })
 
 // Navigation guard for admin routes
@@ -140,9 +149,27 @@ router.beforeEach((to, from, next) => {
 
 // Add afterEach guard to scroll to top after navigation
 router.afterEach((to, from) => {
-  // Scroll to top after route change
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  // Use nextTick to ensure DOM is updated before scrolling
+  nextTick(() => {
+    // Force scroll to top with multiple fallback methods for mobile reliability
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+
+    // Fallback for mobile browsers that might not support smooth behavior
+    setTimeout(() => {
+      if (window.pageYOffset > 0) {
+        window.scrollTo(0, 0)
+      }
+    }, 100)
+
+    // Additional fallback for stubborn mobile browsers
+    setTimeout(() => {
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }, 200)
+  })
 })
+
+
 
 export default router
 

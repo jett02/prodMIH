@@ -207,6 +207,7 @@ export default {
   align-items: center;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding-top: 80px; /* Add top padding to avoid navbar overlap */
 }
 
 .hero-banner::before {
@@ -536,11 +537,22 @@ export default {
   }
 }
 
+@media (max-width: 768px) {
+  .hero-banner {
+    padding-top: 100px; /* Extra padding on mobile to avoid navbar overlap */
+    min-height: 40vh; /* Slightly taller on mobile to accommodate padding */
+  }
+}
+
 @media (max-width: 576px) {
+  .hero-banner {
+    padding-top: 120px; /* Even more padding on small mobile screens */
+  }
+
   .hero-title {
     font-size: 2rem;
   }
-  
+
   .cta-section {
     padding: 2rem !important;
   }
