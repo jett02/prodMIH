@@ -2,12 +2,12 @@
   <div class="our-partners">
     <!-- Hero Section -->
     <section class="hero-section overflow-hidden inverted">
-      <div class="d-flex flex-column py-15 min-vh-75 container foreground">
+      <div class="d-flex flex-column py-12 min-vh-60 container foreground">
         <div class="row justify-content-center my-auto">
           <div class="col-lg-8 text-center">
-            <span class="eyebrow mb-3 text-secondary" data-aos="fade-up">Our Network</span>
+            <span class="eyebrow mb-3 text-light" data-aos="fade-up">Our Network</span>
             <h1 class="fw-bold display-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              Our <span class="text-primary">Partners</span>
+              Our <span class="text-sunset">Partners</span>
             </h1>
             <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
               Trusted professionals who help make your real estate dreams a reality
@@ -174,13 +174,26 @@ export default {
   color: white;
 }
 
+.py-12 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
 .py-15 {
   padding-top: 8rem;
   padding-bottom: 8rem;
 }
 
+.min-vh-60 {
+  min-height: 60vh;
+}
+
 .min-vh-75 {
   min-height: 75vh;
+}
+
+.text-sunset {
+  color: #EBA472 !important;
 }
 
 .foreground {
@@ -355,6 +368,11 @@ export default {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .py-12 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
   .py-15 {
     padding-top: 4rem;
     padding-bottom: 4rem;
