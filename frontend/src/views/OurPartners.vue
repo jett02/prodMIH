@@ -1,13 +1,13 @@
 <template>
   <div class="our-partners">
     <!-- Hero Section -->
-    <section class="hero-section bg-gradient-warm text-white py-5">
-      <div class="container">
-        <div class="row justify-content-center">
+    <section class="hero-section overflow-hidden inverted">
+      <div class="d-flex flex-column py-15 min-vh-75 container foreground">
+        <div class="row justify-content-center my-auto">
           <div class="col-lg-8 text-center">
-            <span class="eyebrow mb-3 text-light" data-aos="fade-up">Our Network</span>
+            <span class="eyebrow mb-3 text-secondary" data-aos="fade-up">Our Network</span>
             <h1 class="fw-bold display-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              Our <span class="text-accent">Partners</span>
+              Our <span class="text-primary">Partners</span>
             </h1>
             <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
               Trusted professionals who help make your real estate dreams a reality
@@ -16,6 +16,10 @@
           </div>
         </div>
       </div>
+      <figure class="background background-overlay"
+              style="background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80')"
+              data-top-top="transform: scale(1);"
+              data-top-bottom="transform: scale(1.05);"></figure>
     </section>
 
     <!-- Partners Grid Section -->
@@ -35,42 +39,48 @@
               </div>
             </div>
 
-            <!-- Partners Grid -->
-            <div v-else-if="partners.length > 0" class="row g-4">
-              <div 
-                v-for="partner in partners" 
+            <!-- Partners List -->
+            <div v-else-if="partners.length > 0" class="partners-list">
+              <div
+                v-for="partner in partners"
                 :key="partner._id"
-                class="col-lg-6 col-md-6"
+                class="mb-4"
                 data-aos="fade-up"
                 :data-aos-delay="partners.indexOf(partner) * 100"
               >
-                <div class="partner-card h-100">
-                  <div class="partner-logo-container">
-                    <img 
-                      :src="partner.logo" 
-                      :alt="partner.title + ' logo'"
-                      class="partner-logo"
-                      @error="handleImageError"
-                    >
-                  </div>
-                  <div class="partner-content">
-                    <h4 class="partner-title">{{ partner.title }}</h4>
-                    <p class="partner-description">{{ partner.description }}</p>
-                    
-                    <div class="partner-contact">
-                      <div v-if="partner.phone" class="contact-item">
-                        <i class="fas fa-phone text-primary me-2"></i>
-                        <a :href="'tel:' + partner.phone" class="contact-link">{{ partner.phone }}</a>
+                <div class="partner-card">
+                  <div class="row align-items-center">
+                    <div class="col-md-3 col-lg-2">
+                      <div class="partner-logo-container">
+                        <img
+                          :src="partner.logo"
+                          :alt="partner.title + ' logo'"
+                          class="partner-logo"
+                          @error="handleImageError"
+                        >
                       </div>
-                      <div v-if="partner.email" class="contact-item">
-                        <i class="fas fa-envelope text-primary me-2"></i>
-                        <a :href="'mailto:' + partner.email" class="contact-link">{{ partner.email }}</a>
-                      </div>
-                      <div v-if="partner.website" class="contact-item">
-                        <i class="fas fa-globe text-primary me-2"></i>
-                        <a :href="formatWebsiteUrl(partner.website)" target="_blank" rel="noopener noreferrer" class="contact-link">
-                          Visit Website
-                        </a>
+                    </div>
+                    <div class="col-md-9 col-lg-10">
+                      <div class="partner-content">
+                        <h4 class="partner-title">{{ partner.title }}</h4>
+                        <p class="partner-description">{{ partner.description }}</p>
+
+                        <div class="partner-contact">
+                          <div v-if="partner.phone" class="contact-item">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            <a :href="'tel:' + partner.phone" class="contact-link">{{ partner.phone }}</a>
+                          </div>
+                          <div v-if="partner.email" class="contact-item">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <a :href="'mailto:' + partner.email" class="contact-link">{{ partner.email }}</a>
+                          </div>
+                          <div v-if="partner.website" class="contact-item">
+                            <i class="fas fa-globe text-primary me-2"></i>
+                            <a :href="formatWebsiteUrl(partner.website)" target="_blank" rel="noopener noreferrer" class="contact-link">
+                              Visit Website
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -154,12 +164,50 @@ export default {
 </script>
 
 <style scoped>
-.bg-gradient-warm {
-  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+/* Hero Section Styles (matching About page) */
+.hero-section {
+  position: relative;
+  overflow: hidden;
 }
 
-.text-accent {
-  color: #FFE5D4 !important;
+.hero-section.inverted {
+  color: white;
+}
+
+.py-15 {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+.min-vh-75 {
+  min-height: 75vh;
+}
+
+.foreground {
+  position: relative;
+  z-index: 2;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.background-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 
 .eyebrow {
@@ -199,6 +247,11 @@ export default {
   min-height: 60vh;
 }
 
+.partners-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .partner-card {
   background: white;
   border-radius: 16px;
@@ -206,25 +259,26 @@ export default {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   border: 1px solid #f0f0f0;
+  margin-bottom: 1.5rem;
 }
 
 .partner-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .partner-logo-container {
   text-align: center;
-  margin-bottom: 1.5rem;
-  height: 100px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .partner-logo {
   max-width: 100%;
-  max-height: 100px;
+  max-height: 120px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -232,20 +286,21 @@ export default {
 }
 
 .partner-content {
-  text-align: center;
+  text-align: left;
 }
 
 .partner-title {
   color: #2C3E50;
   font-weight: 700;
   margin-bottom: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .partner-description {
   color: #6C757D;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  font-size: 1rem;
 }
 
 .partner-contact {
@@ -256,7 +311,6 @@ export default {
 .contact-item {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 0.5rem;
 }
 
@@ -272,7 +326,7 @@ export default {
 }
 
 .contact-link:hover {
-  color: #EBA472;
+  color: var(--bs-primary);
   text-decoration: none;
 }
 
@@ -301,16 +355,34 @@ export default {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .py-15 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
   .partner-card {
     padding: 1.5rem;
   }
-  
-  .partner-logo-container {
-    height: 80px;
+
+  .partner-card .row {
+    text-align: center;
   }
-  
+
+  .partner-logo-container {
+    height: 100px;
+    margin-bottom: 1.5rem;
+  }
+
   .partner-logo {
-    max-height: 80px;
+    max-height: 100px;
+  }
+
+  .partner-content {
+    text-align: center;
+  }
+
+  .contact-item {
+    justify-content: center;
   }
 }
 </style>
