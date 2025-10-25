@@ -7,9 +7,6 @@
         <div class="container">
           <div class="row justify-content-center text-center">
             <div class="col-lg-10">
-              <div class="hero-badge mb-4" data-aos="fade-up">
-                <span class="badge-text">👥 Our Team</span>
-              </div>
               <h1 class="hero-title mb-4" data-aos="fade-up" data-aos-delay="100">
                 Meet Our 
                 <span class="sunset-text">Expert Agents</span>
@@ -207,7 +204,7 @@ export default {
   align-items: center;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  padding-top: 80px; /* Add top padding to avoid navbar overlap */
+  padding-top: 90px; /* Increased slightly since we removed the badge */
 }
 
 .hero-banner::before {
@@ -254,24 +251,6 @@ export default {
   position: relative;
   z-index: 2;
   width: 100%;
-}
-
-.hero-badge {
-  display: inline-block;
-  animation: float 3s ease-in-out infinite;
-}
-
-.badge-text {
-  background: linear-gradient(135deg, rgba(235, 164, 114, 0.9) 0%, rgba(161, 94, 59, 0.9) 100%);
-  backdrop-filter: blur(10px);
-  padding: 8px 20px;
-  border-radius: 25px;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(235, 164, 114, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero-title {
@@ -507,11 +486,6 @@ export default {
 }
 
 /* Animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -539,14 +513,14 @@ export default {
 
 @media (max-width: 768px) {
   .hero-banner {
-    padding-top: 100px; /* Extra padding on mobile to avoid navbar overlap */
+    padding-top: 110px; /* Extra padding on mobile to avoid navbar overlap */
     min-height: 40vh; /* Slightly taller on mobile to accommodate padding */
   }
 }
 
 @media (max-width: 576px) {
   .hero-banner {
-    padding-top: 120px; /* Even more padding on small mobile screens */
+    padding-top: 130px; /* Even more padding on small mobile screens */
   }
 
   .hero-title {
