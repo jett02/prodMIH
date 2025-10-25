@@ -6,7 +6,7 @@ import Upcoming from '@/views/Upcoming.vue'
 import Contact from '@/views/Contact.vue'
 import PropertyDetail from '@/views/PropertyDetail.vue'
 import Agents from '@/views/Agents.vue'
-import About from '@/views/About.vue'
+import OurLeadership from '@/views/About.vue'
 import MortgageCalculator from '@/views/MortgageCalculator.vue'
 import PreferredBidders from '@/views/PreferredBidders.vue'
 import Sitemap from '@/views/Sitemap.vue'
@@ -47,8 +47,8 @@ const routes = [
   },
   {
     path: '/about',
-    name: 'About',
-    component: About
+    name: 'OurLeadership',
+    component: OurLeadership
   },
   {
     path: '/mortgage-calculator',

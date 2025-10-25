@@ -39,8 +39,13 @@
           <li class="nav-item">
             <router-link class="nav-link text-slate-gray" to="/agents" @click="closeMobileMenu">Agents</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/about" @click="closeMobileMenu">About</router-link>
+          <li class="nav-item dropdown dropdown-hover">
+            <a class="nav-link dropdown-toggle text-slate-gray" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              About Us
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+              <li><router-link class="dropdown-item text-slate-gray" to="/about" @click="closeMobileMenu">Our Leadership</router-link></li>
+            </ul>
           </li>
         </ul>
         <router-link to="/contact" class="btn btn-warm-sunset" @click="closeMobileMenu">Contact Us</router-link>

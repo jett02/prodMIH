@@ -7,10 +7,10 @@
           <div class="col-lg-8 text-center">
             <span class="eyebrow mb-3 text-secondary" data-aos="fade-up">About Make It Home</span>
             <h1 class="fw-bold display-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              Our <span class="text-primary">Story</span>
+              Our <span class="text-primary">Leadership</span>
             </h1>
             <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
-              Building dreams into reality, one home at a time
+              Meet the team behind Make It Home
             </p>
             <div class="scroll-down" data-aos="fade-up" data-aos-delay="600"></div>
           </div>
@@ -28,8 +28,8 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <div class="text-center mb-5">
-              <h2 class="display-5 fw-bold">Our Story</h2>
-              <p class="lead text-muted">Building homes and communities with intention</p>
+              <h2 class="display-5 fw-bold">Our Leadership Team</h2>
+              <p class="lead text-muted">The people behind Make It Home's vision and mission</p>
             </div>
             
             <div class="content-section mb-5">
@@ -215,7 +215,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'About',
+  name: 'OurLeadership',
   data() {
     return {
       content: {
@@ -234,6 +234,7 @@ export default {
     }
   },
   async mounted() {
+    document.title = 'Our Leadership - Make It Home'
     await this.loadContent()
   },
   methods: {
