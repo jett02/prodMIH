@@ -2035,16 +2035,26 @@ export default {
 
   .scroll-indicator {
     bottom: 20px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .scroll-indicator:hover {
+    transform: translateX(-50%) translateY(-5px) !important;
   }
 
   .scroll-arrow {
     width: 40px;
     height: 40px;
     font-size: 1rem;
+    margin: 0 auto;
   }
 
   .scroll-text {
     font-size: 0.75rem;
+    text-align: center;
   }
 
   .hero-main-title {
