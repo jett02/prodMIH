@@ -635,7 +635,7 @@ router.put('/content/sell-to-us', async (req, res) => {
 });
 
 // Upload benefits media for Sell To Us section
-router.post('/content/upload-benefits-media', contentUpload.single('benefitsMedia'), async (req, res) => {
+router.post('/content/upload-benefits-media', heroUpload.single('benefitsMedia'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
