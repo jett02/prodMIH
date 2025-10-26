@@ -618,6 +618,38 @@ router.put('/content/disclosures', async (req, res) => {
   }
 });
 
+// Update Sell To Us content
+router.put('/content/sell-to-us', async (req, res) => {
+  try {
+    let content = await Content.findOne();
+    if (!content) {
+      content = new Content({});
+    }
+    content.sellToUs = req.body;
+    await content.save();
+    res.json({ message: 'Sell To Us content updated successfully' });
+  } catch (error) {
+    console.error('Error updating Sell To Us content:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Upload benefits media for Sell To Us section
+router.post('/content/upload-benefits-media', contentUpload.single('benefitsMedia'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const mediaUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('Benefits media uploaded:', mediaUrl);
+    res.json({ mediaUrl });
+  } catch (error) {
+    console.error('Error uploading benefits media:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Update hero content
 router.put('/content/hero', async (req, res) => {
   try {

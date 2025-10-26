@@ -578,6 +578,79 @@
             </div>
           </div>
 
+          <!-- Sell To Us Section -->
+          <div class="row g-3 mb-4">
+            <div class="col-lg-6 content-section" data-category="sellToUs" data-keywords="sell to us benefits media image video">
+              <div class="card shadow-sm h-100 admin-card">
+                <div class="card-header bg-warm-sunset text-white cursor-pointer" @click="toggleSection('sellToUs')">
+                  <h5 class="card-title mb-0">
+                    <i class="fas fa-home me-2"></i>Sell To Us Section
+                    <i class="fas fa-chevron-down float-end transition-transform" :class="{ 'rotate-180': expandedSections.sellToUs }"></i>
+                  </h5>
+                </div>
+                <div class="card-body collapsible-section" v-show="expandedSections.sellToUs">
+                  <form @submit.prevent="saveSellToUsContent" class="row g-3">
+                    <div class="col-12">
+                      <label class="form-label fw-bold">Benefits Section Media</label>
+                      <p class="text-muted small mb-3">Upload an image or video to display next to the "Why Sell to Make It Home?" benefits list.</p>
+
+                      <!-- Current Media Display -->
+                      <div v-if="content.sellToUs && content.sellToUs.benefitsMedia" class="mb-3">
+                        <div class="current-media-preview">
+                          <!-- Video Preview -->
+                          <video
+                            v-if="isVideoFile(content.sellToUs.benefitsMedia)"
+                            :src="getImageUrl(content.sellToUs.benefitsMedia)"
+                            class="current-media-item"
+                            controls
+                            muted
+                            style="max-height: 200px; max-width: 100%; border-radius: 8px;"
+                          >
+                            Your browser does not support the video tag.
+                          </video>
+                          <!-- Image Preview -->
+                          <img
+                            v-else
+                            :src="getImageUrl(content.sellToUs.benefitsMedia)"
+                            alt="Current Benefits Media"
+                            class="current-media-item"
+                            style="max-height: 200px; max-width: 100%; object-fit: cover; border-radius: 8px;"
+                          />
+                          <button type="button" class="btn btn-sm btn-danger mt-2" @click="removeBenefitsMedia">
+                            <i class="fas fa-trash"></i> Remove Media
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Upload Input -->
+                      <input
+                        type="file"
+                        class="form-control"
+                        @change="handleBenefitsMediaUpload"
+                        accept="image/*,video/*"
+                        :disabled="isUploading"
+                      />
+                      <div class="form-text">
+                        Supported formats: JPG, PNG, GIF, MP4, MOV, AVI, WEBM. Max size: 50MB for videos, 10MB for images.
+                      </div>
+
+                      <div v-if="isUploading" class="mt-2">
+                        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                        <span class="text-muted">Uploading...</span>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <button type="submit" class="btn btn-warm-sunset" :disabled="isUploading">
+                        <i class="fas fa-save me-2"></i>Save Sell To Us Content
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Full-width sections -->
           <div class="row g-3 mb-4">
             <!-- Social Media Sales Section -->
@@ -1295,6 +1368,9 @@ export default {
           contactAgent: 'By submitting this form, you consent to receive marketing communications from Make It Home. Message and data rates may apply.',
           requestShowing: 'By requesting a showing, you agree to our terms of service and privacy policy. We will contact you to confirm your appointment.'
         },
+        sellToUs: {
+          benefitsMedia: ''
+        },
         contact: {
           phone: '',
           phoneDescription: 'Ready to talk? Give us a call',
@@ -1330,11 +1406,13 @@ export default {
         preferredBiddersBanner: false,
         team: false,
         footer: false,
-        contact: false
+        contact: false,
+        sellToUs: false
       },
       showPopup: false,
       popupMessage: '',
-      popupType: 'success' // 'success' or 'error'
+      popupType: 'success', // 'success' or 'error'
+      isUploading: false
     }
   },
   async mounted() {
@@ -1468,6 +1546,43 @@ export default {
       } catch (error) {
         console.error('Error saving disclosure statements:', error)
         alert('Error saving disclosure statements. Please try again.')
+      }
+    },
+    async saveSellToUsContent() {
+      try {
+        await axios.put('/api/admin/content/sell-to-us', this.content.sellToUs)
+        this.showSuccessPopup('Sell To Us content saved successfully!')
+      } catch (error) {
+        console.error('Error saving Sell To Us content:', error)
+        alert('Error saving content. Please try again.')
+      }
+    },
+    async handleBenefitsMediaUpload(event) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          this.isUploading = true
+          const formData = new FormData()
+          formData.append('benefitsMedia', file)
+
+          const response = await axios.post('/api/admin/content/upload-benefits-media', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+
+          this.content.sellToUs.benefitsMedia = response.data.mediaUrl
+          this.showSuccessPopup('Media uploaded successfully!')
+        } catch (error) {
+          console.error('Error uploading benefits media:', error)
+          alert('Error uploading media. Please try again.')
+        } finally {
+          this.isUploading = false
+          event.target.value = '' // Clear the input
+        }
+      }
+    },
+    removeBenefitsMedia() {
+      if (confirm('Are you sure you want to remove this media?')) {
+        this.content.sellToUs.benefitsMedia = ''
       }
     },
     editTeamMember(index) {

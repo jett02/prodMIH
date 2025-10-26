@@ -128,6 +128,9 @@ const contentSchema = new mongoose.Schema({
       default: 'By requesting a showing, you agree to our terms of service and privacy policy. We will contact you to confirm your appointment.'
     }
   },
+  sellToUs: {
+    benefitsMedia: { type: String, default: '' } // Image or video URL for the benefits section
+  },
   preferredBiddersBanner: {
     title: {
       type: String,

@@ -198,9 +198,33 @@
             </div>
           </div>
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="benefits-image">
-              <div class="image-placeholder bg-sunset-orange rounded-3 d-flex align-items-center justify-content-center" style="height: 400px;">
-                <i class="fas fa-home text-white" style="font-size: 4rem;"></i>
+            <div class="benefits-media" v-if="content.sellToUs.benefitsMedia">
+              <!-- Video Display -->
+              <video
+                v-if="isVideoFile(content.sellToUs.benefitsMedia)"
+                :src="getMediaUrl(content.sellToUs.benefitsMedia)"
+                class="benefits-video"
+                controls
+                muted
+                playsinline
+                @error="handleMediaError"
+              >
+                Your browser does not support the video tag.
+              </video>
+              <!-- Image Display -->
+              <img
+                v-else
+                :src="getMediaUrl(content.sellToUs.benefitsMedia)"
+                alt="Why Sell to Make It Home"
+                class="benefits-image"
+                @error="handleMediaError"
+              />
+            </div>
+            <!-- Placeholder when no media -->
+            <div v-else class="benefits-placeholder">
+              <div class="placeholder-content">
+                <i class="fas fa-image text-muted" style="font-size: 4rem;"></i>
+                <p class="text-muted mt-3">Media will appear here</p>
               </div>
             </div>
           </div>
@@ -216,7 +240,7 @@
             Ready to Get Your Cash Offer?
           </h2>
           <p class="lead text-light mb-5" data-aos="fade-up" data-aos-delay="100">
-            Join hundreds of satisfied homeowners who chose the fast, fair way to sell.
+            Join the list of satisfied homeowners who chose the fast, fair way to sell.
           </p>
           <a href="#hero-form" class="btn btn-sunset-orange btn-lg" data-aos="fade-up" data-aos-delay="200">
             Get Your Offer Now
@@ -245,8 +269,16 @@ export default {
         details: ''
       },
       isSubmitting: false,
-      submitMessage: ''
+      submitMessage: '',
+      content: {
+        sellToUs: {
+          benefitsMedia: ''
+        }
+      }
     }
+  },
+  async mounted() {
+    await this.loadContent()
   },
   methods: {
     async submitForm() {
@@ -288,6 +320,32 @@ export default {
         timeframe: '',
         details: ''
       }
+    },
+    async loadContent() {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/content`)
+        if (response.data && response.data.sellToUs) {
+          this.content.sellToUs = response.data.sellToUs
+        }
+      } catch (error) {
+        console.error('Error loading content:', error)
+      }
+    },
+    getMediaUrl(mediaPath) {
+      if (!mediaPath) return ''
+      if (mediaPath.startsWith('http')) return mediaPath
+      return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${mediaPath}`
+    },
+    isVideoFile(mediaPath) {
+      if (!mediaPath) return false
+      const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.m4v']
+      const lowerPath = mediaPath.toLowerCase()
+      return videoExtensions.some(ext => lowerPath.includes(ext))
+    },
+    handleMediaError(event) {
+      console.error('Media failed to load:', event.target.src)
+      // Hide the media element if it fails to load
+      event.target.style.display = 'none'
     }
   }
 }
@@ -540,6 +598,36 @@ export default {
   line-height: 1.6;
   margin: 0;
   font-size: 1rem;
+}
+
+/* Benefits Media Styling */
+.benefits-media {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.benefits-video,
+.benefits-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.benefits-placeholder {
+  height: 400px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #dee2e6;
+}
+
+.placeholder-content {
+  text-align: center;
 }
 
 /* Button Styling */
