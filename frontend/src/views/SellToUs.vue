@@ -363,7 +363,7 @@ export default {
 /* Benefits Section */
 .benefit-item {
   display: flex;
-  align-items-flex-start;
+  align-items: flex-start;
   gap: 1rem;
 }
 
