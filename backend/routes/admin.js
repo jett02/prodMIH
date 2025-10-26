@@ -49,7 +49,8 @@ router.get('/test-email', async (req, res) => {
       EMAIL_FROM: process.env.EMAIL_FROM,
       COMPANY_EMAIL: process.env.COMPANY_EMAIL,
       BACKUP_AGENT_EMAIL: process.env.BACKUP_AGENT_EMAIL,
-      TEAM_NOTIFICATION_EMAILS: teamEmails
+      TEAM_NOTIFICATION_EMAILS_RAW: process.env.TEAM_NOTIFICATION_EMAILS,
+      TEAM_NOTIFICATION_EMAILS_PARSED: teamEmails
     };
 
     console.log('Email config check:', emailConfig);
@@ -1054,6 +1055,82 @@ router.delete('/partners/:id', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Error deleting partner:', error);
     res.status(500).json({ message: error.message });
+  }
+});
+
+// Test team email notifications
+router.post('/test-team-emails', async (req, res) => {
+  try {
+    const emailService = (await import('../services/emailService.js')).default;
+
+    // Get team notification emails
+    const teamEmails = process.env.TEAM_NOTIFICATION_EMAILS
+      ? process.env.TEAM_NOTIFICATION_EMAILS.split(',').map(email => email.trim()).filter(email => email)
+      : [];
+
+    // Add company email to team emails if not already included
+    const companyEmail = process.env.COMPANY_EMAIL || 'info@makeithome.com';
+    if (companyEmail && !teamEmails.includes(companyEmail)) {
+      teamEmails.push(companyEmail);
+    }
+
+    // Simulate agent email (use first team email as primary for testing)
+    const primaryRecipient = teamEmails[0] || process.env.COMPANY_EMAIL || 'info@makeithome.com';
+    const ccEmails = [...new Set(teamEmails)].filter(email => email !== primaryRecipient);
+
+    console.log('=== TEAM EMAIL TEST ===');
+    console.log('Raw TEAM_NOTIFICATION_EMAILS:', process.env.TEAM_NOTIFICATION_EMAILS);
+    console.log('Parsed team emails:', teamEmails);
+    console.log('Primary recipient:', primaryRecipient);
+    console.log('CC recipients:', ccEmails);
+
+    // Send test email
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || 'noreply@makeithome.com',
+      to: primaryRecipient,
+      cc: ccEmails.length > 0 ? ccEmails : undefined,
+      subject: 'Test: Team Email Notification System',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #3b82f6;">Team Email Notification Test</h2>
+
+          <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #1f2937;">Test Configuration</h3>
+            <p><strong>Primary Recipient:</strong> ${primaryRecipient}</p>
+            <p><strong>CC Recipients:</strong> ${ccEmails.length > 0 ? ccEmails.join(', ') : 'None'}</p>
+            <p><strong>Raw Environment Variable:</strong> ${process.env.TEAM_NOTIFICATION_EMAILS || 'Not Set'}</p>
+          </div>
+
+          <div style="background-color: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3b82f6;">
+            <p style="color: #1e40af; font-size: 13px; margin: 0; font-weight: 600;">📧 Email Recipients</p>
+            <p style="color: #1e40af; font-size: 12px; margin: 5px 0 0 0;">
+              Primary: ${primaryRecipient}<br>
+              ${ccEmails.length > 0 ? `Team Copy: ${ccEmails.join(', ')}` : 'No additional team members notified'}
+            </p>
+          </div>
+
+          <p style="color: #6b7280; font-size: 14px; text-align: center;">
+            This is a test email to verify team notification functionality.<br>
+            If you received this email, the system is working correctly.
+          </p>
+        </div>
+      `
+    };
+
+    await emailService.sendEmail(mailOptions);
+
+    res.json({
+      message: 'Test email sent successfully',
+      configuration: {
+        primaryRecipient,
+        ccRecipients: ccEmails,
+        teamEmailsRaw: process.env.TEAM_NOTIFICATION_EMAILS,
+        teamEmailsParsed: teamEmails
+      }
+    });
+  } catch (error) {
+    console.error('Error sending test team email:', error);
+    res.status(500).json({ message: 'Error sending test email', error: error.message });
   }
 });
 
