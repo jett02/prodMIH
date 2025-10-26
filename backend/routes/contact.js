@@ -11,17 +11,22 @@ const profanityWords = [
   // Add more words as needed
 ];
 
-// Function to check for profanity
+// Function to check for profanity (using whole word matching to avoid false positives)
 const containsProfanity = (text) => {
   const lowerText = text.toLowerCase();
-  return profanityWords.some(word => lowerText.includes(word));
+  return profanityWords.some(word => {
+    // Use word boundaries to match whole words only
+    const regex = new RegExp(`\\b${word}\\b`, 'i');
+    return regex.test(lowerText);
+  });
 };
 
-// Function to clean profanity (replace with asterisks)
+// Function to clean profanity (replace with asterisks, using whole word matching)
 const cleanProfanity = (text) => {
   let cleanText = text;
   profanityWords.forEach(word => {
-    const regex = new RegExp(word, 'gi');
+    // Use word boundaries to replace whole words only
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
     cleanText = cleanText.replace(regex, '*'.repeat(word.length));
   });
   return cleanText;

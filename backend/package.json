@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "manage-admins": "node scripts/manageAdmins.js"
   },
   "dependencies": {
     "@azure/msal-node": "^3.8.0",
