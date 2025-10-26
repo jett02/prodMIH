@@ -391,7 +391,8 @@ export default {
   background:
     radial-gradient(circle at 20% 30%, rgba(235, 164, 114, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 70%, rgba(212, 147, 94, 0.08) 0%, transparent 50%),
-    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
+    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%),
+    radial-gradient(ellipse at center, transparent 20%, rgba(255, 255, 255, 0.03) 70%, rgba(255, 255, 255, 0.08) 100%);
   pointer-events: none;
 }
 
