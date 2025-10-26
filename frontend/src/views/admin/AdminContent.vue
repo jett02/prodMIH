@@ -683,20 +683,7 @@
                                 placeholder="At Make It Home, we envision a future where..."></textarea>
                     </div>
 
-                    <!-- Core Pillars Section -->
-                    <div class="col-12 mt-4">
-                      <h6 class="fw-bold text-primary mb-3">Core Pillars Section</h6>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label fw-bold">Pillars Title</label>
-                      <input v-model="content.vision.pillarsTitle" type="text" class="form-control"
-                             placeholder="Our Core Pillars">
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label fw-bold">Pillars Description</label>
-                      <input v-model="content.vision.pillarsDescription" type="text" class="form-control"
-                             placeholder="The fundamental principles that guide our mission...">
-                    </div>
+
 
                     <!-- Motivation Section -->
                     <div class="col-12 mt-4">
@@ -1496,8 +1483,6 @@ export default {
           heroSubtitle: '',
           mainTitle: '',
           statement: '',
-          pillarsTitle: '',
-          pillarsDescription: '',
           motivationTitle: '',
           motivation: '',
           motivationImage: '',
@@ -1619,8 +1604,6 @@ export default {
             heroSubtitle: '',
             mainTitle: '',
             statement: '',
-            pillarsTitle: '',
-            pillarsDescription: '',
             motivationTitle: '',
             motivation: '',
             motivationImage: '',

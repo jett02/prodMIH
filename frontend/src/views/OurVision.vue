@@ -5,19 +5,18 @@
       <div class="d-flex flex-column py-15 min-vh-75 container foreground">
         <div class="row justify-content-center my-auto">
           <div class="col-lg-8 text-center">
-            <span class="eyebrow mb-3 text-secondary" data-aos="fade-up">Our Vision</span>
+            <span class="eyebrow mb-3 text-warm-sunset" data-aos="fade-up">Our Vision</span>
             <h1 class="fw-bold display-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              Building <span class="text-primary">Tomorrow's</span> Communities
+              Building <span class="text-warm-sunset">Tomorrow's</span> Communities
             </h1>
-            <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
+            <p class="lead mb-4 text-light" data-aos="fade-up" data-aos-delay="400">
               {{ content.vision.heroSubtitle || 'Discover the vision that drives everything we do at Make It Home' }}
             </p>
             <div class="scroll-down" data-aos="fade-up" data-aos-delay="600"></div>
           </div>
         </div>
       </div>
-      <figure class="background background-overlay" 
-              style="background-image: url('/businessimages/vision-hero-bg.jpg');">
+      <figure class="background background-overlay">
       </figure>
     </section>
 
@@ -27,50 +26,50 @@
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
-              <h2 class="display-5 fw-bold mb-4">
+              <h2 class="display-5 fw-bold mb-4 text-dark">
                 {{ content.vision.mainTitle || 'Our Vision for the Future' }}
               </h2>
               <div class="vision-statement">
                 <p class="fs-4 text-muted mb-4" v-html="content.vision.statement || defaultVisionStatement"></p>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Core Pillars Section -->
-    <section class="py-xl-20 py-15 bg-white">
-      <div class="container">
-        <div class="row justify-content-center mb-5">
-          <div class="col-lg-8 text-center" data-aos="fade-up">
-            <h2 class="display-6 fw-bold mb-4">
-              {{ content.vision.pillarsTitle || 'Our Core Pillars' }}
-            </h2>
-            <p class="lead text-muted">
-              {{ content.vision.pillarsDescription || 'The fundamental principles that guide our mission and shape our approach to real estate.' }}
-            </p>
-          </div>
-        </div>
-
-        <div class="row g-4">
-          <div v-for="(pillar, index) in visionPillars" :key="index" 
-               class="col-lg-4 col-md-6" 
-               data-aos="fade-up" 
-               :data-aos-delay="index * 100">
-            <div class="pillar-card h-100">
-              <div class="pillar-icon">
-                <i :class="pillar.icon"></i>
+            <!-- Enhanced Vision Details -->
+            <div class="row g-4 mt-5" data-aos="fade-up" data-aos-delay="200">
+              <div class="col-lg-4">
+                <div class="vision-detail-card">
+                  <div class="vision-icon">
+                    <i class="fas fa-home"></i>
+                  </div>
+                  <h4 class="vision-detail-title">Transforming Homes</h4>
+                  <p class="vision-detail-text">We see every property as a canvas for creating meaningful spaces where families can build their dreams and create lasting memories.</p>
+                </div>
               </div>
-              <div class="pillar-content">
-                <h4 class="pillar-title">{{ pillar.title }}</h4>
-                <p class="pillar-description">{{ pillar.description }}</p>
+              <div class="col-lg-4">
+                <div class="vision-detail-card">
+                  <div class="vision-icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <h4 class="vision-detail-title">Building Communities</h4>
+                  <p class="vision-detail-text">Our vision extends beyond individual properties to creating vibrant neighborhoods where people connect, thrive, and support one another.</p>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="vision-detail-card">
+                  <div class="vision-icon">
+                    <i class="fas fa-heart"></i>
+                  </div>
+                  <h4 class="vision-detail-title">Changing Lives</h4>
+                  <p class="vision-detail-text">Every transaction represents a life-changing moment, and we're committed to making that experience positive, transparent, and transformative.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+
 
     <!-- Mission & Motivation Section -->
     <section class="py-xl-20 py-15 bg-dark-professional text-white">
@@ -118,17 +117,68 @@
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
-              <h2 class="display-6 fw-bold mb-4">
+              <h2 class="display-6 fw-bold mb-4 text-dark">
                 {{ content.vision.goalsTitle || 'Looking Ahead' }}
               </h2>
-              <p class="lead text-muted">
-                {{ content.vision.goalsDescription || 'Our commitment to growth, innovation, and community impact.' }}
+              <p class="lead text-muted mb-5">
+                {{ content.vision.goalsDescription || 'Our commitment to growth, innovation, and community impact shapes everything we do.' }}
               </p>
             </div>
-            
+
             <div class="goals-content" data-aos="fade-up" data-aos-delay="200">
-              <div class="goals-text">
-                <p class="fs-5" v-html="content.vision.futureGoals || defaultFutureGoals"></p>
+              <div class="goals-text mb-5">
+                <p class="fs-5 mb-4" v-html="content.vision.futureGoals || defaultFutureGoals"></p>
+              </div>
+
+              <!-- Enhanced Future Goals Details -->
+              <div class="row g-4 mt-4">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="300">
+                  <div class="future-goal-item">
+                    <div class="goal-icon">
+                      <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="goal-content">
+                      <h4 class="goal-title">Sustainable Growth</h4>
+                      <p class="goal-description">We're committed to expanding our reach while maintaining the personal touch and quality service that defines us. Our growth strategy focuses on building lasting relationships and creating value for every community we serve.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="400">
+                  <div class="future-goal-item">
+                    <div class="goal-icon">
+                      <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="goal-content">
+                      <h4 class="goal-title">Innovation Leadership</h4>
+                      <p class="goal-description">We're pioneering new approaches to real estate that leverage technology while preserving the human connection. From virtual tours to streamlined processes, we're making real estate more accessible and efficient.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="500">
+                  <div class="future-goal-item">
+                    <div class="goal-icon">
+                      <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="goal-content">
+                      <h4 class="goal-title">Environmental Responsibility</h4>
+                      <p class="goal-description">Our future includes a strong commitment to sustainable practices and eco-friendly development. We're working to create homes and communities that are both beautiful and environmentally conscious.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="600">
+                  <div class="future-goal-item">
+                    <div class="goal-icon">
+                      <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="goal-content">
+                      <h4 class="goal-title">Community Partnership</h4>
+                      <p class="goal-description">We envision deeper partnerships with local organizations, schools, and businesses to create thriving communities where everyone benefits from our presence and investment in the area.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -189,38 +239,6 @@ export default {
       defaultVisionStatement: `At Make It Home, we envision a future where every person has access to quality housing that serves as more than just shelter—it's a foundation for building dreams, creating memories, and fostering community connections.`,
       defaultMotivation: `We're motivated by the belief that real estate should be accessible, transparent, and transformative. Every property we touch, every family we serve, and every community we impact drives us to push boundaries and redefine what's possible in real estate.`,
       defaultFutureGoals: `Our vision extends beyond today's transactions. We're building sustainable communities, pioneering innovative real estate solutions, and creating lasting partnerships that will shape the industry for generations to come.`,
-      visionPillars: [
-        {
-          icon: 'fas fa-home',
-          title: 'Quality First',
-          description: 'Every property we develop or renovate meets the highest standards of quality and craftsmanship.'
-        },
-        {
-          icon: 'fas fa-users',
-          title: 'Community Focus',
-          description: 'We build more than homes—we create vibrant communities where people want to live and thrive.'
-        },
-        {
-          icon: 'fas fa-leaf',
-          title: 'Sustainable Future',
-          description: 'Environmental responsibility guides our development practices and long-term planning.'
-        },
-        {
-          icon: 'fas fa-handshake',
-          title: 'Trust & Transparency',
-          description: 'Honest communication and ethical practices form the foundation of every relationship.'
-        },
-        {
-          icon: 'fas fa-lightbulb',
-          title: 'Innovation',
-          description: 'We embrace new technologies and methods to improve the real estate experience.'
-        },
-        {
-          icon: 'fas fa-heart',
-          title: 'People-Centered',
-          description: 'Every decision we make prioritizes the needs and dreams of the people we serve.'
-        }
-      ],
       visionStats: [
         { number: '500+', label: 'Families Served' },
         { number: '50+', label: 'Properties Transformed' },
@@ -262,8 +280,12 @@ export default {
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   position: relative;
+}
+
+.text-warm-sunset {
+  color: #EBA472 !important;
 }
 
 .min-vh-75 {
@@ -302,7 +324,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(235, 164, 114, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(235, 164, 114, 0.1) 0%, transparent 50%);
   z-index: -1;
 }
 
@@ -344,8 +368,8 @@ export default {
   margin: 0 auto;
 }
 
-/* Core Pillars */
-.pillar-card {
+/* Vision Detail Cards */
+.vision-detail-card {
   background: white;
   border-radius: 16px;
   padding: 2rem;
@@ -353,16 +377,17 @@ export default {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 1px solid rgba(235, 164, 114, 0.1);
+  height: 100%;
 }
 
-.pillar-card:hover {
-  transform: translateY(-10px);
+.vision-detail-card:hover {
+  transform: translateY(-5px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.pillar-icon {
-  width: 80px;
-  height: 80px;
+.vision-icon {
+  width: 70px;
+  height: 70px;
   background: linear-gradient(135deg, #EBA472, #D4935E);
   border-radius: 50%;
   display: flex;
@@ -371,23 +396,25 @@ export default {
   margin: 0 auto 1.5rem;
 }
 
-.pillar-icon i {
-  font-size: 2rem;
+.vision-icon i {
+  font-size: 1.75rem;
   color: white;
 }
 
-.pillar-title {
+.vision-detail-title {
   font-size: 1.25rem;
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 1rem;
 }
 
-.pillar-description {
+.vision-detail-text {
   color: #6c757d;
   line-height: 1.6;
   margin: 0;
 }
+
+
 
 /* Dark Professional Background */
 .bg-dark-professional {
@@ -481,6 +508,59 @@ export default {
   margin: 0 auto;
 }
 
+/* Future Goal Items */
+.future-goal-item {
+  display: flex;
+  align-items: flex-start;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(235, 164, 114, 0.1);
+  height: 100%;
+}
+
+.future-goal-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.goal-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #EBA472, #D4935E);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+
+.goal-icon i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.goal-content {
+  flex: 1;
+}
+
+.goal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+}
+
+.goal-description {
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
 /* CTA Section */
 .bg-warm-sunset {
   background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
@@ -522,7 +602,8 @@ export default {
     padding-bottom: 4rem !important;
   }
 
-  .pillar-card {
+  .vision-detail-card,
+  .future-goal-item {
     padding: 1.5rem;
   }
 
@@ -548,20 +629,32 @@ export default {
   .cta-buttons .btn:last-child {
     margin-bottom: 0;
   }
+
+  .future-goal-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .goal-icon {
+    margin: 0 auto 1rem;
+  }
 }
 
 @media (max-width: 576px) {
-  .pillar-card {
+  .vision-detail-card,
+  .future-goal-item {
     padding: 1rem;
   }
 
-  .pillar-icon {
-    width: 60px;
-    height: 60px;
+  .vision-icon,
+  .goal-icon {
+    width: 50px;
+    height: 50px;
   }
 
-  .pillar-icon i {
-    font-size: 1.5rem;
+  .vision-icon i,
+  .goal-icon i {
+    font-size: 1.25rem;
   }
 
   .goals-content {
