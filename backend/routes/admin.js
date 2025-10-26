@@ -650,6 +650,38 @@ router.post('/content/upload-benefits-media', heroUpload.single('benefitsMedia')
   }
 });
 
+// Update Vision content
+router.put('/content/vision', async (req, res) => {
+  try {
+    let content = await Content.findOne();
+    if (!content) {
+      content = new Content({});
+    }
+    content.vision = req.body;
+    await content.save();
+    res.json({ message: 'Vision content updated successfully' });
+  } catch (error) {
+    console.error('Error updating vision content:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Upload vision image
+router.post('/content/upload-vision-image', heroUpload.single('visionImage'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const imageUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('Vision image uploaded:', imageUrl);
+    res.json({ imageUrl });
+  } catch (error) {
+    console.error('Error uploading vision image:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Update hero content
 router.put('/content/hero', async (req, res) => {
   try {

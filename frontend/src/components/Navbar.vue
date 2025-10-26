@@ -46,6 +46,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
               <li><router-link class="dropdown-item text-slate-gray" to="/about" @click="closeMobileMenu">Our Leadership</router-link></li>
+              <li><router-link class="dropdown-item text-slate-gray" to="/our-vision" @click="closeMobileMenu">Our Vision</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-partners" @click="closeMobileMenu">Our Partners</router-link></li>
             </ul>
           </li>

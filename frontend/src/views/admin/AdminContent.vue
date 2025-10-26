@@ -651,6 +651,127 @@
             </div>
           </div>
 
+          <!-- Our Vision Section -->
+          <div class="row g-3 mb-4">
+            <div class="col-12 content-section" data-category="vision" data-keywords="vision mission motivation goals future pillars">
+              <div class="card shadow-sm admin-card">
+                <div class="card-header bg-warm-sunset text-white cursor-pointer" @click="toggleSection('vision')">
+                  <h5 class="card-title mb-0">
+                    <i class="fas fa-eye me-2"></i>Our Vision Page Content
+                    <i class="fas fa-chevron-down float-end transition-transform" :class="{ 'rotate-180': expandedSections.vision }"></i>
+                  </h5>
+                </div>
+                <div class="card-body collapsible-section" v-show="expandedSections.vision">
+                  <form @submit.prevent="saveVisionContent" class="row g-3">
+                    <!-- Hero Section -->
+                    <div class="col-12">
+                      <h6 class="fw-bold text-primary mb-3">Hero Section</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Hero Subtitle</label>
+                      <input v-model="content.vision.heroSubtitle" type="text" class="form-control"
+                             placeholder="Discover the vision that drives everything we do...">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Main Title</label>
+                      <input v-model="content.vision.mainTitle" type="text" class="form-control"
+                             placeholder="Our Vision for the Future">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label fw-bold">Vision Statement</label>
+                      <textarea v-model="content.vision.statement" rows="4" class="form-control"
+                                placeholder="At Make It Home, we envision a future where..."></textarea>
+                    </div>
+
+                    <!-- Core Pillars Section -->
+                    <div class="col-12 mt-4">
+                      <h6 class="fw-bold text-primary mb-3">Core Pillars Section</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Pillars Title</label>
+                      <input v-model="content.vision.pillarsTitle" type="text" class="form-control"
+                             placeholder="Our Core Pillars">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Pillars Description</label>
+                      <input v-model="content.vision.pillarsDescription" type="text" class="form-control"
+                             placeholder="The fundamental principles that guide our mission...">
+                    </div>
+
+                    <!-- Motivation Section -->
+                    <div class="col-12 mt-4">
+                      <h6 class="fw-bold text-primary mb-3">Motivation Section</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Motivation Title</label>
+                      <input v-model="content.vision.motivationTitle" type="text" class="form-control"
+                             placeholder="What Drives Us">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Motivation Image</label>
+                      <div v-if="content.vision.motivationImage" class="mb-2">
+                        <img :src="getImageUrl(content.vision.motivationImage)"
+                             alt="Current Motivation Image"
+                             style="max-height: 100px; max-width: 200px; object-fit: cover; border-radius: 8px;">
+                        <button type="button" class="btn btn-sm btn-danger ms-2" @click="removeVisionImage">
+                          <i class="fas fa-trash"></i> Remove
+                        </button>
+                      </div>
+                      <input type="file" class="form-control" @change="handleVisionImageUpload"
+                             accept="image/*" :disabled="isUploading">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label fw-bold">Motivation Content</label>
+                      <textarea v-model="content.vision.motivation" rows="4" class="form-control"
+                                placeholder="We're motivated by the belief that real estate should be..."></textarea>
+                    </div>
+
+                    <!-- Future Goals Section -->
+                    <div class="col-12 mt-4">
+                      <h6 class="fw-bold text-primary mb-3">Future Goals Section</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Goals Title</label>
+                      <input v-model="content.vision.goalsTitle" type="text" class="form-control"
+                             placeholder="Looking Ahead">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Goals Description</label>
+                      <input v-model="content.vision.goalsDescription" type="text" class="form-control"
+                             placeholder="Our commitment to growth, innovation...">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label fw-bold">Future Goals Content</label>
+                      <textarea v-model="content.vision.futureGoals" rows="4" class="form-control"
+                                placeholder="Our vision extends beyond today's transactions..."></textarea>
+                    </div>
+
+                    <!-- Call to Action Section -->
+                    <div class="col-12 mt-4">
+                      <h6 class="fw-bold text-primary mb-3">Call to Action Section</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">CTA Title</label>
+                      <input v-model="content.vision.ctaTitle" type="text" class="form-control"
+                             placeholder="Join Our Vision">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">CTA Description</label>
+                      <input v-model="content.vision.ctaDescription" type="text" class="form-control"
+                             placeholder="Ready to be part of something bigger?">
+                    </div>
+
+                    <div class="col-12 mt-4">
+                      <button type="submit" class="btn btn-warm-sunset" :disabled="isUploading">
+                        <i class="fas fa-save me-2"></i>Save Vision Content
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Full-width sections -->
           <div class="row g-3 mb-4">
             <!-- Social Media Sales Section -->
@@ -1371,6 +1492,21 @@ export default {
         sellToUs: {
           benefitsMedia: ''
         },
+        vision: {
+          heroSubtitle: '',
+          mainTitle: '',
+          statement: '',
+          pillarsTitle: '',
+          pillarsDescription: '',
+          motivationTitle: '',
+          motivation: '',
+          motivationImage: '',
+          goalsTitle: '',
+          goalsDescription: '',
+          futureGoals: '',
+          ctaTitle: '',
+          ctaDescription: ''
+        },
         contact: {
           phone: '',
           phoneDescription: 'Ready to talk? Give us a call',
@@ -1407,7 +1543,8 @@ export default {
         team: false,
         footer: false,
         contact: false,
-        sellToUs: false
+        sellToUs: false,
+        vision: false
       },
       showPopup: false,
       popupMessage: '',
@@ -1477,6 +1614,21 @@ export default {
           },
           sellToUs: response.data.sellToUs || {
             benefitsMedia: ''
+          },
+          vision: response.data.vision || {
+            heroSubtitle: '',
+            mainTitle: '',
+            statement: '',
+            pillarsTitle: '',
+            pillarsDescription: '',
+            motivationTitle: '',
+            motivation: '',
+            motivationImage: '',
+            goalsTitle: '',
+            goalsDescription: '',
+            futureGoals: '',
+            ctaTitle: '',
+            ctaDescription: ''
           }
         }
         
@@ -1595,6 +1747,52 @@ export default {
           this.content.sellToUs = {}
         }
         this.content.sellToUs.benefitsMedia = ''
+      }
+    },
+    async saveVisionContent() {
+      try {
+        await axios.put('/api/admin/content/vision', this.content.vision)
+        this.showSuccessPopup('Vision content saved successfully!')
+      } catch (error) {
+        console.error('Error saving vision content:', error)
+        alert('Error saving content. Please try again.')
+      }
+    },
+    async handleVisionImageUpload(event) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          this.isUploading = true
+          const formData = new FormData()
+          formData.append('visionImage', file)
+
+          const response = await axios.post('/api/admin/content/upload-vision-image', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+
+          // Ensure vision object exists
+          if (!this.content.vision) {
+            this.content.vision = {}
+          }
+
+          this.content.vision.motivationImage = response.data.imageUrl
+          this.showSuccessPopup('Vision image uploaded successfully!')
+        } catch (error) {
+          console.error('Error uploading vision image:', error)
+          alert('Error uploading image. Please try again.')
+        } finally {
+          this.isUploading = false
+          event.target.value = '' // Clear the input
+        }
+      }
+    },
+    removeVisionImage() {
+      if (confirm('Are you sure you want to remove this image?')) {
+        // Ensure vision object exists
+        if (!this.content.vision) {
+          this.content.vision = {}
+        }
+        this.content.vision.motivationImage = ''
       }
     },
     editTeamMember(index) {

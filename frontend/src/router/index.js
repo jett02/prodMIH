@@ -9,6 +9,7 @@ import PropertyDetail from '@/views/PropertyDetail.vue'
 import Agents from '@/views/Agents.vue'
 import OurLeadership from '@/views/About.vue'
 import OurPartners from '@/views/OurPartners.vue'
+import OurVision from '@/views/OurVision.vue'
 import MortgageCalculator from '@/views/MortgageCalculator.vue'
 import PreferredBidders from '@/views/PreferredBidders.vue'
 import SellToUs from '@/views/SellToUs.vue'
@@ -57,6 +58,11 @@ const routes = [
     path: '/our-partners',
     name: 'OurPartners',
     component: OurPartners
+  },
+  {
+    path: '/our-vision',
+    name: 'OurVision',
+    component: OurVision
   },
   {
     path: '/mortgage-calculator',

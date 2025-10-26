@@ -131,6 +131,21 @@ const contentSchema = new mongoose.Schema({
   sellToUs: {
     benefitsMedia: { type: String, default: '' } // Image or video URL for the benefits section
   },
+  vision: {
+    heroSubtitle: { type: String, default: '' },
+    mainTitle: { type: String, default: '' },
+    statement: { type: String, default: '' },
+    pillarsTitle: { type: String, default: '' },
+    pillarsDescription: { type: String, default: '' },
+    motivationTitle: { type: String, default: '' },
+    motivation: { type: String, default: '' },
+    motivationImage: { type: String, default: '' },
+    goalsTitle: { type: String, default: '' },
+    goalsDescription: { type: String, default: '' },
+    futureGoals: { type: String, default: '' },
+    ctaTitle: { type: String, default: '' },
+    ctaDescription: { type: String, default: '' }
+  },
   preferredBiddersBanner: {
     title: {
       type: String,
