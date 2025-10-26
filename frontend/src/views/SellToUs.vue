@@ -294,10 +294,15 @@ export default {
 </script>
 
 <style scoped>
+/* =================================
+   SELL TO US PAGE STYLES
+   ================================= */
+
 /* Dark Professional Background */
 .bg-dark-professional {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   position: relative;
+  overflow: hidden;
 }
 
 .bg-dark-professional::before {
@@ -308,93 +313,269 @@ export default {
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(235, 164, 114, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(235, 164, 114, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
   pointer-events: none;
+}
+
+/* Hero Section */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stats {
+  margin-top: 3rem;
+}
+
+.stat-item {
+  padding: 1.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-item h3 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.stat-item p {
+  margin: 0;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Hero Form Card */
 .hero-form-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #EBA472 0%, #D4935E 50%, #EBA472 100%);
 }
 
 .hero-form-card h3 {
   color: #1a1a1a;
   font-weight: 700;
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+  position: relative;
 }
 
-/* Process Steps */
+.hero-form-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #EBA472, #D4935E);
+  border-radius: 2px;
+}
+
+/* Form Styling */
+.sell-form .form-control,
+.sell-form .form-select {
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 0.875rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.sell-form .form-control:focus,
+.sell-form .form-select:focus {
+  border-color: #EBA472;
+  box-shadow: 0 0 0 0.2rem rgba(235, 164, 114, 0.25);
+  background: #ffffff;
+}
+
+.sell-form .form-control::placeholder {
+  color: #6c757d;
+  font-weight: 400;
+}
+
+.sell-form textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Process Steps Section */
 .process-step {
-  padding: 2rem 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.process-step:hover {
+  transform: translateY(-5px);
 }
 
 .step-number {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: white;
-  margin: 0 auto 1.5rem;
-  box-shadow: 0 8px 20px rgba(235, 164, 114, 0.3);
+  margin: 0 auto 2rem;
+  box-shadow:
+    0 15px 30px rgba(235, 164, 114, 0.4),
+    0 0 0 8px rgba(235, 164, 114, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.step-number::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(235, 164, 114, 0.2), rgba(212, 147, 94, 0.2));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.process-step:hover .step-number::before {
+  opacity: 1;
 }
 
 .step-title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #1a1a1a;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
 }
 
 .step-description {
   color: #6c757d;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1.1rem;
+  max-width: 280px;
+  margin: 0 auto;
 }
 
 /* Benefits Section */
+.benefits-list {
+  max-width: 500px;
+}
+
 .benefit-item {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(108, 117, 125, 0.1);
+  transition: all 0.3s ease;
+}
+
+.benefit-item:last-child {
+  border-bottom: none;
+}
+
+.benefit-item:hover {
+  padding-left: 1rem;
+  background: rgba(235, 164, 114, 0.02);
+  border-radius: 12px;
+  border-bottom-color: transparent;
 }
 
 .benefit-icon {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 15px rgba(235, 164, 114, 0.3);
+  box-shadow: 0 8px 20px rgba(235, 164, 114, 0.3);
+  transition: all 0.3s ease;
+}
+
+.benefit-item:hover .benefit-icon {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(235, 164, 114, 0.4);
 }
 
 .benefit-icon i {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   color: white;
 }
 
+.benefit-content {
+  flex: 1;
+}
+
 .benefit-title {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #1a1a1a;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
 }
 
 .benefit-description {
   color: #6c757d;
   line-height: 1.6;
   margin: 0;
+  font-size: 1.05rem;
+}
+
+.benefits-image {
+  position: relative;
+}
+
+.image-placeholder {
+  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(235, 164, 114, 0.3);
+  transition: all 0.3s ease;
+}
+
+.image-placeholder:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px rgba(235, 164, 114, 0.4);
 }
 
 /* Buttons */
@@ -402,18 +583,57 @@ export default {
   background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
   border: none;
   color: white;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
+  font-weight: 700;
+  padding: 1rem 2.5rem;
   border-radius: 50px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(235, 164, 114, 0.3);
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 8px 20px rgba(235, 164, 114, 0.4),
+    0 0 0 0 rgba(235, 164, 114, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-sunset-orange::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-sunset-orange:hover::before {
+  left: 100%;
 }
 
 .btn-sunset-orange:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.5);
+  transform: translateY(-3px);
+  box-shadow:
+    0 15px 35px rgba(235, 164, 114, 0.6),
+    0 0 0 3px rgba(235, 164, 114, 0.2);
   background: linear-gradient(135deg, #D4935E 0%, #EBA472 100%);
   color: white;
+}
+
+.btn-sunset-orange:active {
+  transform: translateY(-1px);
+}
+
+.btn-sunset-orange:disabled {
+  opacity: 0.7;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Section Spacing */
+.py-20 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 
 /* Utility Classes */
@@ -431,31 +651,125 @@ export default {
 
 .eyebrow {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   display: block;
+  position: relative;
+}
+
+.eyebrow::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* Alert Styling */
+.alert {
+  border-radius: 12px;
+  border: none;
+  font-weight: 500;
+  padding: 1rem 1.5rem;
+}
+
+.alert-success {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
+  color: #155724;
+  border-left: 4px solid #28a745;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+  color: #721c24;
+  border-left: 4px solid #dc3545;
 }
 
 /* Responsive Design */
+@media (max-width: 992px) {
+  .hero-section {
+    min-height: auto;
+    padding: 4rem 0;
+  }
+
+  .hero-stats {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .hero-form-card {
+    padding: 2.5rem 2rem;
+    margin-top: 3rem;
+  }
+
+  .hero-form-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .step-number {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+  }
+
+  .step-description {
+    font-size: 1rem;
+  }
+
+  .benefit-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .benefit-icon i {
+    font-size: 1.5rem;
+  }
+
+  .benefit-title {
+    font-size: 1.1rem;
+  }
+
+  .benefit-description {
+    font-size: 1rem;
+  }
+
+  .stat-item h3 {
+    font-size: 2rem;
+  }
+
+  .py-20 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (max-width: 576px) {
   .hero-form-card {
     padding: 2rem 1.5rem;
   }
 
-  .step-number {
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
+  .process-step {
+    padding: 2rem 1rem;
   }
 
-  .benefit-icon {
-    width: 50px;
-    height: 50px;
+  .benefit-item {
+    gap: 1rem;
   }
 
-  .benefit-icon i {
-    font-size: 1.25rem;
+  .btn-sunset-orange {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
   }
 }
+</style>
 </style>
