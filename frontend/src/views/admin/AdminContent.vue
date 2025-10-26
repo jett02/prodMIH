@@ -1710,6 +1710,25 @@ export default {
       const files = event.target.files
       if (files && files.length > 0) {
         try {
+          // Validate files before upload
+          const validationResult = this.validateUploadFiles(files)
+          if (!validationResult.valid) {
+            alert(validationResult.message)
+            event.target.value = '' // Clear the input
+            return
+          }
+
+          console.log('=== CLIENT-SIDE UPLOAD DEBUG ===')
+          console.log('Files to upload:', files.length)
+          for (let i = 0; i < files.length; i++) {
+            console.log(`File ${i + 1}:`, {
+              name: files[i].name,
+              type: files[i].type,
+              size: files[i].size,
+              sizeInMB: (files[i].size / (1024 * 1024)).toFixed(2)
+            })
+          }
+
           const formData = new FormData()
           for (let i = 0; i < files.length; i++) {
             formData.append('heroImages', files[i])
@@ -1730,12 +1749,58 @@ export default {
           // Clear the file input
           event.target.value = ''
 
-          alert(`${response.data.imageUrls.length} image(s) uploaded successfully!`)
+          alert(`${response.data.imageUrls.length} file(s) uploaded successfully!`)
         } catch (error) {
-          console.error('Error uploading gallery images:', error)
-          alert('Error uploading images. Please try again.')
+          console.error('=== CLIENT-SIDE UPLOAD ERROR ===', error)
+          console.error('Error response:', error.response?.data)
+          console.error('Error status:', error.response?.status)
+
+          let errorMessage = 'Error uploading files. Please try again.'
+          if (error.response?.data?.message) {
+            errorMessage = error.response.data.message
+          } else if (error.response?.data?.error) {
+            errorMessage = error.response.data.error
+          }
+
+          alert(errorMessage)
         }
       }
+    },
+
+    validateUploadFiles(files) {
+      const maxImageSize = 15 * 1024 * 1024 // 15MB
+      const maxVideoSize = 100 * 1024 * 1024 // 100MB
+      const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
+      const allowedVideoTypes = ['video/mp4', 'video/mov', 'video/avi', 'video/webm', 'video/quicktime']
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        const isImage = allowedImageTypes.includes(file.type)
+        const isVideo = allowedVideoTypes.includes(file.type)
+
+        if (!isImage && !isVideo) {
+          return {
+            valid: false,
+            message: `File "${file.name}" is not a supported format. Please use JPG, PNG, WebP, GIF, MP4, MOV, AVI, or WebM files.`
+          }
+        }
+
+        if (isImage && file.size > maxImageSize) {
+          return {
+            valid: false,
+            message: `Image "${file.name}" is too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Images must be under 15MB.`
+          }
+        }
+
+        if (isVideo && file.size > maxVideoSize) {
+          return {
+            valid: false,
+            message: `Video "${file.name}" is too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Videos must be under 100MB.`
+          }
+        }
+      }
+
+      return { valid: true }
     },
 
     removeGalleryImage(index) {

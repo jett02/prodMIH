@@ -170,6 +170,20 @@ router.post('/debug-large-upload', (req, res) => {
   });
 });
 
+// Simple test endpoint to check if server is responding
+router.get('/test-server', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Server is responding',
+    timestamp: new Date().toISOString(),
+    limits: {
+      maxImageSize: '15MB',
+      maxVideoSize: '100MB',
+      allowedFormats: ['jpg', 'jpeg', 'png', 'webp', 'gif', 'mp4', 'mov', 'avi', 'webm']
+    }
+  });
+});
+
 // Public content endpoint (no authentication required)
 router.get('/content/public', async (req, res) => {
   try {
