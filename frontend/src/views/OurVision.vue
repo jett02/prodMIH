@@ -12,7 +12,7 @@
             <p class="lead mb-4 text-light" data-aos="fade-up" data-aos-delay="400">
               {{ content.vision.heroSubtitle || 'Discover the vision that drives everything we do at Make It Home' }}
             </p>
-            <div class="scroll-down" data-aos="fade-up" data-aos-delay="600"></div>
+
           </div>
         </div>
       </div>
@@ -59,8 +59,8 @@
                   <div class="vision-icon">
                     <i class="fas fa-heart"></i>
                   </div>
-                  <h4 class="vision-detail-title">Changing Lives</h4>
-                  <p class="vision-detail-text">Every transaction represents a life-changing moment, and we're committed to making that experience positive, transparent, and transformative.</p>
+                  <h4 class="vision-detail-title">Creating Affordable Quality</h4>
+                  <p class="vision-detail-text">We're committed to creating affordable, high-quality homes that don't compromise on craftsmanship, ensuring every family can access beautiful, well-built housing.</p>
                 </div>
               </div>
             </div>
@@ -186,6 +186,109 @@
       </div>
     </section>
 
+    <!-- City Images Section -->
+    <section class="py-xl-20 py-15 bg-white">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-lg-8 text-center" data-aos="fade-up">
+            <h2 class="display-6 fw-bold mb-4 text-dark">
+              {{ content.vision.cityImagesTitle || 'Communities We Serve' }}
+            </h2>
+            <p class="lead text-muted">
+              {{ content.vision.cityImagesDescription || 'Discover the vibrant neighborhoods and communities where we\'re making a difference, one home at a time.' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div v-for="(cityImage, index) in cityImages" :key="index" class="col-lg-6" data-aos="fade-up" :data-aos-delay="index * 100">
+            <div class="city-image-card">
+              <div v-if="cityImage.image" class="city-image-wrapper">
+                <img :src="cityImage.image" :alt="cityImage.title" class="city-image">
+                <div class="city-overlay">
+                  <div class="city-content">
+                    <h4 class="city-title">{{ cityImage.title }}</h4>
+                    <p class="city-description">{{ cityImage.description }}</p>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="city-placeholder">
+                <i class="fas fa-city"></i>
+                <h5>{{ cityImage.title || `City ${index + 1}` }}</h5>
+                <p>{{ cityImage.description || 'City description' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="py-xl-15 py-10 bg-light">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-lg-8 text-center" data-aos="fade-up">
+            <h2 class="display-6 fw-bold mb-4 text-dark">Stay Connected</h2>
+            <p class="lead text-muted">Follow us on social media for the latest updates, property listings, and community news.</p>
+          </div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="social-media-card">
+              <div class="social-icon facebook">
+                <i class="fab fa-facebook-f"></i>
+              </div>
+              <h5 class="social-title">Facebook</h5>
+              <p class="social-description">Stay updated with our latest property listings and community news.</p>
+              <a href="https://facebook.com/makeithome" target="_blank" class="btn btn-social-facebook">
+                <i class="fab fa-facebook-f me-2"></i>Follow Us
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="social-media-card">
+              <div class="social-icon instagram">
+                <i class="fab fa-instagram"></i>
+              </div>
+              <h5 class="social-title">Instagram</h5>
+              <p class="social-description">See behind-the-scenes content and beautiful property photos.</p>
+              <a href="https://instagram.com/makeithome" target="_blank" class="btn btn-social-instagram">
+                <i class="fab fa-instagram me-2"></i>Follow Us
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="social-media-card">
+              <div class="social-icon twitter">
+                <i class="fab fa-twitter"></i>
+              </div>
+              <h5 class="social-title">Twitter</h5>
+              <p class="social-description">Get real-time updates and market insights from our team.</p>
+              <a href="https://twitter.com/makeithome" target="_blank" class="btn btn-social-twitter">
+                <i class="fab fa-twitter me-2"></i>Follow Us
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="social-media-card">
+              <div class="social-icon tiktok">
+                <i class="fab fa-tiktok"></i>
+              </div>
+              <h5 class="social-title">TikTok</h5>
+              <p class="social-description">Watch fun property tours and real estate tips.</p>
+              <a href="https://tiktok.com/@makeithome" target="_blank" class="btn btn-social-tiktok">
+                <i class="fab fa-tiktok me-2"></i>Follow Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Call to Action -->
     <section class="py-xl-20 py-15 bg-warm-sunset text-white">
       <div class="container">
@@ -240,11 +343,12 @@ export default {
       defaultMotivation: `We're motivated by the belief that real estate should be accessible, transparent, and transformative. Every property we touch, every family we serve, and every community we impact drives us to push boundaries and redefine what's possible in real estate.`,
       defaultFutureGoals: `Our vision extends beyond today's transactions. We're building sustainable communities, pioneering innovative real estate solutions, and creating lasting partnerships that will shape the industry for generations to come.`,
       visionStats: [
-        { number: '500+', label: 'Families Served' },
-        { number: '50+', label: 'Properties Transformed' },
-        { number: '10+', label: 'Communities Impacted' },
+        { number: '5+', label: 'Years of Experience' },
+        { number: '25+', label: 'Properties Evaluated' },
+        { number: '3+', label: 'Neighborhoods Served' },
         { number: '100%', label: 'Commitment to Excellence' }
-      ]
+      ],
+      cityImages: []
     }
   },
   async mounted() {
@@ -259,6 +363,25 @@ export default {
         
         if (response.data && response.data.vision) {
           this.content.vision = { ...this.content.vision, ...response.data.vision }
+
+          // Load city images if they exist
+          if (response.data.vision.cityImages && response.data.vision.cityImages.length > 0) {
+            this.cityImages = response.data.vision.cityImages
+          } else {
+            // Default city images if none are set
+            this.cityImages = [
+              {
+                title: 'Omaha',
+                description: 'Serving the heart of Nebraska with quality homes and exceptional service.',
+                image: ''
+              },
+              {
+                title: 'Bellevue',
+                description: 'Building communities in this growing suburban area.',
+                image: ''
+              }
+            ]
+          }
         }
       } catch (error) {
         console.error('Error loading vision content:', error)
@@ -335,31 +458,207 @@ export default {
   z-index: 1;
 }
 
-.scroll-down {
-  width: 30px;
-  height: 50px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 25px;
-  margin: 0 auto;
+/* City Images Section */
+.city-image-card {
   position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 300px;
 }
 
-.scroll-down::before {
-  content: '';
+.city-image-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.city-image-wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.city-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.city-image-card:hover .city-image {
+  transform: scale(1.05);
+}
+
+.city-overlay {
   position: absolute;
-  top: 10px;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  transform: translateX(-50%);
-  animation: scroll 2s infinite;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  padding: 2rem;
+  color: white;
 }
 
-@keyframes scroll {
-  0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-  100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+.city-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #EBA472;
+}
+
+.city-description {
+  margin: 0;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.city-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #6c757d;
+  text-align: center;
+  padding: 2rem;
+}
+
+.city-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #EBA472;
+}
+
+.city-placeholder h5 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+/* Social Media Section */
+.social-media-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.social-media-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.social-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2rem;
+  color: white;
+}
+
+.social-icon.facebook {
+  background: linear-gradient(135deg, #1877f2, #42a5f5);
+}
+
+.social-icon.instagram {
+  background: linear-gradient(135deg, #e4405f, #fd1d1d, #fcb045);
+}
+
+.social-icon.twitter {
+  background: linear-gradient(135deg, #1da1f2, #0d8bd9);
+}
+
+.social-icon.tiktok {
+  background: linear-gradient(135deg, #000000, #ff0050);
+}
+
+.social-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+.social-description {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.btn-social-facebook {
+  background: #1877f2;
+  border-color: #1877f2;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-social-facebook:hover {
+  background: #166fe5;
+  border-color: #166fe5;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-social-instagram {
+  background: linear-gradient(135deg, #e4405f, #fd1d1d);
+  border: none;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-social-instagram:hover {
+  background: linear-gradient(135deg, #d73447, #e91e63);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-social-twitter {
+  background: #1da1f2;
+  border-color: #1da1f2;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-social-twitter:hover {
+  background: #0d8bd9;
+  border-color: #0d8bd9;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-social-tiktok {
+  background: #000000;
+  border-color: #000000;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-social-tiktok:hover {
+  background: #ff0050;
+  border-color: #ff0050;
+  color: white;
+  transform: translateY(-2px);
 }
 
 /* Vision Statement */

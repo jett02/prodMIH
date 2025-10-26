@@ -682,6 +682,22 @@ router.post('/content/upload-vision-image', heroUpload.single('visionImage'), as
   }
 });
 
+// Upload city image
+router.post('/upload/city-image', heroUpload.single('cityImage'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const imageUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('City image uploaded:', imageUrl);
+    res.json({ imageUrl });
+  } catch (error) {
+    console.error('Error uploading city image:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Update hero content
 router.put('/content/hero', async (req, res) => {
   try {

@@ -901,6 +901,67 @@
                              placeholder="Ready to be part of something bigger?">
                     </div>
 
+                    <!-- City Images Section -->
+                    <div class="col-12">
+                      <hr class="my-4">
+                      <h6 class="fw-bold text-primary mb-3">
+                        <i class="fas fa-city me-2"></i>City Images Management
+                      </h6>
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label fw-bold">City Images Section Title</label>
+                      <input v-model="content.vision.cityImagesTitle" type="text" class="form-control"
+                             placeholder="Communities We Serve">
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label fw-bold">City Images Section Description</label>
+                      <textarea v-model="content.vision.cityImagesDescription" rows="2" class="form-control"
+                                placeholder="Discover the vibrant neighborhoods and communities where we're making a difference, one home at a time."></textarea>
+                    </div>
+
+                    <div v-for="(cityImage, index) in cityImages" :key="index" class="col-12">
+                      <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <h6 class="mb-0">City {{ index + 1 }}</h6>
+                          <button type="button" class="btn btn-sm btn-danger" @click="removeCityImage(index)">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                        <div class="card-body">
+                          <div class="row g-3">
+                            <div class="col-md-6">
+                              <label class="form-label">City Name</label>
+                              <input v-model="cityImage.title" type="text" class="form-control" placeholder="City Name">
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label">Description</label>
+                              <input v-model="cityImage.description" type="text" class="form-control" placeholder="City description">
+                            </div>
+                            <div class="col-12">
+                              <label class="form-label">City Image</label>
+                              <div v-if="cityImage.image" class="mb-2">
+                                <img :src="cityImage.image" alt="City Image"
+                                     style="max-height: 100px; max-width: 200px; object-fit: cover; border-radius: 8px;">
+                                <button type="button" class="btn btn-sm btn-danger ms-2" @click="removeCityImageFile(index)">
+                                  <i class="fas fa-trash"></i> Remove
+                                </button>
+                              </div>
+                              <input type="file" class="form-control" @change="handleCityImageUpload($event, index)"
+                                     accept="image/*" :disabled="isUploading">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <button type="button" class="btn btn-outline-primary" @click="addCityImage">
+                        <i class="fas fa-plus me-2"></i>Add City Image
+                      </button>
+                    </div>
+
                     <div class="col-12 mt-4">
                       <button type="submit" class="btn btn-warm-sunset" :disabled="isUploading">
                         <i class="fas fa-save me-2"></i>Save Vision Content
@@ -1655,6 +1716,18 @@ export default {
           googleMapsLink: ''
         }
       },
+      cityImages: [
+        {
+          title: 'Omaha',
+          description: 'Serving the heart of Nebraska with quality homes and exceptional service.',
+          image: ''
+        },
+        {
+          title: 'Bellevue',
+          description: 'Building communities in this growing suburban area.',
+          image: ''
+        }
+      ],
       showAddTeamMember: false,
       editingTeamMember: null,
       teamMemberForm: {
@@ -1764,10 +1837,17 @@ export default {
             goalsDescription: '',
             futureGoals: '',
             ctaTitle: '',
-            ctaDescription: ''
+            ctaDescription: '',
+            cityImagesTitle: '',
+            cityImagesDescription: ''
           }
         }
-        
+
+        // Load city images if they exist
+        if (response.data.vision && response.data.vision.cityImages) {
+          this.cityImages = response.data.vision.cityImages
+        }
+
         console.log('Final content loaded:', this.content)
       } catch (error) {
         console.error('Error loading content:', error)
@@ -1887,7 +1967,12 @@ export default {
     },
     async saveVisionContent() {
       try {
-        await axios.put('/api/admin/content/vision', this.content.vision)
+        // Include city images in the vision content
+        const visionData = {
+          ...this.content.vision,
+          cityImages: this.cityImages
+        }
+        await axios.put('/api/admin/content/vision', visionData)
         this.showSuccessPopup('Vision content saved successfully!')
       } catch (error) {
         console.error('Error saving vision content:', error)
@@ -2115,6 +2200,48 @@ export default {
             this.setCursorPosition(this.$refs.valuesDescriptionEditor, cursorPosition)
           }
         })
+      }
+    },
+    addCityImage() {
+      this.cityImages.push({
+        title: '',
+        description: '',
+        image: ''
+      })
+    },
+    removeCityImage(index) {
+      if (confirm('Are you sure you want to remove this city image?')) {
+        this.cityImages.splice(index, 1)
+      }
+    },
+    removeCityImageFile(index) {
+      if (confirm('Are you sure you want to remove this image?')) {
+        this.cityImages[index].image = ''
+      }
+    },
+    async handleCityImageUpload(event, index) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          this.isUploading = true
+          const formData = new FormData()
+          formData.append('cityImage', file)
+
+          const response = await axios.post('/api/admin/upload/city-image', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+
+          this.cityImages[index].image = response.data.imageUrl
+          this.showSuccessPopup('City image uploaded successfully!')
+        } catch (error) {
+          console.error('Error uploading city image:', error)
+          alert('Error uploading image. Please try again.')
+        } finally {
+          this.isUploading = false
+          event.target.value = ''
+        }
       }
     },
     editTeamMember(index) {

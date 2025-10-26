@@ -142,7 +142,14 @@ const contentSchema = new mongoose.Schema({
     goalsDescription: { type: String, default: '' },
     futureGoals: { type: String, default: '' },
     ctaTitle: { type: String, default: '' },
-    ctaDescription: { type: String, default: '' }
+    ctaDescription: { type: String, default: '' },
+    cityImagesTitle: { type: String, default: '' },
+    cityImagesDescription: { type: String, default: '' },
+    cityImages: [{
+      title: { type: String, default: '' },
+      description: { type: String, default: '' },
+      image: { type: String, default: '' }
+    }]
   },
   preferredBiddersBanner: {
     title: {
