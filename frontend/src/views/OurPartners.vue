@@ -12,7 +12,6 @@
             <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
               Trusted professionals who help make your real estate dreams a reality
             </p>
-            <div class="scroll-down" data-aos="fade-up" data-aos-delay="600"></div>
           </div>
         </div>
       </div>
@@ -230,31 +229,7 @@ export default {
   letter-spacing: 1px;
 }
 
-.scroll-down {
-  width: 2px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.3);
-  margin: 0 auto;
-  border-radius: 1px;
-  position: relative;
-}
 
-.scroll-down::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background: white;
-  border-radius: 1px;
-  animation: scroll 2s infinite;
-}
-
-@keyframes scroll {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(20px); opacity: 0; }
-}
 
 .partners-section {
   min-height: 60vh;

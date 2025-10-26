@@ -161,6 +161,72 @@
         </div>
       </div>
     </section>
+
+    <!-- Social Media Section -->
+    <section class="social-media-section py-5 bg-dark">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="text-center mb-4">
+              <h2 class="text-white mb-2">Connect with Make It Home</h2>
+              <p class="text-white-50">Follow us on social media for the latest updates and property listings</p>
+            </div>
+
+            <!-- Social Media Cards -->
+            <div class="row mb-4">
+              <div class="col-md-3 mb-3">
+                <div class="social-info-box">
+                  <div class="info-icon">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <h5>Facebook</h5>
+                  <p>Stay updated with our latest property listings and community news.</p>
+                  <a href="https://facebook.com/makeithome" target="_blank" class="btn btn-social-facebook">
+                    <i class="fab fa-facebook-f me-2"></i>Follow Us
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="social-info-box">
+                  <div class="info-icon">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <h5>Instagram</h5>
+                  <p>See behind-the-scenes content and beautiful property photos.</p>
+                  <a href="https://instagram.com/makeithome" target="_blank" class="btn btn-social-instagram">
+                    <i class="fab fa-instagram me-2"></i>Follow Us
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="social-info-box">
+                  <div class="info-icon">
+                    <i class="fab fa-twitter"></i>
+                  </div>
+                  <h5>Twitter</h5>
+                  <p>Get real-time updates and market insights from our team.</p>
+                  <a href="https://twitter.com/makeithome" target="_blank" class="btn btn-social-twitter">
+                    <i class="fab fa-twitter me-2"></i>Follow Us
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="social-info-box">
+                  <div class="info-icon">
+                    <i class="fab fa-tiktok"></i>
+                  </div>
+                  <h5>TikTok</h5>
+                  <p>Watch fun property tours and real estate tips.</p>
+                  <a href="https://tiktok.com/@makeithome" target="_blank" class="btn btn-social-tiktok">
+                    <i class="fab fa-tiktok me-2"></i>Follow Us
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -537,6 +603,113 @@ export default {
   .hero-section {
     min-height: 50vh;
   }
+}
+
+/* Social Media Section */
+.social-media-section {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  border-top: 3px solid #EBA472;
+}
+
+.social-info-box {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  height: 100%;
+  border: 1px solid rgba(235, 164, 114, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-info-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.social-info-box .info-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #EBA472, #A15E3B);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.social-info-box h5 {
+  color: #000000;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.social-info-box p {
+  color: #4A4A4A;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.btn-social-facebook {
+  background: #1877f2;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.btn-social-facebook:hover {
+  background: #166fe5;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-social-instagram {
+  background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.btn-social-instagram:hover {
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.btn-social-twitter {
+  background: #1da1f2;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.btn-social-twitter:hover {
+  background: #0d8bd9;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-social-tiktok {
+  background: #000000;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.btn-social-tiktok:hover {
+  background: #333333;
+  color: white;
+  transform: translateY(-2px);
 }
 </style>
 
