@@ -962,6 +962,147 @@
                       </button>
                     </div>
 
+                    <!-- Social Media Section -->
+                    <div class="col-12 mt-4">
+                      <h6 class="fw-bold text-primary mb-3">Social Media Links</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Section Title</label>
+                      <input v-model="content.vision.socialMedia.title" type="text"
+                             class="form-control"
+                             placeholder="Stay Connected">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Section Subtitle</label>
+                      <input v-model="content.vision.socialMedia.subtitle" type="text"
+                             class="form-control"
+                             placeholder="Follow us on social media for the latest updates...">
+                    </div>
+
+                    <!-- Facebook -->
+                    <div class="col-12 mt-3">
+                      <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                          <h6 class="mb-0"><i class="fab fa-facebook-f me-2"></i>Facebook</h6>
+                        </div>
+                        <div class="card-body">
+                          <div class="row g-2">
+                            <div class="col-md-4">
+                              <label class="form-label">URL</label>
+                              <input v-model="content.vision.socialMedia.facebook.url" type="url"
+                                     class="form-control"
+                                     placeholder="https://facebook.com/makeithome">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Title</label>
+                              <input v-model="content.vision.socialMedia.facebook.title" type="text"
+                                     class="form-control"
+                                     placeholder="Facebook">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Description</label>
+                              <input v-model="content.vision.socialMedia.facebook.description" type="text"
+                                     class="form-control"
+                                     placeholder="Stay updated with our latest property listings...">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Instagram -->
+                    <div class="col-12 mt-3">
+                      <div class="card border-danger">
+                        <div class="card-header bg-danger text-white">
+                          <h6 class="mb-0"><i class="fab fa-instagram me-2"></i>Instagram</h6>
+                        </div>
+                        <div class="card-body">
+                          <div class="row g-2">
+                            <div class="col-md-4">
+                              <label class="form-label">URL</label>
+                              <input v-model="content.vision.socialMedia.instagram.url" type="url"
+                                     class="form-control"
+                                     placeholder="https://instagram.com/makeithome">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Title</label>
+                              <input v-model="content.vision.socialMedia.instagram.title" type="text"
+                                     class="form-control"
+                                     placeholder="Instagram">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Description</label>
+                              <input v-model="content.vision.socialMedia.instagram.description" type="text"
+                                     class="form-control"
+                                     placeholder="See behind-the-scenes content and beautiful property photos...">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Twitter -->
+                    <div class="col-12 mt-3">
+                      <div class="card border-info">
+                        <div class="card-header bg-info text-white">
+                          <h6 class="mb-0"><i class="fab fa-twitter me-2"></i>Twitter</h6>
+                        </div>
+                        <div class="card-body">
+                          <div class="row g-2">
+                            <div class="col-md-4">
+                              <label class="form-label">URL</label>
+                              <input v-model="content.vision.socialMedia.twitter.url" type="url"
+                                     class="form-control"
+                                     placeholder="https://twitter.com/makeithome">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Title</label>
+                              <input v-model="content.vision.socialMedia.twitter.title" type="text"
+                                     class="form-control"
+                                     placeholder="Twitter">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Description</label>
+                              <input v-model="content.vision.socialMedia.twitter.description" type="text"
+                                     class="form-control"
+                                     placeholder="Get real-time updates and market insights...">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- TikTok -->
+                    <div class="col-12 mt-3">
+                      <div class="card border-dark">
+                        <div class="card-header bg-dark text-white">
+                          <h6 class="mb-0"><i class="fab fa-tiktok me-2"></i>TikTok</h6>
+                        </div>
+                        <div class="card-body">
+                          <div class="row g-2">
+                            <div class="col-md-4">
+                              <label class="form-label">URL</label>
+                              <input v-model="content.vision.socialMedia.tiktok.url" type="url"
+                                     class="form-control"
+                                     placeholder="https://tiktok.com/@makeithome">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Title</label>
+                              <input v-model="content.vision.socialMedia.tiktok.title" type="text"
+                                     class="form-control"
+                                     placeholder="TikTok">
+                            </div>
+                            <div class="col-md-4">
+                              <label class="form-label">Description</label>
+                              <input v-model="content.vision.socialMedia.tiktok.description" type="text"
+                                     class="form-control"
+                                     placeholder="Watch fun property tours and real estate tips...">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="col-12 mt-4">
                       <button type="submit" class="btn btn-warm-sunset" :disabled="isUploading">
                         <i class="fas fa-save me-2"></i>Save Vision Content
@@ -1704,7 +1845,31 @@ export default {
           goalsDescription: '',
           futureGoals: '',
           ctaTitle: '',
-          ctaDescription: ''
+          ctaDescription: '',
+          socialMedia: {
+            title: 'Stay Connected',
+            subtitle: 'Follow us on social media for the latest updates, property listings, and community news.',
+            facebook: {
+              url: 'https://facebook.com/makeithome',
+              title: 'Facebook',
+              description: 'Stay updated with our latest property listings and community news.'
+            },
+            instagram: {
+              url: 'https://instagram.com/makeithome',
+              title: 'Instagram',
+              description: 'See behind-the-scenes content and beautiful property photos.'
+            },
+            twitter: {
+              url: 'https://twitter.com/makeithome',
+              title: 'Twitter',
+              description: 'Get real-time updates and market insights from our team.'
+            },
+            tiktok: {
+              url: 'https://tiktok.com/@makeithome',
+              title: 'TikTok',
+              description: 'Watch fun property tours and real estate tips.'
+            }
+          }
         },
         contact: {
           phone: '',
@@ -1839,7 +2004,31 @@ export default {
             ctaTitle: '',
             ctaDescription: '',
             cityImagesTitle: '',
-            cityImagesDescription: ''
+            cityImagesDescription: '',
+            socialMedia: {
+              title: 'Stay Connected',
+              subtitle: 'Follow us on social media for the latest updates, property listings, and community news.',
+              facebook: {
+                url: 'https://facebook.com/makeithome',
+                title: 'Facebook',
+                description: 'Stay updated with our latest property listings and community news.'
+              },
+              instagram: {
+                url: 'https://instagram.com/makeithome',
+                title: 'Instagram',
+                description: 'See behind-the-scenes content and beautiful property photos.'
+              },
+              twitter: {
+                url: 'https://twitter.com/makeithome',
+                title: 'Twitter',
+                description: 'Get real-time updates and market insights from our team.'
+              },
+              tiktok: {
+                url: 'https://tiktok.com/@makeithome',
+                title: 'TikTok',
+                description: 'Watch fun property tours and real estate tips.'
+              }
+            }
           }
         }
 

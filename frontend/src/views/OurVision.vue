@@ -214,59 +214,67 @@
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center" data-aos="fade-up">
-            <h2 class="display-6 fw-bold mb-4 text-dark">Stay Connected</h2>
-            <p class="lead text-dark opacity-75">Follow us on social media for the latest updates, property listings, and community news.</p>
+            <h2 class="display-6 fw-bold mb-4 text-dark">
+              {{ content.vision.socialMedia?.title || 'Stay Connected' }}
+            </h2>
+            <p class="lead text-dark opacity-75">
+              {{ content.vision.socialMedia?.subtitle || 'Follow us on social media for the latest updates, property listings, and community news.' }}
+            </p>
           </div>
         </div>
 
         <div class="row g-4 justify-content-center">
-          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+          <!-- Facebook -->
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="100" v-if="content.vision.socialMedia?.facebook?.url">
             <div class="social-media-card">
               <div class="social-icon facebook">
                 <i class="fab fa-facebook-f"></i>
               </div>
-              <h5 class="social-title">Facebook</h5>
-              <p class="social-description">Stay updated with our latest property listings and community news.</p>
-              <a href="https://facebook.com/makeithome" target="_blank" class="btn btn-social-facebook">
+              <h5 class="social-title">{{ content.vision.socialMedia.facebook.title || 'Facebook' }}</h5>
+              <p class="social-description">{{ content.vision.socialMedia.facebook.description || 'Stay updated with our latest property listings and community news.' }}</p>
+              <a :href="content.vision.socialMedia.facebook.url" target="_blank" class="btn btn-social-facebook">
                 <i class="fab fa-facebook-f me-2"></i>Follow Us
               </a>
             </div>
           </div>
 
-          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+          <!-- Instagram -->
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="200" v-if="content.vision.socialMedia?.instagram?.url">
             <div class="social-media-card">
               <div class="social-icon instagram">
                 <i class="fab fa-instagram"></i>
               </div>
-              <h5 class="social-title">Instagram</h5>
-              <p class="social-description">See behind-the-scenes content and beautiful property photos.</p>
-              <a href="https://instagram.com/makeithome" target="_blank" class="btn btn-social-instagram">
+              <h5 class="social-title">{{ content.vision.socialMedia.instagram.title || 'Instagram' }}</h5>
+              <p class="social-description">{{ content.vision.socialMedia.instagram.description || 'See behind-the-scenes content and beautiful property photos.' }}</p>
+              <a :href="content.vision.socialMedia.instagram.url" target="_blank" class="btn btn-social-instagram">
                 <i class="fab fa-instagram me-2"></i>Follow Us
               </a>
             </div>
           </div>
 
-          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="300">
+          <!-- Twitter -->
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="300" v-if="content.vision.socialMedia?.twitter?.url">
             <div class="social-media-card">
               <div class="social-icon twitter">
                 <i class="fab fa-twitter"></i>
               </div>
-              <h5 class="social-title">Twitter</h5>
-              <p class="social-description">Get real-time updates and market insights from our team.</p>
-              <a href="https://twitter.com/makeithome" target="_blank" class="btn btn-social-twitter">
+              <h5 class="social-title">{{ content.vision.socialMedia.twitter.title || 'Twitter' }}</h5>
+              <p class="social-description">{{ content.vision.socialMedia.twitter.description || 'Get real-time updates and market insights from our team.' }}</p>
+              <a :href="content.vision.socialMedia.twitter.url" target="_blank" class="btn btn-social-twitter">
                 <i class="fab fa-twitter me-2"></i>Follow Us
               </a>
             </div>
           </div>
 
-          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="400">
+          <!-- TikTok -->
+          <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="400" v-if="content.vision.socialMedia?.tiktok?.url">
             <div class="social-media-card">
               <div class="social-icon tiktok">
                 <i class="fab fa-tiktok"></i>
               </div>
-              <h5 class="social-title">TikTok</h5>
-              <p class="social-description">Watch fun property tours and real estate tips.</p>
-              <a href="https://tiktok.com/@makeithome" target="_blank" class="btn btn-social-tiktok">
+              <h5 class="social-title">{{ content.vision.socialMedia.tiktok.title || 'TikTok' }}</h5>
+              <p class="social-description">{{ content.vision.socialMedia.tiktok.description || 'Watch fun property tours and real estate tips.' }}</p>
+              <a :href="content.vision.socialMedia.tiktok.url" target="_blank" class="btn btn-social-tiktok">
                 <i class="fab fa-tiktok me-2"></i>Follow Us
               </a>
             </div>

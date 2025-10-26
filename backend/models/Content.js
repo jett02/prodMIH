@@ -149,7 +149,31 @@ const contentSchema = new mongoose.Schema({
       title: { type: String, default: '' },
       description: { type: String, default: '' },
       image: { type: String, default: '' }
-    }]
+    }],
+    socialMedia: {
+      title: { type: String, default: 'Stay Connected' },
+      subtitle: { type: String, default: 'Follow us on social media for the latest updates, property listings, and community news.' },
+      facebook: {
+        url: { type: String, default: 'https://facebook.com/makeithome' },
+        title: { type: String, default: 'Facebook' },
+        description: { type: String, default: 'Stay updated with our latest property listings and community news.' }
+      },
+      instagram: {
+        url: { type: String, default: 'https://instagram.com/makeithome' },
+        title: { type: String, default: 'Instagram' },
+        description: { type: String, default: 'See behind-the-scenes content and beautiful property photos.' }
+      },
+      twitter: {
+        url: { type: String, default: 'https://twitter.com/makeithome' },
+        title: { type: String, default: 'Twitter' },
+        description: { type: String, default: 'Get real-time updates and market insights from our team.' }
+      },
+      tiktok: {
+        url: { type: String, default: 'https://tiktok.com/@makeithome' },
+        title: { type: String, default: 'TikTok' },
+        description: { type: String, default: 'Watch fun property tours and real estate tips.' }
+      }
+    }
   },
   preferredBiddersBanner: {
     title: {
