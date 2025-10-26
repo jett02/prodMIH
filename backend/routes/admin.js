@@ -661,20 +661,48 @@ router.post('/agents/upload-photo', heroUpload.single('photo'), async (req, res)
 
 // Upload multiple hero gallery images (including GIFs)
 router.post('/content/upload-hero-gallery', (req, res) => {
+  console.log('=== HERO GALLERY UPLOAD START ===');
+  console.log('Request headers:', req.headers);
+  console.log('Content-Length:', req.headers['content-length']);
+
   heroUpload.array('heroImages', 10)(req, res, async (err) => {
     try {
       console.log('=== HERO GALLERY UPLOAD DEBUG ===');
       console.log('Files received:', req.files?.length || 0);
+      console.log('Multer error:', err);
 
       if (err) {
-        console.error('Multer error:', err);
+        console.error('=== MULTER ERROR DETAILS ===');
+        console.error('Error code:', err.code);
+        console.error('Error message:', err.message);
+        console.error('Error stack:', err.stack);
+
         if (err.code === 'LIMIT_FILE_SIZE') {
-          return res.status(400).json({ message: 'File too large. Maximum size is 15MB per file.' });
+          return res.status(400).json({
+            message: 'File too large. Maximum size is 15MB per file.',
+            error: 'FILE_TOO_LARGE',
+            details: err.message
+          });
+        }
+        if (err.code === 'LIMIT_FILE_COUNT') {
+          return res.status(400).json({
+            message: 'Too many files. Maximum 10 files allowed.',
+            error: 'TOO_MANY_FILES',
+            details: err.message
+          });
         }
         if (err.message.includes('Only image files')) {
-          return res.status(400).json({ message: 'Only image files (JPG, PNG, WebP, GIF) are allowed.' });
+          return res.status(400).json({
+            message: 'Only image files (JPG, PNG, WebP, GIF) are allowed.',
+            error: 'INVALID_FILE_TYPE',
+            details: err.message
+          });
         }
-        return res.status(400).json({ message: err.message });
+        return res.status(400).json({
+          message: err.message,
+          error: 'UPLOAD_ERROR',
+          code: err.code
+        });
       }
 
       if (!req.files || req.files.length === 0) {
