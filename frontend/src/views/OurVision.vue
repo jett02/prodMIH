@@ -13,11 +13,31 @@
               {{ content.vision.heroSubtitle || 'Discover the vision that drives everything we do at Make It Home' }}
             </p>
 
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator-container" data-aos="fade-up" data-aos-delay="600">
+              <p class="scroll-text mb-3">Explore Our Vision</p>
+              <div class="scroll-arrow" @click="scrollToVision">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <figure class="background background-overlay">
+
+      <!-- Animated Background -->
+      <figure class="background background-overlay animated-bg">
+        <div class="bg-layer bg-layer-1"></div>
+        <div class="bg-layer bg-layer-2"></div>
+        <div class="bg-layer bg-layer-3"></div>
+        <div class="floating-elements">
+          <div class="floating-element floating-element-1"></div>
+          <div class="floating-element floating-element-2"></div>
+          <div class="floating-element floating-element-3"></div>
+        </div>
       </figure>
+
+      <!-- Smooth transition element -->
+      <div class="hero-transition"></div>
     </section>
 
     <!-- Vision Statement Section -->
@@ -359,6 +379,15 @@ export default {
       if (!imagePath) return ''
       if (imagePath.startsWith('http')) return imagePath
       return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imagePath}`
+    },
+    scrollToVision() {
+      const visionSection = document.querySelector('.vision-statement-bg')
+      if (visionSection) {
+        visionSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
     }
   }
 }
@@ -373,6 +402,131 @@ export default {
 .hero-section {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   position: relative;
+  overflow: hidden;
+}
+
+/* Animated Background Layers */
+.animated-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+
+.bg-layer-1 {
+  background: linear-gradient(45deg, rgba(235, 164, 114, 0.1) 0%, transparent 50%, rgba(212, 147, 94, 0.08) 100%);
+  animation: float-slow 20s ease-in-out infinite;
+}
+
+.bg-layer-2 {
+  background: radial-gradient(circle at 30% 70%, rgba(235, 164, 114, 0.15) 0%, transparent 60%);
+  animation: float-medium 15s ease-in-out infinite reverse;
+}
+
+.bg-layer-3 {
+  background: linear-gradient(135deg, transparent 20%, rgba(255, 255, 255, 0.03) 50%, transparent 80%);
+  animation: float-fast 12s ease-in-out infinite;
+}
+
+/* Floating Elements */
+.floating-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.floating-element {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(235, 164, 114, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.floating-element-1 {
+  width: 100px;
+  height: 100px;
+  top: 20%;
+  left: 10%;
+  animation: float-up-down 8s ease-in-out infinite;
+}
+
+.floating-element-2 {
+  width: 60px;
+  height: 60px;
+  top: 60%;
+  right: 15%;
+  animation: float-up-down 6s ease-in-out infinite reverse;
+}
+
+.floating-element-3 {
+  width: 80px;
+  height: 80px;
+  bottom: 30%;
+  left: 70%;
+  animation: float-up-down 10s ease-in-out infinite;
+}
+
+/* Hero Transition */
+.hero-transition {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(44, 44, 44, 0.3) 50%, #2c2c2c 100%);
+  z-index: 1;
+}
+
+/* Scroll Indicator */
+.scroll-indicator-container {
+  margin-top: 2rem;
+}
+
+.scroll-arrow {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(235, 164, 114, 0.9) 0%, rgba(212, 147, 94, 0.9) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(235, 164, 114, 0.3);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: bounce 2s ease-in-out infinite, pulse-glow 3s ease-in-out infinite;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.scroll-arrow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(235, 164, 114, 0.5);
+}
+
+.scroll-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+  animation: fade-pulse 2s ease-in-out infinite;
 }
 
 /* Enhanced Background Styles */
@@ -460,6 +614,76 @@ export default {
 .social-media-bg .container {
   position: relative;
   z-index: 1;
+}
+
+/* Animation Keyframes */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% {
+    transform: translateX(0px) scale(1);
+  }
+  50% {
+    transform: translateX(15px) scale(1.05);
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  33% {
+    transform: translateY(-10px) translateX(10px);
+  }
+  66% {
+    transform: translateY(5px) translateX(-5px);
+  }
+}
+
+@keyframes float-up-down {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(235, 164, 114, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 30px rgba(235, 164, 114, 0.6);
+  }
+}
+
+@keyframes fade-pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .text-warm-sunset {
