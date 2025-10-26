@@ -21,46 +21,38 @@
     </section>
 
     <!-- Vision Statement Section -->
-    <section class="py-xl-20 py-15 bg-light">
+    <section class="py-xl-20 py-15 bg-dark text-white">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
-              <h2 class="display-5 fw-bold mb-4 text-dark">
+              <h2 class="display-5 fw-bold mb-4">
                 {{ content.vision.mainTitle || 'Our Vision for the Future' }}
               </h2>
               <div class="vision-statement">
-                <p class="fs-4 text-muted mb-4" v-html="content.vision.statement || defaultVisionStatement"></p>
+                <p class="fs-4 text-light opacity-75 mb-4" v-html="content.vision.statement || defaultVisionStatement"></p>
               </div>
             </div>
 
-            <!-- Enhanced Vision Details -->
+            <!-- Vision Images Section - Ready for admin content -->
             <div class="row g-4 mt-5" data-aos="fade-up" data-aos-delay="200">
-              <div class="col-lg-4">
-                <div class="vision-detail-card">
-                  <div class="vision-icon">
-                    <i class="fas fa-home"></i>
+              <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="vision-image-card">
+                  <div class="vision-image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <h5>Vision Image 1</h5>
+                    <p>Future vision content will be added here</p>
                   </div>
-                  <h4 class="vision-detail-title">Transforming Homes</h4>
-                  <p class="vision-detail-text">We see every property as a canvas for creating meaningful spaces where families can build their dreams and create lasting memories.</p>
                 </div>
               </div>
-              <div class="col-lg-4">
-                <div class="vision-detail-card">
-                  <div class="vision-icon">
-                    <i class="fas fa-users"></i>
+
+              <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="vision-image-card">
+                  <div class="vision-image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <h5>Vision Image 2</h5>
+                    <p>Future vision content will be added here</p>
                   </div>
-                  <h4 class="vision-detail-title">Building Communities</h4>
-                  <p class="vision-detail-text">Our vision extends beyond individual properties to creating vibrant neighborhoods where people connect, thrive, and support one another.</p>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="vision-detail-card">
-                  <div class="vision-icon">
-                    <i class="fas fa-heart"></i>
-                  </div>
-                  <h4 class="vision-detail-title">Creating Affordable Quality</h4>
-                  <p class="vision-detail-text">We're committed to creating affordable, high-quality homes that don't compromise on craftsmanship, ensuring every family can access beautiful, well-built housing.</p>
                 </div>
               </div>
             </div>
@@ -112,7 +104,7 @@
     </section>
 
     <!-- Future Goals Section -->
-    <section class="py-xl-20 py-15 bg-light">
+    <section class="py-xl-20 py-15 bg-secondary bg-opacity-10">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
@@ -120,64 +112,38 @@
               <h2 class="display-6 fw-bold mb-4 text-dark">
                 {{ content.vision.goalsTitle || 'Looking Ahead' }}
               </h2>
-              <p class="lead text-muted mb-5">
+              <p class="lead text-dark opacity-75 mb-5">
                 {{ content.vision.goalsDescription || 'Our commitment to growth, innovation, and community impact shapes everything we do.' }}
               </p>
             </div>
 
-            <div class="goals-content" data-aos="fade-up" data-aos-delay="200">
-              <div class="goals-text mb-5">
-                <p class="fs-5 mb-4" v-html="content.vision.futureGoals || defaultFutureGoals"></p>
+            <!-- Vision Cards moved from Vision Statement Section -->
+            <div class="row g-4 mt-5" data-aos="fade-up" data-aos-delay="200">
+              <div class="col-lg-4">
+                <div class="vision-detail-card">
+                  <div class="vision-icon">
+                    <i class="fas fa-home"></i>
+                  </div>
+                  <h4 class="vision-detail-title">Transforming Homes</h4>
+                  <p class="vision-detail-text">We see every property as a canvas for creating meaningful spaces where families can build their dreams and create lasting memories.</p>
+                </div>
               </div>
-
-              <!-- Enhanced Future Goals Details -->
-              <div class="row g-4 mt-4">
-                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="300">
-                  <div class="future-goal-item">
-                    <div class="goal-icon">
-                      <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="goal-content">
-                      <h4 class="goal-title">Sustainable Growth</h4>
-                      <p class="goal-description">We're committed to expanding our reach while maintaining the personal touch and quality service that defines us. Our growth strategy focuses on building lasting relationships and creating value for every community we serve.</p>
-                    </div>
+              <div class="col-lg-4">
+                <div class="vision-detail-card">
+                  <div class="vision-icon">
+                    <i class="fas fa-users"></i>
                   </div>
+                  <h4 class="vision-detail-title">Building Communities</h4>
+                  <p class="vision-detail-text">Our vision extends beyond individual properties to creating vibrant neighborhoods where people connect, thrive, and support one another.</p>
                 </div>
-
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="400">
-                  <div class="future-goal-item">
-                    <div class="goal-icon">
-                      <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <div class="goal-content">
-                      <h4 class="goal-title">Innovation Leadership</h4>
-                      <p class="goal-description">We're pioneering new approaches to real estate that leverage technology while preserving the human connection. From virtual tours to streamlined processes, we're making real estate more accessible and efficient.</p>
-                    </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="vision-detail-card">
+                  <div class="vision-icon">
+                    <i class="fas fa-heart"></i>
                   </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="500">
-                  <div class="future-goal-item">
-                    <div class="goal-icon">
-                      <i class="fas fa-leaf"></i>
-                    </div>
-                    <div class="goal-content">
-                      <h4 class="goal-title">Environmental Responsibility</h4>
-                      <p class="goal-description">Our future includes a strong commitment to sustainable practices and eco-friendly development. We're working to create homes and communities that are both beautiful and environmentally conscious.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="600">
-                  <div class="future-goal-item">
-                    <div class="goal-icon">
-                      <i class="fas fa-handshake"></i>
-                    </div>
-                    <div class="goal-content">
-                      <h4 class="goal-title">Community Partnership</h4>
-                      <p class="goal-description">We envision deeper partnerships with local organizations, schools, and businesses to create thriving communities where everyone benefits from our presence and investment in the area.</p>
-                    </div>
-                  </div>
+                  <h4 class="vision-detail-title">Creating Affordable Quality</h4>
+                  <p class="vision-detail-text">We're committed to creating affordable, high-quality homes that don't compromise on craftsmanship, ensuring every family can access beautiful, well-built housing.</p>
                 </div>
               </div>
             </div>
@@ -187,14 +153,14 @@
     </section>
 
     <!-- City Images Section -->
-    <section class="py-xl-20 py-15 bg-white">
+    <section class="py-xl-20 py-15 bg-dark text-white">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center" data-aos="fade-up">
-            <h2 class="display-6 fw-bold mb-4 text-dark">
+            <h2 class="display-6 fw-bold mb-4">
               {{ content.vision.cityImagesTitle || 'Communities We Serve' }}
             </h2>
-            <p class="lead text-muted">
+            <p class="lead text-light opacity-75">
               {{ content.vision.cityImagesDescription || 'Discover the vibrant neighborhoods and communities where we\'re making a difference, one home at a time.' }}
             </p>
           </div>
@@ -224,12 +190,12 @@
     </section>
 
     <!-- Social Media Section -->
-    <section class="py-xl-15 py-10 bg-light">
+    <section class="py-xl-15 py-10 bg-secondary bg-opacity-10">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center" data-aos="fade-up">
             <h2 class="display-6 fw-bold mb-4 text-dark">Stay Connected</h2>
-            <p class="lead text-muted">Follow us on social media for the latest updates, property listings, and community news.</p>
+            <p class="lead text-dark opacity-75">Follow us on social media for the latest updates, property listings, and community news.</p>
           </div>
         </div>
 
@@ -336,7 +302,9 @@ export default {
           goalsDescription: '',
           futureGoals: '',
           ctaTitle: '',
-          ctaDescription: ''
+          ctaDescription: '',
+          cityImagesTitle: '',
+          cityImagesDescription: ''
         }
       },
       defaultVisionStatement: `At Make It Home, we envision a future where every person has access to quality housing that serves as more than just shelter—it's a foundation for building dreams, creating memories, and fostering community connections.`,
@@ -344,7 +312,7 @@ export default {
       defaultFutureGoals: `Our vision extends beyond today's transactions. We're building sustainable communities, pioneering innovative real estate solutions, and creating lasting partnerships that will shape the industry for generations to come.`,
       visionStats: [
         { number: '5+', label: 'Years of Experience' },
-        { number: '25+', label: 'Properties Evaluated' },
+        { number: '4+', label: 'Properties Evaluated' },
         { number: '3+', label: 'Neighborhoods Served' },
         { number: '100%', label: 'Commitment to Excellence' }
       ],
@@ -376,8 +344,8 @@ export default {
                 image: ''
               },
               {
-                title: 'Bellevue',
-                description: 'Building communities in this growing suburban area.',
+                title: 'Surrounding Areas',
+                description: 'Building communities in surrounding areas.',
                 image: ''
               }
             ]
@@ -710,6 +678,49 @@ export default {
 .vision-detail-text {
   color: #6c757d;
   line-height: 1.6;
+  margin: 0;
+}
+
+/* Vision Image Cards */
+.vision-image-card {
+  height: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.vision-image-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(255, 255, 255, 0.2);
+}
+
+.vision-image-placeholder {
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.vision-image-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.vision-image-placeholder h5 {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.vision-image-placeholder p {
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
 }
 
