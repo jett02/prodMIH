@@ -2,7 +2,7 @@
   <div class="vision-page">
     <!-- Hero Section -->
     <section class="hero-section overflow-hidden inverted">
-      <div class="d-flex flex-column py-20 min-vh-100 container foreground">
+      <div class="d-flex flex-column py-15 min-vh-75 container foreground">
         <div class="row justify-content-center my-auto">
           <div class="col-lg-8 text-center hero-content">
             <span class="eyebrow mb-3 text-warm-sunset" data-aos="fade-up">Our Vision</span>
@@ -404,7 +404,7 @@ export default {
   position: relative;
   overflow: hidden;
   padding-top: 80px; /* Ensure space for navbar */
-  min-height: 100vh;
+  min-height: 75vh; /* Reduced from 100vh */
 }
 
 .hero-content {
@@ -698,11 +698,7 @@ export default {
 }
 
 .min-vh-75 {
-  min-height: 50vh !important;
-}
-
-.min-vh-100 {
-  min-height: 100vh !important;
+  min-height: 60vh !important;
 }
 
 .py-15 {
@@ -1245,7 +1241,7 @@ export default {
   }
 
   .min-vh-75 {
-    min-height: 60vh !important;
+    min-height: 50vh !important;
   }
 
   .display-4 {
