@@ -1640,7 +1640,62 @@ export default {
       this.$refs.bioEditor.focus()
     },
     updateBio() {
-      this.teamMemberForm.bio = this.$refs.bioEditor.innerHTML
+      // Save cursor position
+      const selection = window.getSelection()
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null
+      let cursorPosition = null
+
+      if (range) {
+        // Create a temporary range to calculate cursor position
+        const preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(this.$refs.bioEditor)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        cursorPosition = preCaretRange.toString().length
+      }
+
+      // Update the bio content
+      const newContent = this.$refs.bioEditor.innerHTML
+      if (this.teamMemberForm.bio !== newContent) {
+        this.teamMemberForm.bio = newContent
+
+        // Restore cursor position after Vue updates the DOM
+        this.$nextTick(() => {
+          if (cursorPosition !== null) {
+            this.setCursorPosition(this.$refs.bioEditor, cursorPosition)
+          }
+        })
+      }
+    },
+    setCursorPosition(element, position) {
+      try {
+        const range = document.createRange()
+        const selection = window.getSelection()
+
+        let currentPosition = 0
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_TEXT,
+          null,
+          false
+        )
+
+        let node
+        while (node = walker.nextNode()) {
+          const nodeLength = node.textContent.length
+          if (currentPosition + nodeLength >= position) {
+            range.setStart(node, position - currentPosition)
+            range.setEnd(node, position - currentPosition)
+            break
+          }
+          currentPosition += nodeLength
+        }
+
+        selection.removeAllRanges()
+        selection.addRange(range)
+      } catch (error) {
+        // Fallback: just focus the element
+        element.focus()
+      }
     },
     addSpecialty() {
       if (this.newSpecialty && this.newSpecialty.trim()) {
