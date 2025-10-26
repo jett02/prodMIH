@@ -298,9 +298,28 @@ export default {
    SELL TO US PAGE STYLES
    ================================= */
 
+/* CSS Custom Properties */
+:root {
+  --sunset-orange: #EBA472;
+  --sunset-brown: #D4935E;
+  --midnight-black: #1a1a1a;
+  --slate-gray: #6c757d;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 15px 35px rgba(0, 0, 0, 0.2);
+  --shadow-heavy: 0 25px 50px rgba(0, 0, 0, 0.4);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Layout */
+.sell-to-us-page {
+  overflow-x: hidden;
+}
+
 /* Dark Professional Background */
 .bg-dark-professional {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  background: linear-gradient(135deg, var(--midnight-black) 0%, #2d2d2d 50%, var(--midnight-black) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -308,10 +327,7 @@ export default {
 .bg-dark-professional::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background:
     radial-gradient(circle at 20% 20%, rgba(235, 164, 114, 0.08) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
@@ -333,39 +349,41 @@ export default {
 
 .stat-item {
   padding: 1.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  background: var(--glass-bg);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
 }
 
 .stat-item:hover {
   background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-light);
 }
 
 .stat-item h3 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
 }
 
 .stat-item p {
   margin: 0;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
+  font-size: 0.875rem;
 }
 
 /* Hero Form Card */
 .hero-form-card {
   background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(20px);
   border-radius: 24px;
   padding: 3rem 2.5rem;
-  box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-heavy);
   border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
@@ -378,56 +396,60 @@ export default {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #EBA472 0%, #D4935E 50%, #EBA472 100%);
+  background: linear-gradient(90deg, var(--sunset-orange) 0%, var(--sunset-brown) 50%, var(--sunset-orange) 100%);
 }
 
 .hero-form-card h3 {
-  color: #1a1a1a;
+  color: var(--midnight-black);
   font-weight: 700;
   font-size: 1.75rem;
   margin-bottom: 2rem;
   position: relative;
+  text-align: center;
 }
 
 .hero-form-card h3::after {
   content: '';
   position: absolute;
-  bottom: -0.5rem;
+  bottom: -0.75rem;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #EBA472, #D4935E);
+  background: linear-gradient(90deg, var(--sunset-orange), var(--sunset-brown));
   border-radius: 2px;
 }
 
-/* Form Styling */
+/* Enhanced Form Styling */
 .sell-form .form-control,
 .sell-form .form-select {
   border: 2px solid #e9ecef;
   border-radius: 12px;
-  padding: 0.875rem 1.25rem;
+  padding: 1rem 1.25rem;
   font-size: 1rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: var(--transition-smooth);
   background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .sell-form .form-control:focus,
 .sell-form .form-select:focus {
-  border-color: #EBA472;
-  box-shadow: 0 0 0 0.2rem rgba(235, 164, 114, 0.25);
+  border-color: var(--sunset-orange);
+  box-shadow: 0 0 0 0.25rem rgba(235, 164, 114, 0.15);
   background: #ffffff;
+  outline: none;
 }
 
 .sell-form .form-control::placeholder {
-  color: #6c757d;
+  color: var(--slate-gray);
   font-weight: 400;
 }
 
 .sell-form textarea.form-control {
   resize: vertical;
   min-height: 120px;
+  line-height: 1.6;
 }
 
 /* Process Steps Section */
@@ -435,17 +457,19 @@ export default {
   padding: 3rem 2rem;
   text-align: center;
   position: relative;
-  transition: all 0.3s ease;
+  transition: var(--transition-smooth);
+  border-radius: 16px;
 }
 
 .process-step:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .step-number {
   width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
+  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -459,20 +483,25 @@ export default {
     0 0 0 8px rgba(235, 164, 114, 0.1);
   position: relative;
   z-index: 2;
+  transition: var(--transition-smooth);
 }
 
 .step-number::before {
   content: '';
   position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
+  inset: -8px;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(235, 164, 114, 0.2), rgba(212, 147, 94, 0.2));
   z-index: -1;
   opacity: 0;
   transition: opacity 0.3s ease;
+}
+
+.process-step:hover .step-number {
+  transform: scale(1.05);
+  box-shadow:
+    0 20px 40px rgba(235, 164, 114, 0.5),
+    0 0 0 12px rgba(235, 164, 114, 0.15);
 }
 
 .process-step:hover .step-number::before {
@@ -482,31 +511,32 @@ export default {
 .step-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--midnight-black);
   margin-bottom: 1.5rem;
   line-height: 1.3;
 }
 
 .step-description {
-  color: #6c757d;
+  color: var(--slate-gray);
   line-height: 1.7;
   font-size: 1.1rem;
-  max-width: 280px;
+  max-width: 300px;
   margin: 0 auto;
 }
 
 /* Benefits Section */
 .benefits-list {
-  max-width: 500px;
+  max-width: 520px;
 }
 
 .benefit-item {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  padding: 1.5rem 0;
+  padding: 2rem 0;
   border-bottom: 1px solid rgba(108, 117, 125, 0.1);
-  transition: all 0.3s ease;
+  transition: var(--transition-smooth);
+  border-radius: 12px;
 }
 
 .benefit-item:last-child {
@@ -514,33 +544,34 @@ export default {
 }
 
 .benefit-item:hover {
-  padding-left: 1rem;
-  background: rgba(235, 164, 114, 0.02);
-  border-radius: 12px;
+  padding-left: 1.5rem;
+  background: linear-gradient(135deg, rgba(235, 164, 114, 0.03), rgba(235, 164, 114, 0.01));
   border-bottom-color: transparent;
+  box-shadow: var(--shadow-light);
 }
 
 .benefit-icon {
   width: 70px;
   height: 70px;
-  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
+  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   box-shadow: 0 8px 20px rgba(235, 164, 114, 0.3);
-  transition: all 0.3s ease;
+  transition: var(--transition-smooth);
 }
 
 .benefit-item:hover .benefit-icon {
-  transform: scale(1.05);
-  box-shadow: 0 12px 30px rgba(235, 164, 114, 0.4);
+  transform: scale(1.1) rotate(2deg);
+  box-shadow: 0 15px 35px rgba(235, 164, 114, 0.4);
 }
 
 .benefit-icon i {
   font-size: 1.75rem;
   color: white;
+  transition: var(--transition-smooth);
 }
 
 .benefit-content {
@@ -548,15 +579,15 @@ export default {
 }
 
 .benefit-title {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--midnight-black);
   margin-bottom: 0.75rem;
   line-height: 1.3;
 }
 
 .benefit-description {
-  color: #6c757d;
+  color: var(--slate-gray);
   line-height: 1.6;
   margin: 0;
   font-size: 1.05rem;
@@ -567,20 +598,21 @@ export default {
 }
 
 .image-placeholder {
-  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(235, 164, 114, 0.3);
-  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
+  border-radius: 24px;
+  box-shadow: var(--shadow-medium);
+  transition: var(--transition-smooth);
+  overflow: hidden;
 }
 
 .image-placeholder:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.02);
   box-shadow: 0 30px 60px rgba(235, 164, 114, 0.4);
 }
 
-/* Buttons */
+/* Enhanced Button Styling */
 .btn-sunset-orange {
-  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
+  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
   border: none;
   color: white;
   font-weight: 700;
@@ -588,27 +620,29 @@ export default {
   border-radius: 50px;
   font-size: 1.1rem;
   letter-spacing: 0.5px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-smooth);
   box-shadow:
     0 8px 20px rgba(235, 164, 114, 0.4),
     0 0 0 0 rgba(235, 164, 114, 0.5);
   position: relative;
   overflow: hidden;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-sunset-orange::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
 }
 
 .btn-sunset-orange:hover::before {
-  left: 100%;
+  transform: translateX(100%);
 }
 
 .btn-sunset-orange:hover {
@@ -616,8 +650,16 @@ export default {
   box-shadow:
     0 15px 35px rgba(235, 164, 114, 0.6),
     0 0 0 3px rgba(235, 164, 114, 0.2);
-  background: linear-gradient(135deg, #D4935E 0%, #EBA472 100%);
+  background: linear-gradient(135deg, var(--sunset-brown) 0%, var(--sunset-orange) 100%);
   color: white;
+  text-decoration: none;
+}
+
+.btn-sunset-orange:focus {
+  box-shadow:
+    0 15px 35px rgba(235, 164, 114, 0.6),
+    0 0 0 3px rgba(235, 164, 114, 0.4);
+  outline: none;
 }
 
 .btn-sunset-orange:active {
@@ -625,9 +667,10 @@ export default {
 }
 
 .btn-sunset-orange:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   transform: none;
   cursor: not-allowed;
+  box-shadow: var(--shadow-light);
 }
 
 /* Section Spacing */
@@ -638,15 +681,15 @@ export default {
 
 /* Utility Classes */
 .text-sunset-orange {
-  color: #EBA472 !important;
+  color: var(--sunset-orange) !important;
 }
 
 .text-midnight-black {
-  color: #1a1a1a !important;
+  color: var(--midnight-black) !important;
 }
 
 .text-slate-gray {
-  color: #6c757d !important;
+  color: var(--slate-gray) !important;
 }
 
 .eyebrow {
@@ -656,6 +699,7 @@ export default {
   letter-spacing: 0.15em;
   display: block;
   position: relative;
+  margin-bottom: 0.5rem;
 }
 
 .eyebrow::after {
@@ -666,30 +710,39 @@ export default {
   width: 40px;
   height: 2px;
   background: currentColor;
-  opacity: 0.5;
+  opacity: 0.6;
+  border-radius: 1px;
 }
 
-/* Alert Styling */
+/* Enhanced Alert Styling */
 .alert {
-  border-radius: 12px;
+  border-radius: 16px;
   border: none;
   font-weight: 500;
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-light);
 }
 
 .alert-success {
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.05));
   color: #155724;
   border-left: 4px solid #28a745;
 }
 
 .alert-danger {
-  background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.05));
   color: #721c24;
   border-left: 4px solid #dc3545;
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .hero-form-card {
+    padding: 2.5rem 2rem;
+  }
+}
+
 @media (max-width: 992px) {
   .hero-section {
     min-height: auto;
@@ -700,12 +753,21 @@ export default {
     margin-top: 2rem;
     margin-bottom: 3rem;
   }
+
+  .stat-item {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .stat-item h3 {
+    font-size: 2.25rem;
+  }
 }
 
 @media (max-width: 768px) {
   .hero-form-card {
     padding: 2.5rem 2rem;
     margin-top: 3rem;
+    border-radius: 20px;
   }
 
   .hero-form-card h3 {
@@ -716,19 +778,23 @@ export default {
     width: 80px;
     height: 80px;
     font-size: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .step-title {
     font-size: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .step-description {
     font-size: 1rem;
+    max-width: 260px;
   }
 
   .benefit-icon {
     width: 60px;
     height: 60px;
+    border-radius: 12px;
   }
 
   .benefit-icon i {
@@ -736,7 +802,7 @@ export default {
   }
 
   .benefit-title {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   .benefit-description {
@@ -751,24 +817,72 @@ export default {
     padding-top: 4rem;
     padding-bottom: 4rem;
   }
+
+  .process-step {
+    padding: 2.5rem 1.5rem;
+  }
 }
 
 @media (max-width: 576px) {
   .hero-form-card {
     padding: 2rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  .hero-form-card h3 {
+    font-size: 1.375rem;
   }
 
   .process-step {
     padding: 2rem 1rem;
   }
 
+  .step-number {
+    width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+
   .benefit-item {
     gap: 1rem;
+    padding: 1.5rem 0;
+  }
+
+  .benefit-icon {
+    width: 55px;
+    height: 55px;
+  }
+
+  .benefit-icon i {
+    font-size: 1.25rem;
   }
 
   .btn-sunset-orange {
     padding: 0.875rem 2rem;
     font-size: 1rem;
+    border-radius: 40px;
   }
+
+  .stat-item {
+    padding: 1rem 0.5rem;
+  }
+
+  .stat-item h3 {
+    font-size: 1.75rem;
+  }
+
+  .stat-item p {
+    font-size: 0.8rem;
+  }
+
+  .py-20 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* Additional utility for better spacing */
+.max-w-3xl {
+  max-width: 48rem;
 }
 </style>
