@@ -205,8 +205,8 @@
             </div>
             
             <div class="contact-body">
-              <!-- Property Type Status -->
-              <div class="property-type-status mb-3">
+              <!-- Property Type Status - Only show for available properties -->
+              <div v-if="property.status === 'available'" class="property-type-status mb-3">
                 <span class="property-type-badge" :class="property.type">
                   <!-- Status Dot with Tooltip - Top Left of Badge -->
                   <div class="status-dot-container"
@@ -216,6 +216,13 @@
                     <span class="status-dot-price" :class="getStatusClass(property.status)"></span>
                   </div>
                   {{ property.type === 'sale' ? 'For Sale' : 'For Rent' }}
+                </span>
+              </div>
+
+              <!-- Sold/Pending Status Display -->
+              <div v-else-if="property.status === 'sold' || property.status === 'pending'" class="property-status-display mb-3">
+                <span class="property-status-badge" :class="property.status">
+                  {{ getStatusText(property.status) }}
                 </span>
               </div>
 
@@ -1984,6 +1991,26 @@ export default {
 .property-type-badge.rental {
   background: linear-gradient(135deg, #28a745, #0b6430);
   color: white;
+}
+
+.property-status-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.property-status-badge.sold {
+  background: linear-gradient(135deg, #dc3545, #a71e2a);
+  color: white;
+}
+
+.property-status-badge.pending {
+  background: linear-gradient(135deg, #ffc107, #d39e00);
+  color: #212529;
 }
 
 .btn-sunset-gradient {

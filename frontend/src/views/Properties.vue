@@ -599,8 +599,11 @@ export default {
 
     addPropertyMarkers() {
       this.clearMarkers()
-      
-      this.filteredProperties.forEach(property => {
+
+      // Filter out sold properties from map display
+      const mapProperties = this.filteredProperties.filter(property => property.status !== 'sold')
+
+      mapProperties.forEach(property => {
         if (property.address) {
           this.geocodeAndAddMarker(property)
         }

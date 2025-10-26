@@ -287,7 +287,7 @@
                          class="card-img-top property-image-small"
                          @error="handleImageError">
                     <div class="position-absolute top-0 end-0 m-2">
-                      <span class="badge bg-success badge-sm">
+                      <span class="badge badge-sm" :class="getStatusBadgeClass(property)">
                         {{ getStatusText(property) }}
                       </span>
                     </div>
@@ -461,8 +461,19 @@ export default {
   methods: {
     async loadFeaturedProperties() {
       try {
-        const response = await axios.get('/api/properties?limit=3&status=available')
-        this.featuredProperties = response.data
+        // Include both available and sold properties in featured properties
+        const response = await axios.get('/api/properties?limit=6')
+        // Filter to get a mix of available and sold properties, prioritizing available
+        const availableProperties = response.data.filter(p => p.status === 'available')
+        const soldProperties = response.data.filter(p => p.status === 'sold')
+
+        // Take up to 3 available properties, then fill remaining slots with sold properties
+        const featured = [
+          ...availableProperties.slice(0, 3),
+          ...soldProperties.slice(0, Math.max(0, 3 - availableProperties.length))
+        ].slice(0, 3)
+
+        this.featuredProperties = featured
       } catch (error) {
         console.error('Error loading featured properties:', error)
         this.featuredProperties = []
@@ -541,11 +552,19 @@ export default {
       event.target.src = '/placeholder-home.jpg'
     },
     getStatusBadgeClass(property) {
-      if (property.type === 'sale') return 'bg-success'
-      if (property.type === 'rental') return 'bg-info'
+      // Status-based coloring (sold, pending, available)
+      if (property.status === 'sold') return 'bg-danger'
+      if (property.status === 'pending') return 'bg-warning'
+      if (property.status === 'available') {
+        if (property.type === 'sale') return 'bg-success'
+        if (property.type === 'rental') return 'bg-info'
+      }
       return 'bg-primary'
     },
     getStatusText(property) {
+      // Show status for sold/pending, otherwise show type
+      if (property.status === 'sold') return 'Sold'
+      if (property.status === 'pending') return 'Pending'
       if (property.type === 'sale') return 'For Sale'
       if (property.type === 'rental') return 'For Rent'
       return property.status || 'Available'
