@@ -157,15 +157,65 @@
                   <form @submit.prevent="saveAboutContent" class="row g-3">
                     <div class="col-12">
                       <label class="form-label fw-bold">Company Story</label>
-                      <textarea v-model="content.about.story" rows="6" 
-                                class="form-control" 
-                                placeholder="Tell your company story"></textarea>
+                      <div class="toolbar mb-2">
+                        <button type="button" @click="formatAboutText('story', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-bold"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('story', 'italic')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-italic"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('story', 'underline')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-underline"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('story', 'insertUnorderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('story', 'insertOrderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ol"></i>
+                        </button>
+                        <button type="button" @click="insertAboutLineBreak('story')" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-level-down-alt"></i> BR
+                        </button>
+                      </div>
+                      <div ref="aboutStoryEditor"
+                           @input="updateAboutStory"
+                           contenteditable="true"
+                           class="bio-editor form-control"
+                           style="min-height: 150px;"
+                           v-html="content.about.story"
+                           placeholder="Tell your company story">
+                      </div>
                     </div>
                     <div class="col-12">
                       <label class="form-label fw-bold">Mission Statement</label>
-                      <textarea v-model="content.about.mission" rows="3" 
-                                class="form-control" 
-                                placeholder="Enter mission statement"></textarea>
+                      <div class="toolbar mb-2">
+                        <button type="button" @click="formatAboutText('mission', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-bold"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('mission', 'italic')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-italic"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('mission', 'underline')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-underline"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('mission', 'insertUnorderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button type="button" @click="formatAboutText('mission', 'insertOrderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ol"></i>
+                        </button>
+                        <button type="button" @click="insertAboutLineBreak('mission')" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-level-down-alt"></i> BR
+                        </button>
+                      </div>
+                      <div ref="aboutMissionEditor"
+                           @input="updateAboutMission"
+                           contenteditable="true"
+                           class="bio-editor form-control"
+                           style="min-height: 120px;"
+                           v-html="content.about.mission"
+                           placeholder="Enter mission statement">
+                      </div>
                     </div>
                     <div class="col-12">
                       <button type="submit" class="btn btn-info btn-lg">
@@ -199,9 +249,34 @@
                     </div>
                     <div class="col-12">
                       <label class="form-label fw-bold">Values Description</label>
-                      <textarea v-model="content.values.description" rows="3" 
-                                class="form-control" 
-                                placeholder="Brief description of your company values"></textarea>
+                      <div class="toolbar mb-2">
+                        <button type="button" @click="formatValuesText('description', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-bold"></i>
+                        </button>
+                        <button type="button" @click="formatValuesText('description', 'italic')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-italic"></i>
+                        </button>
+                        <button type="button" @click="formatValuesText('description', 'underline')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-underline"></i>
+                        </button>
+                        <button type="button" @click="formatValuesText('description', 'insertUnorderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button type="button" @click="formatValuesText('description', 'insertOrderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ol"></i>
+                        </button>
+                        <button type="button" @click="insertValuesLineBreak('description')" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-level-down-alt"></i> BR
+                        </button>
+                      </div>
+                      <div ref="valuesDescriptionEditor"
+                           @input="updateValuesDescription"
+                           contenteditable="true"
+                           class="bio-editor form-control"
+                           style="min-height: 100px;"
+                           v-html="content.values.description"
+                           placeholder="Brief description of your company values">
+                      </div>
                     </div>
                     
                     <!-- Values List -->
@@ -679,8 +754,34 @@
                     </div>
                     <div class="col-12">
                       <label class="form-label fw-bold">Vision Statement</label>
-                      <textarea v-model="content.vision.statement" rows="4" class="form-control"
-                                placeholder="At Make It Home, we envision a future where..."></textarea>
+                      <div class="toolbar mb-2">
+                        <button type="button" @click="formatVisionText('statement', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-bold"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('statement', 'italic')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-italic"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('statement', 'underline')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-underline"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('statement', 'insertUnorderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('statement', 'insertOrderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ol"></i>
+                        </button>
+                        <button type="button" @click="insertVisionLineBreak('statement')" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-level-down-alt"></i> BR
+                        </button>
+                      </div>
+                      <div ref="visionStatementEditor"
+                           @input="updateVisionStatement"
+                           contenteditable="true"
+                           class="bio-editor form-control"
+                           style="min-height: 120px;"
+                           v-html="content.vision.statement"
+                           placeholder="At Make It Home, we envision a future where...">
+                      </div>
                     </div>
 
 
@@ -709,8 +810,34 @@
                     </div>
                     <div class="col-12">
                       <label class="form-label fw-bold">Motivation Content</label>
-                      <textarea v-model="content.vision.motivation" rows="4" class="form-control"
-                                placeholder="We're motivated by the belief that real estate should be..."></textarea>
+                      <div class="toolbar mb-2">
+                        <button type="button" @click="formatVisionText('motivation', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-bold"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('motivation', 'italic')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-italic"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('motivation', 'underline')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-underline"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('motivation', 'insertUnorderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('motivation', 'insertOrderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ol"></i>
+                        </button>
+                        <button type="button" @click="insertVisionLineBreak('motivation')" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-level-down-alt"></i> BR
+                        </button>
+                      </div>
+                      <div ref="visionMotivationEditor"
+                           @input="updateVisionMotivation"
+                           contenteditable="true"
+                           class="bio-editor form-control"
+                           style="min-height: 120px;"
+                           v-html="content.vision.motivation"
+                           placeholder="We're motivated by the belief that real estate should be...">
+                      </div>
                     </div>
 
                     <!-- Future Goals Section -->
@@ -729,8 +856,34 @@
                     </div>
                     <div class="col-12">
                       <label class="form-label fw-bold">Future Goals Content</label>
-                      <textarea v-model="content.vision.futureGoals" rows="4" class="form-control"
-                                placeholder="Our vision extends beyond today's transactions..."></textarea>
+                      <div class="toolbar mb-2">
+                        <button type="button" @click="formatVisionText('futureGoals', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-bold"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('futureGoals', 'italic')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-italic"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('futureGoals', 'underline')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-underline"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('futureGoals', 'insertUnorderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button type="button" @click="formatVisionText('futureGoals', 'insertOrderedList')" class="btn btn-sm btn-outline-secondary me-1">
+                          <i class="fas fa-list-ol"></i>
+                        </button>
+                        <button type="button" @click="insertVisionLineBreak('futureGoals')" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-level-down-alt"></i> BR
+                        </button>
+                      </div>
+                      <div ref="visionFutureGoalsEditor"
+                           @input="updateVisionFutureGoals"
+                           contenteditable="true"
+                           class="bio-editor form-control"
+                           style="min-height: 120px;"
+                           v-html="content.vision.futureGoals"
+                           placeholder="Our vision extends beyond today's transactions...">
+                      </div>
                     </div>
 
                     <!-- Call to Action Section -->
@@ -1776,6 +1929,192 @@ export default {
           this.content.vision = {}
         }
         this.content.vision.motivationImage = ''
+      }
+    },
+    formatVisionText(field, command) {
+      const editorRef = `vision${field.charAt(0).toUpperCase() + field.slice(1)}Editor`
+      document.execCommand(command, false, null)
+      this.$refs[editorRef].focus()
+    },
+    insertVisionLineBreak(field) {
+      const editorRef = `vision${field.charAt(0).toUpperCase() + field.slice(1)}Editor`
+      document.execCommand('insertHTML', false, '<br>')
+      this.$refs[editorRef].focus()
+    },
+    updateVisionStatement() {
+      // Save cursor position
+      const selection = window.getSelection()
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null
+      let cursorPosition = null
+
+      if (range) {
+        const preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(this.$refs.visionStatementEditor)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        cursorPosition = preCaretRange.toString().length
+      }
+
+      // Update the content
+      const newContent = this.$refs.visionStatementEditor.innerHTML
+      if (this.content.vision.statement !== newContent) {
+        this.content.vision.statement = newContent
+
+        // Restore cursor position after Vue updates the DOM
+        this.$nextTick(() => {
+          if (cursorPosition !== null) {
+            this.setCursorPosition(this.$refs.visionStatementEditor, cursorPosition)
+          }
+        })
+      }
+    },
+    updateVisionMotivation() {
+      // Save cursor position
+      const selection = window.getSelection()
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null
+      let cursorPosition = null
+
+      if (range) {
+        const preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(this.$refs.visionMotivationEditor)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        cursorPosition = preCaretRange.toString().length
+      }
+
+      // Update the content
+      const newContent = this.$refs.visionMotivationEditor.innerHTML
+      if (this.content.vision.motivation !== newContent) {
+        this.content.vision.motivation = newContent
+
+        // Restore cursor position after Vue updates the DOM
+        this.$nextTick(() => {
+          if (cursorPosition !== null) {
+            this.setCursorPosition(this.$refs.visionMotivationEditor, cursorPosition)
+          }
+        })
+      }
+    },
+    updateVisionFutureGoals() {
+      // Save cursor position
+      const selection = window.getSelection()
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null
+      let cursorPosition = null
+
+      if (range) {
+        const preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(this.$refs.visionFutureGoalsEditor)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        cursorPosition = preCaretRange.toString().length
+      }
+
+      // Update the content
+      const newContent = this.$refs.visionFutureGoalsEditor.innerHTML
+      if (this.content.vision.futureGoals !== newContent) {
+        this.content.vision.futureGoals = newContent
+
+        // Restore cursor position after Vue updates the DOM
+        this.$nextTick(() => {
+          if (cursorPosition !== null) {
+            this.setCursorPosition(this.$refs.visionFutureGoalsEditor, cursorPosition)
+          }
+        })
+      }
+    },
+    formatAboutText(field, command) {
+      const editorRef = `about${field.charAt(0).toUpperCase() + field.slice(1)}Editor`
+      document.execCommand(command, false, null)
+      this.$refs[editorRef].focus()
+    },
+    insertAboutLineBreak(field) {
+      const editorRef = `about${field.charAt(0).toUpperCase() + field.slice(1)}Editor`
+      document.execCommand('insertHTML', false, '<br>')
+      this.$refs[editorRef].focus()
+    },
+    updateAboutStory() {
+      // Save cursor position
+      const selection = window.getSelection()
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null
+      let cursorPosition = null
+
+      if (range) {
+        const preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(this.$refs.aboutStoryEditor)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        cursorPosition = preCaretRange.toString().length
+      }
+
+      // Update the content
+      const newContent = this.$refs.aboutStoryEditor.innerHTML
+      if (this.content.about.story !== newContent) {
+        this.content.about.story = newContent
+
+        // Restore cursor position after Vue updates the DOM
+        this.$nextTick(() => {
+          if (cursorPosition !== null) {
+            this.setCursorPosition(this.$refs.aboutStoryEditor, cursorPosition)
+          }
+        })
+      }
+    },
+    updateAboutMission() {
+      // Save cursor position
+      const selection = window.getSelection()
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null
+      let cursorPosition = null
+
+      if (range) {
+        const preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(this.$refs.aboutMissionEditor)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        cursorPosition = preCaretRange.toString().length
+      }
+
+      // Update the content
+      const newContent = this.$refs.aboutMissionEditor.innerHTML
+      if (this.content.about.mission !== newContent) {
+        this.content.about.mission = newContent
+
+        // Restore cursor position after Vue updates the DOM
+        this.$nextTick(() => {
+          if (cursorPosition !== null) {
+            this.setCursorPosition(this.$refs.aboutMissionEditor, cursorPosition)
+          }
+        })
+      }
+    },
+    formatValuesText(field, command) {
+      const editorRef = `values${field.charAt(0).toUpperCase() + field.slice(1)}Editor`
+      document.execCommand(command, false, null)
+      this.$refs[editorRef].focus()
+    },
+    insertValuesLineBreak(field) {
+      const editorRef = `values${field.charAt(0).toUpperCase() + field.slice(1)}Editor`
+      document.execCommand('insertHTML', false, '<br>')
+      this.$refs[editorRef].focus()
+    },
+    updateValuesDescription() {
+      // Save cursor position
+      const selection = window.getSelection()
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null
+      let cursorPosition = null
+
+      if (range) {
+        const preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(this.$refs.valuesDescriptionEditor)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        cursorPosition = preCaretRange.toString().length
+      }
+
+      // Update the content
+      const newContent = this.$refs.valuesDescriptionEditor.innerHTML
+      if (this.content.values.description !== newContent) {
+        this.content.values.description = newContent
+
+        // Restore cursor position after Vue updates the DOM
+        this.$nextTick(() => {
+          if (cursorPosition !== null) {
+            this.setCursorPosition(this.$refs.valuesDescriptionEditor, cursorPosition)
+          }
+        })
       }
     },
     editTeamMember(index) {
