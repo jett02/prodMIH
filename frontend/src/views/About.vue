@@ -191,12 +191,12 @@
               </div>
               <div class="specialty-card-body">
                 <h5 class="specialty-section-title">Areas of Expertise</h5>
-                <div class="specialty-tags" v-if="member.specialties && member.specialties.length > 0">
-                  <span v-for="specialty in member.specialties" :key="specialty"
-                        class="specialty-tag">
+                <ul class="specialty-list" v-if="member.specialties && member.specialties.length > 0">
+                  <li v-for="specialty in member.specialties" :key="specialty"
+                      class="specialty-item">
                     {{ specialty }}
-                  </span>
-                </div>
+                  </li>
+                </ul>
                 <div v-else class="text-muted text-center">
                   <small>Specialties will be displayed here when added in admin</small>
                 </div>
@@ -206,7 +206,7 @@
         </div>
 
         <!-- Call to Action -->
-        <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="400">
+        <div class="text-center mt-5 mb-5" data-aos="fade-up" data-aos-delay="400">
           <p class="lead text-light mb-4">
             Ready to work with our specialized team?
           </p>
@@ -917,15 +917,15 @@ export default {
 }
 
 .specialty-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
   border-radius: 20px;
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 0 0 1px rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  border: 1px solid rgba(235, 164, 114, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
   z-index: 2;
 }
@@ -950,15 +950,16 @@ export default {
   transform: translateY(-12px) scale(1.02);
   box-shadow:
     0 30px 60px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(235, 164, 114, 0.3);
-  border-color: rgba(235, 164, 114, 0.4);
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .specialty-card-header {
   padding: 2.5rem 2rem 1.5rem;
   text-align: center;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-bottom: 1px solid rgba(235, 164, 114, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   position: relative;
 }
 
@@ -1006,19 +1007,21 @@ export default {
 .specialty-member-name {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #ffffff;
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .specialty-member-title {
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
   font-weight: 500;
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.9rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .linkedin-link {
@@ -1051,17 +1054,18 @@ export default {
 
 .specialty-card-body {
   padding: 2rem 2rem 2.5rem;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .specialty-section-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #ffffff;
   margin-bottom: 1.5rem;
   text-align: center;
   position: relative;
   padding-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .specialty-section-title::after {
@@ -1076,48 +1080,40 @@ export default {
   border-radius: 1px;
 }
 
-.specialty-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
+.specialty-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.specialty-tag {
-  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
-  color: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 30px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(235, 164, 114, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.specialty-item {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
   position: relative;
-  overflow: hidden;
+  line-height: 1.5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.specialty-tag::before {
+.specialty-item::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  left: 0;
+  top: 0.6rem;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #EBA472, #D4935E);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(235, 164, 114, 0.5);
 }
 
-.specialty-tag:hover::before {
-  left: 100%;
+.specialty-item:last-child {
+  margin-bottom: 0;
 }
 
-.specialty-tag:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.5);
-  background: linear-gradient(135deg, #D4935E 0%, #EBA472 100%);
-}
+
 
 /* Enhanced Button Styling */
 .btn-outline-light {
@@ -1171,9 +1167,9 @@ export default {
     font-size: 0.85rem;
   }
 
-  .specialty-tag {
-    font-size: 0.85rem;
-    padding: 0.6rem 1rem;
+  .specialty-item {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
   }
 
   .linkedin-link {
@@ -1187,13 +1183,16 @@ export default {
     margin-bottom: 2rem;
   }
 
-  .specialty-tags {
-    gap: 0.5rem;
+  .specialty-item {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.25rem;
   }
 
-  .specialty-tag {
-    font-size: 0.8rem;
-    padding: 0.5rem 0.8rem;
+  .specialty-item::before {
+    width: 5px;
+    height: 5px;
+    top: 0.65rem;
   }
 }
 
