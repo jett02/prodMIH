@@ -36,6 +36,11 @@ router.get('/test-email', async (req, res) => {
   try {
     const emailService = (await import('../services/emailService.js')).default;
 
+    // Get team notification emails
+    const teamEmails = process.env.TEAM_NOTIFICATION_EMAILS
+      ? process.env.TEAM_NOTIFICATION_EMAILS.split(',').map(email => email.trim()).filter(email => email)
+      : [];
+
     // Check environment variables
     const emailConfig = {
       AZURE_CLIENT_ID: process.env.AZURE_CLIENT_ID ? 'Set' : 'Not Set',
@@ -43,7 +48,8 @@ router.get('/test-email', async (req, res) => {
       AZURE_TENANT_ID: process.env.AZURE_TENANT_ID ? 'Set' : 'Not Set',
       EMAIL_FROM: process.env.EMAIL_FROM,
       COMPANY_EMAIL: process.env.COMPANY_EMAIL,
-      BACKUP_AGENT_EMAIL: process.env.BACKUP_AGENT_EMAIL
+      BACKUP_AGENT_EMAIL: process.env.BACKUP_AGENT_EMAIL,
+      TEAM_NOTIFICATION_EMAILS: teamEmails
     };
 
     console.log('Email config check:', emailConfig);

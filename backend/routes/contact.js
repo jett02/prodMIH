@@ -92,11 +92,28 @@ router.post('/agent', async (req, res) => {
 
     await contact.save();
 
-    // Send email to agent
+    // Prepare recipient lists
+    const primaryRecipient = finalAgentEmail;
+
+    // Get team notification emails from environment variable
+    const teamEmails = process.env.TEAM_NOTIFICATION_EMAILS
+      ? process.env.TEAM_NOTIFICATION_EMAILS.split(',').map(email => email.trim()).filter(email => email)
+      : [];
+
+    // Add company email to team emails if not already included
+    const companyEmail = process.env.COMPANY_EMAIL || 'info@makeithome.com';
+    if (companyEmail && !teamEmails.includes(companyEmail)) {
+      teamEmails.push(companyEmail);
+    }
+
+    // Remove duplicates and filter out the primary recipient from CC list
+    const ccEmails = [...new Set(teamEmails)].filter(email => email !== primaryRecipient);
+
+    // Send email to agent with team members in CC
     const mailOptions = {
       from: process.env.EMAIL_FROM || 'noreply@makeithome.com',
-      to: finalAgentEmail,
-      cc: process.env.COMPANY_EMAIL || 'info@makeithome.com',
+      to: primaryRecipient,
+      cc: ccEmails.length > 0 ? ccEmails : undefined,
       subject: subject || `New Property Inquiry - ${propertyAddress}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -125,6 +142,13 @@ router.post('/agent', async (req, res) => {
           </div>
           
           <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+          <div style="background-color: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3b82f6;">
+            <p style="color: #1e40af; font-size: 13px; margin: 0; font-weight: 600;">📧 Email Recipients</p>
+            <p style="color: #1e40af; font-size: 12px; margin: 5px 0 0 0;">
+              Primary: ${primaryRecipient}<br>
+              ${ccEmails.length > 0 ? `Team Copy: ${ccEmails.join(', ')}` : 'No additional team members notified'}
+            </p>
+          </div>
           <p style="color: #6b7280; font-size: 14px; text-align: center;">
             This inquiry was submitted through the Make It Home website.<br>
             Please respond to the client within 24 hours for the best customer experience.
@@ -204,11 +228,28 @@ router.post('/tour', async (req, res) => {
 
     await contact.save();
 
-    // Send email to agent
+    // Prepare recipient lists
+    const primaryRecipient = finalAgentEmail;
+
+    // Get team notification emails from environment variable
+    const teamEmails = process.env.TEAM_NOTIFICATION_EMAILS
+      ? process.env.TEAM_NOTIFICATION_EMAILS.split(',').map(email => email.trim()).filter(email => email)
+      : [];
+
+    // Add company email to team emails if not already included
+    const companyEmail = process.env.COMPANY_EMAIL || 'info@makeithome.com';
+    if (companyEmail && !teamEmails.includes(companyEmail)) {
+      teamEmails.push(companyEmail);
+    }
+
+    // Remove duplicates and filter out the primary recipient from CC list
+    const ccEmails = [...new Set(teamEmails)].filter(email => email !== primaryRecipient);
+
+    // Send email to agent with team members in CC
     const mailOptions = {
       from: process.env.EMAIL_FROM || 'noreply@makeithome.com',
-      to: finalAgentEmail,
-      cc: process.env.COMPANY_EMAIL || 'info@makeithome.com',
+      to: primaryRecipient,
+      cc: ccEmails.length > 0 ? ccEmails : undefined,
       subject: subject || `New Tour Request - ${propertyAddress}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -246,6 +287,13 @@ router.post('/tour', async (req, res) => {
           </div>
           
           <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+          <div style="background-color: #f0fdf4; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745;">
+            <p style="color: #166534; font-size: 13px; margin: 0; font-weight: 600;">📧 Email Recipients</p>
+            <p style="color: #166534; font-size: 12px; margin: 5px 0 0 0;">
+              Primary: ${primaryRecipient}<br>
+              ${ccEmails.length > 0 ? `Team Copy: ${ccEmails.join(', ')}` : 'No additional team members notified'}
+            </p>
+          </div>
           <p style="color: #6b7280; font-size: 14px; text-align: center;">
             This tour request was submitted through the Make It Home website.<br>
             Please confirm or reschedule with the client within 24 hours.
