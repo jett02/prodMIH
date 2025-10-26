@@ -104,7 +104,7 @@
     </section>
 
     <!-- How It Works Section -->
-    <section class="py-20 bg-white">
+    <section class="py-20 bg-soft-beige">
       <div class="container">
         <div class="text-center mb-5">
           <span class="eyebrow mb-3 text-sunset-orange" data-aos="fade-up">Simple Process</span>
@@ -150,7 +150,7 @@
     </section>
 
     <!-- Why Sell to Us Section -->
-    <section class="py-20 bg-light">
+    <section class="py-20 bg-modern-white">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6" data-aos="fade-up">
@@ -304,6 +304,8 @@ export default {
   --sunset-brown: #D4935E;
   --midnight-black: #1a1a1a;
   --slate-gray: #6c757d;
+  --modern-white: #FFFFFF;
+  --soft-beige: #F5F1EC;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -879,6 +881,15 @@ export default {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
+}
+
+/* Brand Background Classes */
+.bg-soft-beige {
+  background-color: var(--soft-beige) !important;
+}
+
+.bg-modern-white {
+  background-color: var(--modern-white) !important;
 }
 
 /* Additional utility for better spacing */
