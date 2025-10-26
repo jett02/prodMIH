@@ -13,19 +13,24 @@ cloudinary.config({
 });
 
 // Create storage configurations for different upload types
-const createCloudinaryStorage = (folder, allowedFormats = ['jpg', 'jpeg', 'png', 'webp', 'gif']) => {
+const createCloudinaryStorage = (folder, allowedFormats = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'mp4', 'mov', 'avi', 'webm']) => {
   return new CloudinaryStorage({
     cloudinary: cloudinary,
     params: (req, file) => {
       const timestamp = Date.now();
       const random = Math.round(Math.random() * 1E9);
       const isGif = file.mimetype === 'image/gif';
+      const isVideo = file.mimetype.startsWith('video/');
 
       return {
         folder: `makeithome/${folder}`,
         allowed_formats: allowedFormats,
-        // Different transformations for GIFs vs other images
-        transformation: isGif ? [
+        resource_type: isVideo ? 'video' : 'image',
+        // Different transformations for different file types
+        transformation: isVideo ? [
+          // For videos: optimize for web, limit size
+          { width: 1200, height: 800, crop: 'limit', quality: 'auto', format: 'mp4' }
+        ] : isGif ? [
           // For GIFs: preserve animation, limit size but don't change format
           { width: 1200, height: 800, crop: 'limit', flags: 'animated' }
         ] : [
@@ -33,8 +38,8 @@ const createCloudinaryStorage = (folder, allowedFormats = ['jpg', 'jpeg', 'png',
           { width: 1200, height: 800, crop: 'limit', quality: 'auto', format: 'auto' }
         ],
         public_id: `${folder}-${timestamp}-${random}`,
-        // Preserve original format for GIFs
-        format: isGif ? 'gif' : undefined
+        // Preserve original format for GIFs, optimize videos to MP4
+        format: isGif ? 'gif' : isVideo ? 'mp4' : undefined
       };
     },
   });
@@ -57,21 +62,28 @@ export const propertyUpload = multer({
 
 export const heroUpload = multer({
   storage: heroStorage,
-  limits: { fileSize: 15 * 1024 * 1024 }, // 15MB limit to accommodate GIFs
+  limits: { fileSize: 100 * 1024 * 1024 }, // 100MB limit to accommodate videos
   fileFilter: (req, file, cb) => {
-    // Allow images including GIFs
+    // Allow images and videos
     const allowedMimes = [
+      // Images
       'image/jpeg',
       'image/jpg',
       'image/png',
       'image/webp',
-      'image/gif'
+      'image/gif',
+      // Videos
+      'video/mp4',
+      'video/mov',
+      'video/avi',
+      'video/webm',
+      'video/quicktime'
     ];
 
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Only image files (JPG, PNG, WebP, GIF) are allowed!'), false);
+      cb(new Error('Only image files (JPG, PNG, WebP, GIF) and video files (MP4, MOV, AVI, WebM) are allowed!'), false);
     }
   }
 });

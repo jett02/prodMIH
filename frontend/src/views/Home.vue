@@ -38,9 +38,21 @@
                   <div class="hero-card card-back-2"></div>
                   <div class="hero-card card-back-1"></div>
 
-                  <!-- Front card with current image -->
+                  <!-- Front card with current media (image or video) -->
                   <div class="hero-card card-front">
-                    <img :src="getHeroForegroundImage(currentImageIndex)"
+                    <!-- Display video if current media is a video -->
+                    <video v-if="isCurrentMediaVideo()"
+                           :src="getHeroForegroundImage(currentImageIndex)"
+                           class="hero-foreground-video"
+                           autoplay
+                           muted
+                           loop
+                           playsinline
+                           @error="handleImageError">
+                    </video>
+                    <!-- Display image if current media is an image -->
+                    <img v-else
+                         :src="getHeroForegroundImage(currentImageIndex)"
                          alt="Make It Home"
                          class="hero-foreground-image"
                          @error="handleImageError">
@@ -53,7 +65,7 @@
                 <!-- Navigation Dots -->
                 <div class="carousel-dots" v-if="heroContent.galleryImages.length > 1">
                   <button
-                    v-for="(image, index) in heroContent.galleryImages"
+                    v-for="(media, index) in heroContent.galleryImages"
                     :key="index"
                     class="carousel-dot"
                     :class="{ active: index === currentImageIndex }"
@@ -685,6 +697,18 @@ export default {
         clearInterval(this.carouselInterval)
         this.carouselInterval = null
       }
+    },
+
+    isCurrentMediaVideo() {
+      if (!this.heroContent.galleryImages || this.heroContent.galleryImages.length === 0) {
+        return false
+      }
+      const currentMedia = this.heroContent.galleryImages[this.currentImageIndex]
+      if (!currentMedia) return false
+
+      const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.m4v']
+      const lowerPath = currentMedia.toLowerCase()
+      return videoExtensions.some(ext => lowerPath.includes(ext))
     },
 
     scrollToContent() {
@@ -1359,7 +1383,8 @@ export default {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
 
-.hero-foreground-image {
+.hero-foreground-image,
+.hero-foreground-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1840,7 +1865,8 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .hero-foreground-image {
+  .hero-foreground-image,
+  .hero-foreground-video {
     max-width: 90%;
     margin-bottom: 2rem;
     height: 400px; /* Smaller height on mobile */

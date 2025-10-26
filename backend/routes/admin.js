@@ -124,6 +124,52 @@ router.post('/test-hero-vs-agent', (req, res) => {
   });
 });
 
+// Debug endpoint to test large file uploads
+router.post('/debug-large-upload', (req, res) => {
+  console.log('=== DEBUG LARGE UPLOAD START ===');
+  console.log('Headers:', req.headers);
+  console.log('Content-Length:', req.headers['content-length']);
+  console.log('Content-Type:', req.headers['content-type']);
+
+  heroUpload.single('testFile')(req, res, (err) => {
+    console.log('=== DEBUG LARGE UPLOAD RESULT ===');
+    console.log('Error:', err);
+    console.log('File:', req.file);
+
+    if (err) {
+      console.error('Debug upload error:', err);
+      return res.status(400).json({
+        success: false,
+        error: err.message,
+        code: err.code,
+        details: {
+          message: err.message,
+          code: err.code,
+          field: err.field,
+          stack: err.stack
+        }
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        error: 'No file received'
+      });
+    }
+
+    res.json({
+      success: true,
+      file: {
+        originalname: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+        path: req.file.path
+      }
+    });
+  });
+});
+
 // Public content endpoint (no authentication required)
 router.get('/content/public', async (req, res) => {
   try {

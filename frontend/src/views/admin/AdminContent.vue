@@ -113,21 +113,25 @@
                       <small class="form-text text-muted">This image will appear next to the company description on the home page</small>
                     </div>
 
-                    <!-- Hero Gallery Images Upload (Carousel) -->
+                    <!-- Hero Gallery Media Upload (Carousel) -->
                     <div class="col-12">
-                      <label class="form-label fw-bold">Hero Gallery Images (Carousel)</label>
+                      <label class="form-label fw-bold">Hero Gallery Media (Carousel)</label>
                       <div v-if="content.hero.galleryImages && content.hero.galleryImages.length > 0" class="mb-3">
                         <div class="row g-2">
-                          <div v-for="(image, index) in content.hero.galleryImages" :key="index" class="col-auto">
+                          <div v-for="(media, index) in content.hero.galleryImages" :key="index" class="col-auto">
                             <div class="position-relative">
-                              <img :src="getImageUrl(image)" alt="Gallery Image" class="img-thumbnail" style="max-height: 80px; max-width: 80px;">
+                              <!-- Display video thumbnail or image -->
+                              <div v-if="isVideoFile(media)" class="video-thumbnail" style="max-height: 80px; max-width: 80px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-play-circle" style="font-size: 24px; color: #6c757d;"></i>
+                              </div>
+                              <img v-else :src="getImageUrl(media)" alt="Gallery Media" class="img-thumbnail" style="max-height: 80px; max-width: 80px;">
                               <button @click="removeGalleryImage(index)" type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" style="padding: 2px 6px; font-size: 10px;">×</button>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <input @change="handleHeroGalleryUpload" type="file" class="form-control" accept="image/*" multiple>
-                      <small class="form-text text-muted">Upload multiple images for the hero carousel. These will replace the single foreground image with a rotating gallery.</small>
+                      <input @change="handleHeroGalleryUpload" type="file" class="form-control" accept="image/*,video/*" multiple>
+                      <small class="form-text text-muted">Upload images (JPG, PNG, WebP, GIF) and videos (MP4, MOV, AVI, WebM) for the hero carousel. Videos are limited to 100MB, images to 15MB.</small>
                     </div>
                     
                     <div class="col-12">
@@ -1738,6 +1742,13 @@ export default {
       if (this.content.hero.galleryImages && index >= 0 && index < this.content.hero.galleryImages.length) {
         this.content.hero.galleryImages.splice(index, 1)
       }
+    },
+
+    isVideoFile(filePath) {
+      if (!filePath) return false
+      const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.m4v']
+      const lowerPath = filePath.toLowerCase()
+      return videoExtensions.some(ext => lowerPath.includes(ext))
     },
 
     showSuccessPopup(message) {
