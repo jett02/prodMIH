@@ -2,9 +2,9 @@
   <div class="vision-page">
     <!-- Hero Section -->
     <section class="hero-section overflow-hidden inverted">
-      <div class="d-flex flex-column py-15 min-vh-75 container foreground">
+      <div class="d-flex flex-column py-20 min-vh-100 container foreground">
         <div class="row justify-content-center my-auto">
-          <div class="col-lg-8 text-center">
+          <div class="col-lg-8 text-center hero-content">
             <span class="eyebrow mb-3 text-warm-sunset" data-aos="fade-up">Our Vision</span>
             <h1 class="fw-bold display-4 mb-4" data-aos="fade-up" data-aos-delay="200">
               Building <span class="text-warm-sunset">Tomorrow's</span> Communities
@@ -403,6 +403,13 @@ export default {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   position: relative;
   overflow: hidden;
+  padding-top: 80px; /* Ensure space for navbar */
+  min-height: 100vh;
+}
+
+.hero-content {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 /* Animated Background Layers */
@@ -692,6 +699,10 @@ export default {
 
 .min-vh-75 {
   min-height: 50vh !important;
+}
+
+.min-vh-100 {
+  min-height: 100vh !important;
 }
 
 .py-15 {
@@ -1224,6 +1235,15 @@ export default {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .hero-section {
+    padding-top: 60px; /* Smaller navbar spacing on mobile */
+  }
+
+  .hero-content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
   .min-vh-75 {
     min-height: 60vh !important;
   }
