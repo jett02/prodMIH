@@ -32,6 +32,7 @@
               Services
             </a>
             <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+              <li><router-link class="dropdown-item text-slate-gray" to="/sell-to-us" @click="closeMobileMenu">Sell To Us</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/mortgage-calculator" @click="closeMobileMenu">Mortgage Calculator</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
             </ul>

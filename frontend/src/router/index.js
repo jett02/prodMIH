@@ -11,6 +11,7 @@ import OurLeadership from '@/views/About.vue'
 import OurPartners from '@/views/OurPartners.vue'
 import MortgageCalculator from '@/views/MortgageCalculator.vue'
 import PreferredBidders from '@/views/PreferredBidders.vue'
+import SellToUs from '@/views/SellToUs.vue'
 import Sitemap from '@/views/Sitemap.vue'
 import AdminLogin from '@/views/admin/AdminLogin.vue'
 import AdminDashboard from '@/views/admin/AdminDashboard.vue'
@@ -66,6 +67,11 @@ const routes = [
     path: '/preferred-bidders',
     name: 'PreferredBidders',
     component: PreferredBidders
+  },
+  {
+    path: '/sell-to-us',
+    name: 'SellToUs',
+    component: SellToUs
   },
   {
     path: '/contact',

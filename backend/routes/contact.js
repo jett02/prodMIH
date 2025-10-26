@@ -40,6 +40,131 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Sell To Us form submission
+router.post('/sell-to-us', async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      phone,
+      address,
+      propertyType,
+      timeframe,
+      message,
+      subject
+    } = req.body;
+
+    console.log('=== SELL TO US DEBUG: Received form data ===', req.body);
+
+    // Validate required fields
+    if (!name || !email || !address) {
+      return res.status(400).json({ message: 'Missing required fields: name, email, and address are required' });
+    }
+
+    // Clean profanity from text fields
+    const cleanName = cleanProfanity(name);
+    const cleanMessage = cleanProfanity(message || '');
+    const cleanAddress = cleanProfanity(address);
+
+    // Save to database
+    const contact = new Contact({
+      name: cleanName,
+      email,
+      phone: phone || '',
+      message: `Sell To Us Inquiry
+
+Property Address: ${cleanAddress}
+Property Type: ${propertyType || 'Not specified'}
+Timeframe: ${timeframe || 'Not specified'}
+Phone: ${phone || 'Not provided'}
+
+Additional Details: ${cleanMessage}`,
+      type: 'sell-to-us',
+      subject: subject || 'Sell To Us Inquiry'
+    });
+
+    await contact.save();
+    console.log('=== SELL TO US DEBUG: Contact saved to database ===');
+
+    // Get team notification emails from environment variable
+    const teamEmails = process.env.TEAM_NOTIFICATION_EMAILS
+      ? process.env.TEAM_NOTIFICATION_EMAILS.split(',').map(email => email.trim()).filter(email => email)
+      : [];
+
+    console.log('=== SELL TO US DEBUG: Team emails ===', teamEmails);
+
+    // Prepare email content
+    const emailSubject = subject || 'New Sell To Us Inquiry';
+    const emailBody = `
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <div style="background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%); padding: 30px; text-align: center;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">New Sell To Us Inquiry</h1>
+  </div>
+
+  <div style="padding: 30px; background: #f8f9fa;">
+    <h2 style="color: #1a1a1a; margin-bottom: 20px;">Property Owner Information</h2>
+
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <p><strong>Name:</strong> ${cleanName}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+    </div>
+
+    <h2 style="color: #1a1a1a; margin-bottom: 20px;">Property Details</h2>
+
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <p><strong>Property Address:</strong> ${cleanAddress}</p>
+      <p><strong>Property Type:</strong> ${propertyType || 'Not specified'}</p>
+      <p><strong>Timeframe:</strong> ${timeframe || 'Not specified'}</p>
+    </div>
+
+    ${cleanMessage ? `
+    <h2 style="color: #1a1a1a; margin-bottom: 20px;">Additional Details</h2>
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <p style="white-space: pre-wrap;">${cleanMessage}</p>
+    </div>
+    ` : ''}
+
+    <div style="text-align: center; margin-top: 30px;">
+      <p style="color: #6c757d; font-size: 14px;">
+        This inquiry was submitted through the Sell To Us form on wecanmakeithome.com
+      </p>
+    </div>
+  </div>
+</div>`;
+
+    // Send email notification to team
+    if (teamEmails.length > 0) {
+      try {
+        console.log('=== SELL TO US DEBUG: Attempting to send email ===');
+
+        await emailService.sendEmail({
+          to: teamEmails[0], // Primary recipient
+          cc: teamEmails.slice(1), // Additional team members as CC
+          subject: emailSubject,
+          html: emailBody
+        });
+
+        console.log('=== SELL TO US DEBUG: Email sent successfully ===');
+      } catch (emailError) {
+        console.error('=== SELL TO US DEBUG: Email sending failed ===', emailError);
+        // Don't fail the request if email fails, just log it
+      }
+    } else {
+      console.log('=== SELL TO US DEBUG: No team emails configured ===');
+    }
+
+    res.status(201).json({
+      message: 'Sell To Us inquiry submitted successfully. We\'ll get back to you within 24 hours with your cash offer.',
+      contactId: contact._id
+    });
+
+  } catch (error) {
+    console.error('=== SELL TO US DEBUG: Error processing inquiry ===', error);
+    res.status(500).json({ message: 'Error processing your inquiry. Please try again.' });
+  }
+});
+
 // Agent contact form (property inquiries)
 router.post('/agent', async (req, res) => {
   try {
