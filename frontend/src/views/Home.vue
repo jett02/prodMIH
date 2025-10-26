@@ -1335,7 +1335,7 @@ export default {
 .hero-image-carousel-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align under text instead of center */
+  align-items: center; /* Center the carousel */
   padding-top: 2rem;
   margin-top: 1.5rem;
   width: 100%;
@@ -1884,36 +1884,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .hero-foreground-image,
-  .hero-foreground-video {
-    max-width: 90%;
-    margin-bottom: 2rem;
-    height: 400px; /* Smaller height on mobile */
-  }
-
-  .hero-carousel-wrapper {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .card-stack {
-    width: 100px;
-    height: 120px;
-  }
-
-  .preview-card {
-    width: 100px;
-    height: 120px;
-  }
-
-  .card-back-2 {
-    transform: translateY(6px) translateX(-3px) rotate(-2deg);
-  }
-
-  .card-back-1 {
-    transform: translateY(3px) translateX(-1.5px) rotate(-1deg);
-  }
-
   .hero-main-title {
     font-size: 2rem; /* Smaller on mobile */
   }
@@ -1922,21 +1892,14 @@ export default {
     font-size: 1rem;
   }
 
-  .hero-main-image-container {
-    max-width: 100%; /* Full width on mobile */
-  }
-
-  .carousel-previews-stack {
-    margin-top: 1rem;
+  .hero-carousel-wrapper {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem; /* Add padding to prevent edge cutoff */
   }
 
   .carousel-dots {
     bottom: -30px;
-  }
-
-  .hero-foreground-image-single {
-    max-width: 100%;
-    height: 300px; /* Smaller height on mobile */
   }
 
   .search-card-glass {
@@ -1981,21 +1944,43 @@ export default {
     max-height: 400px;
   }
 
+  .hero-image-carousel-container {
+    padding: 0 1rem; /* Add horizontal padding */
+  }
+
   .hero-card-stack {
-    max-width: 100%;
-    height: 300px; /* Smaller height on mobile */
+    max-width: calc(100vw - 2rem); /* Full width minus padding */
+    width: 100%;
+    height: 250px; /* Smaller height on mobile */
+    margin: 0 auto; /* Center the stack */
   }
 
   .hero-card {
-    height: 300px;
+    height: 250px;
+    width: 100%;
+  }
+
+  .hero-foreground-image,
+  .hero-foreground-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure proper scaling */
+    object-position: center; /* Center the image/video */
+  }
+
+  .hero-foreground-image-single {
+    max-width: calc(100vw - 2rem);
+    width: 100%;
+    height: 250px;
+    margin: 0 auto;
   }
 
   .hero-card.card-back-2 {
-    transform: translateY(12px) translateX(-6px) rotate(-1.5deg);
+    transform: translateY(8px) translateX(-4px) rotate(-1deg);
   }
 
   .hero-card.card-back-1 {
-    transform: translateY(6px) translateX(-3px) rotate(-0.8deg);
+    transform: translateY(4px) translateX(-2px) rotate(-0.5deg);
   }
 
   .card-overlay i {
@@ -2004,6 +1989,24 @@ export default {
 }
 
 @media (max-width: 480px) {
+  .hero-image-carousel-container {
+    padding: 0 0.5rem; /* Tighter padding on very small screens */
+  }
+
+  .hero-card-stack {
+    max-width: calc(100vw - 1rem);
+    height: 200px; /* Even smaller on very small screens */
+  }
+
+  .hero-card {
+    height: 200px;
+  }
+
+  .hero-foreground-image-single {
+    max-width: calc(100vw - 1rem);
+    height: 200px;
+  }
+
   .search-card-glass {
     padding: 1.5rem 1rem;
     margin: 0 0.5rem;
