@@ -42,7 +42,7 @@
     </section>
 
     <!-- Team Specialties Section -->
-    <section class="py-16 bg-white" v-if="hasSpecialties">
+    <section class="py-16 bg-white">
       <div class="container">
         <div class="text-center mb-5">
           <span class="eyebrow mb-3 text-sunset-orange" data-aos="fade-up">Our Expertise</span>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="row justify-content-center">
-          <div v-for="member in teamMembersWithSpecialties" :key="member.name" class="col-lg-4 col-md-6 mb-5" data-aos="fade-up" data-aos-delay="300">
+          <div v-for="member in teamMembers" :key="member.name" class="col-lg-4 col-md-6 mb-5" data-aos="fade-up" data-aos-delay="300">
             <div class="specialty-card h-100">
               <div class="specialty-card-header">
                 <div class="specialty-member-photo">
@@ -73,11 +73,14 @@
               </div>
               <div class="specialty-card-body">
                 <h5 class="specialty-section-title">Areas of Expertise</h5>
-                <div class="specialty-tags">
+                <div class="specialty-tags" v-if="member.specialties && member.specialties.length > 0">
                   <span v-for="specialty in member.specialties" :key="specialty"
                         class="specialty-tag">
                     {{ specialty }}
                   </span>
+                </div>
+                <div v-else class="text-muted text-center">
+                  <small>Specialties will be displayed here when added in admin</small>
                 </div>
               </div>
             </div>
