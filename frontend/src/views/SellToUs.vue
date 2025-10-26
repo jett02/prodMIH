@@ -306,6 +306,8 @@ export default {
   --slate-gray: #6c757d;
   --modern-white: #FFFFFF;
   --soft-beige: #F5F1EC;
+  --warm-beige: #EDE0D4;
+  --professional-gray: #f8f9fa;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -317,6 +319,8 @@ export default {
 /* Base Layout */
 .sell-to-us-page {
   overflow-x: hidden;
+  background: linear-gradient(135deg, var(--warm-beige) 0%, var(--soft-beige) 50%, var(--warm-beige) 100%);
+  min-height: 100vh;
 }
 
 /* Dark Professional Background */
@@ -381,12 +385,12 @@ export default {
 
 /* Hero Form Card */
 .hero-form-card {
-  background: rgba(255, 255, 255, 0.98);
+  background: linear-gradient(135deg, var(--soft-beige) 0%, rgba(245, 241, 236, 0.95) 100%);
   backdrop-filter: blur(20px);
   border-radius: 24px;
   padding: 3rem 2.5rem;
   box-shadow: var(--shadow-heavy);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(235, 164, 114, 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -425,21 +429,22 @@ export default {
 /* Enhanced Form Styling */
 .sell-form .form-control,
 .sell-form .form-select {
-  border: 2px solid #e9ecef;
+  border: 2px solid rgba(235, 164, 114, 0.2);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   font-size: 1rem;
   font-weight: 500;
   transition: var(--transition-smooth);
-  background: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: var(--midnight-black);
 }
 
 .sell-form .form-control:focus,
 .sell-form .form-select:focus {
   border-color: var(--sunset-orange);
   box-shadow: 0 0 0 0.25rem rgba(235, 164, 114, 0.15);
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
   outline: none;
 }
 
@@ -885,11 +890,29 @@ export default {
 
 /* Brand Background Classes */
 .bg-soft-beige {
-  background-color: var(--soft-beige) !important;
+  background: linear-gradient(135deg, var(--soft-beige) 0%, var(--warm-beige) 100%) !important;
+  position: relative;
+}
+
+.bg-soft-beige::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(235, 164, 114, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .bg-modern-white {
-  background-color: var(--modern-white) !important;
+  background: linear-gradient(135deg, var(--modern-white) 0%, rgba(248, 249, 250, 0.95) 100%) !important;
+  position: relative;
+}
+
+.bg-modern-white::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(235, 164, 114, 0.03) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 /* Additional utility for better spacing */
