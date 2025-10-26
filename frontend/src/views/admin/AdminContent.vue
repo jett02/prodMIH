@@ -1474,6 +1474,9 @@ export default {
             description: `Let's Make It Home: One Flip, One Crew, One Win at a Time.<br>
                          Bring your skills. Bring your hustle. Join our Preferred Bidders List and build with us.<br><br>
                          At Make It Home, we believe great projects start with great partners. If you'd like to be considered for our Preferred Bidders List, please complete the form below. To keep the process clear and consistent, we only accept submissions here. Once we've reviewed your information, our team will follow up within 10 business days with next steps.`
+          },
+          sellToUs: response.data.sellToUs || {
+            benefitsMedia: ''
           }
         }
         
@@ -1569,6 +1572,11 @@ export default {
             headers: { 'Content-Type': 'multipart/form-data' }
           })
 
+          // Ensure sellToUs object exists
+          if (!this.content.sellToUs) {
+            this.content.sellToUs = {}
+          }
+
           this.content.sellToUs.benefitsMedia = response.data.mediaUrl
           this.showSuccessPopup('Media uploaded successfully!')
         } catch (error) {
@@ -1582,6 +1590,10 @@ export default {
     },
     removeBenefitsMedia() {
       if (confirm('Are you sure you want to remove this media?')) {
+        // Ensure sellToUs object exists
+        if (!this.content.sellToUs) {
+          this.content.sellToUs = {}
+        }
         this.content.sellToUs.benefitsMedia = ''
       }
     },
