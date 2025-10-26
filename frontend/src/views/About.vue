@@ -159,30 +159,6 @@
       </div>
     </section>
 
-    <!-- Values Section -->
-    <section class="py-5 bg-light" v-if="content.values && (content.values.valuesList.length > 0 || content.values.description)">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-8 text-center">
-            <h2 class="display-5 fw-bold mb-3">{{ content.values.title || 'Our Values' }}</h2>
-            <p class="lead text-muted mb-5" v-if="content.values.description">{{ content.values.description }}</p>
-            
-            <div class="row g-4" v-if="content.values.valuesList && content.values.valuesList.length > 0">
-              <div v-for="(value, index) in content.values.valuesList" :key="index" class="col-md-6 col-lg-4">
-                <div class="text-center">
-                  <div class="service-icon mb-3">
-                    <i :class="value.icon + ' fa-3x text-primary'"></i>
-                  </div>
-                  <h4>{{ value.title }}</h4>
-                  <p class="text-muted">{{ value.description }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Team Specialties Section -->
     <section class="py-16 bg-white" v-if="teamMembers && teamMembers.length > 0">
       <div class="container">
@@ -240,6 +216,30 @@
           <router-link to="/properties" class="btn btn-outline-midnight-black btn-lg">
             View Properties
           </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="py-5 bg-light" v-if="content.values && (content.values.valuesList.length > 0 || content.values.description)">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h2 class="display-5 fw-bold mb-3">{{ content.values.title || 'Our Values' }}</h2>
+            <p class="lead text-muted mb-5" v-if="content.values.description">{{ content.values.description }}</p>
+            
+            <div class="row g-4" v-if="content.values.valuesList && content.values.valuesList.length > 0">
+              <div v-for="(value, index) in content.values.valuesList" :key="index" class="col-md-6 col-lg-4">
+                <div class="text-center">
+                  <div class="service-icon mb-3">
+                    <i :class="value.icon + ' fa-3x text-primary'"></i>
+                  </div>
+                  <h4>{{ value.title }}</h4>
+                  <p class="text-muted">{{ value.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
