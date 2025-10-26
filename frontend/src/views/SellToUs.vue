@@ -295,37 +295,18 @@ export default {
 
 <style scoped>
 /* =================================
-   SELL TO US PAGE STYLES
+   SELL TO US PAGE - PROFESSIONAL DESIGN
    ================================= */
-
-/* CSS Custom Properties */
-:root {
-  --sunset-orange: #EBA472;
-  --sunset-brown: #D4935E;
-  --midnight-black: #1a1a1a;
-  --slate-gray: #6c757d;
-  --modern-white: #FFFFFF;
-  --soft-beige: #F5F1EC;
-  --warm-beige: #EDE0D4;
-  --professional-gray: #f8f9fa;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 15px 35px rgba(0, 0, 0, 0.2);
-  --shadow-heavy: 0 25px 50px rgba(0, 0, 0, 0.4);
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
 /* Base Layout */
 .sell-to-us-page {
-  overflow-x: hidden;
-  background: linear-gradient(135deg, var(--warm-beige) 0%, var(--soft-beige) 50%, var(--warm-beige) 100%);
+  background: #ffffff;
   min-height: 100vh;
 }
 
-/* Dark Professional Background */
+/* Hero Section - Clean Dark Background */
 .bg-dark-professional {
-  background: linear-gradient(135deg, var(--midnight-black) 0%, #2d2d2d 50%, var(--midnight-black) 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
   position: relative;
   overflow: hidden;
 }
@@ -333,10 +314,13 @@ export default {
 .bg-dark-professional::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(235, 164, 114, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(235, 164, 114, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(235, 164, 114, 0.04) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -347,6 +331,7 @@ export default {
   align-items: center;
   position: relative;
   z-index: 1;
+  padding: 6rem 0;
 }
 
 .hero-stats {
@@ -354,45 +339,45 @@ export default {
 }
 
 .stat-item {
-  padding: 1.5rem 1rem;
-  background: var(--glass-bg);
+  padding: 2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  border: 1px solid var(--glass-border);
-  transition: var(--transition-smooth);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  text-align: center;
 }
 
 .stat-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-light);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .stat-item h3 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   font-weight: 700;
+  color: #EBA472;
 }
 
 .stat-item p {
   margin: 0;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
   font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Hero Form Card */
 .hero-form-card {
-  background: linear-gradient(135deg, var(--soft-beige) 0%, rgba(245, 241, 236, 0.95) 100%);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
+  background: #ffffff;
+  border-radius: 20px;
   padding: 3rem 2.5rem;
-  box-shadow: var(--shadow-heavy);
-  border: 1px solid rgba(235, 164, 114, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(235, 164, 114, 0.1);
   position: relative;
-  overflow: hidden;
 }
 
 .hero-form-card::before {
@@ -402,54 +387,41 @@ export default {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--sunset-orange) 0%, var(--sunset-brown) 50%, var(--sunset-orange) 100%);
+  background: linear-gradient(90deg, #EBA472 0%, #D4935E 100%);
+  border-radius: 20px 20px 0 0;
 }
 
 .hero-form-card h3 {
-  color: var(--midnight-black);
+  color: #1a1a1a;
   font-weight: 700;
   font-size: 1.75rem;
   margin-bottom: 2rem;
-  position: relative;
   text-align: center;
 }
 
-.hero-form-card h3::after {
-  content: '';
-  position: absolute;
-  bottom: -0.75rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--sunset-orange), var(--sunset-brown));
-  border-radius: 2px;
-}
-
-/* Enhanced Form Styling */
+/* Form Styling */
 .sell-form .form-control,
 .sell-form .form-select {
-  border: 2px solid rgba(235, 164, 114, 0.2);
+  border: 2px solid #e9ecef;
   border-radius: 12px;
   padding: 1rem 1.25rem;
   font-size: 1rem;
   font-weight: 500;
-  transition: var(--transition-smooth);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  color: var(--midnight-black);
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #1a1a1a;
 }
 
 .sell-form .form-control:focus,
 .sell-form .form-select:focus {
-  border-color: var(--sunset-orange);
-  box-shadow: 0 0 0 0.25rem rgba(235, 164, 114, 0.15);
-  background: rgba(255, 255, 255, 0.95);
+  border-color: #EBA472;
+  box-shadow: 0 0 0 0.2rem rgba(235, 164, 114, 0.25);
+  background: #ffffff;
   outline: none;
 }
 
 .sell-form .form-control::placeholder {
-  color: var(--slate-gray);
+  color: #6c757d;
   font-weight: 400;
 }
 
@@ -463,87 +435,58 @@ export default {
 .process-step {
   padding: 3rem 2rem;
   text-align: center;
-  position: relative;
-  transition: var(--transition-smooth);
-  border-radius: 16px;
+  transition: all 0.3s ease;
 }
 
 .process-step:hover {
-  transform: translateY(-8px);
-  background: rgba(255, 255, 255, 0.02);
+  transform: translateY(-5px);
 }
 
 .step-number {
-  width: 100px;
-  height: 100px;
-  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: white;
-  margin: 0 auto 2rem;
-  box-shadow:
-    0 15px 30px rgba(235, 164, 114, 0.4),
-    0 0 0 8px rgba(235, 164, 114, 0.1);
-  position: relative;
-  z-index: 2;
-  transition: var(--transition-smooth);
-}
-
-.step-number::before {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(235, 164, 114, 0.2), rgba(212, 147, 94, 0.2));
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.3);
+  transition: all 0.3s ease;
 }
 
 .process-step:hover .step-number {
   transform: scale(1.05);
-  box-shadow:
-    0 20px 40px rgba(235, 164, 114, 0.5),
-    0 0 0 12px rgba(235, 164, 114, 0.15);
-}
-
-.process-step:hover .step-number::before {
-  opacity: 1;
+  box-shadow: 0 12px 35px rgba(235, 164, 114, 0.4);
 }
 
 .step-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--midnight-black);
-  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
   line-height: 1.3;
 }
 
 .step-description {
-  color: var(--slate-gray);
-  line-height: 1.7;
-  font-size: 1.1rem;
+  color: #6c757d;
+  line-height: 1.6;
+  font-size: 1rem;
   max-width: 300px;
   margin: 0 auto;
 }
 
 /* Benefits Section */
-.benefits-list {
-  max-width: 520px;
-}
-
 .benefit-item {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  padding: 2rem 0;
-  border-bottom: 1px solid rgba(108, 117, 125, 0.1);
-  transition: var(--transition-smooth);
-  border-radius: 12px;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  transition: all 0.3s ease;
 }
 
 .benefit-item:last-child {
@@ -551,34 +494,33 @@ export default {
 }
 
 .benefit-item:hover {
-  padding-left: 1.5rem;
-  background: linear-gradient(135deg, rgba(235, 164, 114, 0.03), rgba(235, 164, 114, 0.01));
+  padding-left: 1rem;
+  background: rgba(235, 164, 114, 0.02);
+  border-radius: 12px;
   border-bottom-color: transparent;
-  box-shadow: var(--shadow-light);
 }
 
 .benefit-icon {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
-  border-radius: 16px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 8px 20px rgba(235, 164, 114, 0.3);
-  transition: var(--transition-smooth);
+  box-shadow: 0 4px 15px rgba(235, 164, 114, 0.3);
+  transition: all 0.3s ease;
 }
 
 .benefit-item:hover .benefit-icon {
-  transform: scale(1.1) rotate(2deg);
-  box-shadow: 0 15px 35px rgba(235, 164, 114, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.4);
 }
 
 .benefit-icon i {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   color: white;
-  transition: var(--transition-smooth);
 }
 
 .benefit-content {
@@ -586,170 +528,98 @@ export default {
 }
 
 .benefit-title {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--midnight-black);
-  margin-bottom: 0.75rem;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
   line-height: 1.3;
 }
 
 .benefit-description {
-  color: var(--slate-gray);
+  color: #6c757d;
   line-height: 1.6;
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
-.benefits-image {
-  position: relative;
-}
-
-.image-placeholder {
-  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
-  border-radius: 24px;
-  box-shadow: var(--shadow-medium);
-  transition: var(--transition-smooth);
-  overflow: hidden;
-}
-
-.image-placeholder:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(235, 164, 114, 0.4);
-}
-
-/* Enhanced Button Styling */
+/* Button Styling */
 .btn-sunset-orange {
-  background: linear-gradient(135deg, var(--sunset-orange) 0%, var(--sunset-brown) 100%);
+  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%);
   border: none;
   color: white;
   font-weight: 700;
-  padding: 1rem 2.5rem;
+  padding: 1rem 2rem;
   border-radius: 50px;
   font-size: 1.1rem;
-  letter-spacing: 0.5px;
-  transition: var(--transition-smooth);
-  box-shadow:
-    0 8px 20px rgba(235, 164, 114, 0.4),
-    0 0 0 0 rgba(235, 164, 114, 0.5);
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-sunset-orange::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
-}
-
-.btn-sunset-orange:hover::before {
-  transform: translateX(100%);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(235, 164, 114, 0.3);
 }
 
 .btn-sunset-orange:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 15px 35px rgba(235, 164, 114, 0.6),
-    0 0 0 3px rgba(235, 164, 114, 0.2);
-  background: linear-gradient(135deg, var(--sunset-brown) 0%, var(--sunset-orange) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.5);
+  background: linear-gradient(135deg, #D4935E 0%, #EBA472 100%);
   color: white;
-  text-decoration: none;
-}
-
-.btn-sunset-orange:focus {
-  box-shadow:
-    0 15px 35px rgba(235, 164, 114, 0.6),
-    0 0 0 3px rgba(235, 164, 114, 0.4);
-  outline: none;
 }
 
 .btn-sunset-orange:active {
-  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 .btn-sunset-orange:disabled {
-  opacity: 0.6;
+  opacity: 0.7;
   transform: none;
   cursor: not-allowed;
-  box-shadow: var(--shadow-light);
 }
 
 /* Section Spacing */
 .py-20 {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 /* Utility Classes */
 .text-sunset-orange {
-  color: var(--sunset-orange) !important;
+  color: #EBA472 !important;
 }
 
 .text-midnight-black {
-  color: var(--midnight-black) !important;
+  color: #1a1a1a !important;
 }
 
 .text-slate-gray {
-  color: var(--slate-gray) !important;
+  color: #6c757d !important;
 }
 
 .eyebrow {
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   display: block;
-  position: relative;
-  margin-bottom: 0.5rem;
 }
 
-.eyebrow::after {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 40px;
-  height: 2px;
-  background: currentColor;
-  opacity: 0.6;
-  border-radius: 1px;
-}
-
-/* Enhanced Alert Styling */
+/* Alert Styling */
 .alert {
-  border-radius: 16px;
+  border-radius: 12px;
   border: none;
   font-weight: 500;
-  padding: 1.25rem 1.5rem;
-  backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-light);
+  padding: 1rem 1.5rem;
 }
 
 .alert-success {
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.05));
+  background: rgba(40, 167, 69, 0.1);
   color: #155724;
   border-left: 4px solid #28a745;
 }
 
 .alert-danger {
-  background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.05));
+  background: rgba(220, 53, 69, 0.1);
   color: #721c24;
   border-left: 4px solid #dc3545;
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
-  .hero-form-card {
-    padding: 2.5rem 2rem;
-  }
-}
-
 @media (max-width: 992px) {
   .hero-section {
     min-height: auto;
@@ -760,88 +630,16 @@ export default {
     margin-top: 2rem;
     margin-bottom: 3rem;
   }
-
-  .stat-item {
-    padding: 1.25rem 0.75rem;
-  }
-
-  .stat-item h3 {
-    font-size: 2.25rem;
-  }
 }
 
 @media (max-width: 768px) {
   .hero-form-card {
-    padding: 2.5rem 2rem;
-    margin-top: 3rem;
-    border-radius: 20px;
-  }
-
-  .hero-form-card h3 {
-    font-size: 1.5rem;
-  }
-
-  .step-number {
-    width: 80px;
-    height: 80px;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .step-title {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
-
-  .step-description {
-    font-size: 1rem;
-    max-width: 260px;
-  }
-
-  .benefit-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
-  }
-
-  .benefit-icon i {
-    font-size: 1.5rem;
-  }
-
-  .benefit-title {
-    font-size: 1.15rem;
-  }
-
-  .benefit-description {
-    font-size: 1rem;
-  }
-
-  .stat-item h3 {
-    font-size: 2rem;
-  }
-
-  .py-20 {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-
-  .process-step {
-    padding: 2.5rem 1.5rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .hero-form-card {
     padding: 2rem 1.5rem;
-    border-radius: 16px;
+    margin-top: 3rem;
   }
 
   .hero-form-card h3 {
-    font-size: 1.375rem;
-  }
-
-  .process-step {
-    padding: 2rem 1rem;
+    font-size: 1.5rem;
   }
 
   .step-number {
@@ -850,36 +648,25 @@ export default {
     font-size: 1.75rem;
   }
 
-  .benefit-item {
-    gap: 1rem;
-    padding: 1.5rem 0;
+  .step-title {
+    font-size: 1.1rem;
+  }
+
+  .step-description {
+    font-size: 0.95rem;
   }
 
   .benefit-icon {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
   }
 
   .benefit-icon i {
     font-size: 1.25rem;
   }
 
-  .btn-sunset-orange {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    border-radius: 40px;
-  }
-
-  .stat-item {
-    padding: 1rem 0.5rem;
-  }
-
   .stat-item h3 {
-    font-size: 1.75rem;
-  }
-
-  .stat-item p {
-    font-size: 0.8rem;
+    font-size: 2rem;
   }
 
   .py-20 {
@@ -888,35 +675,42 @@ export default {
   }
 }
 
-/* Brand Background Classes */
-.bg-soft-beige {
-  background: linear-gradient(135deg, var(--soft-beige) 0%, var(--warm-beige) 100%) !important;
-  position: relative;
-}
+@media (max-width: 576px) {
+  .hero-form-card {
+    padding: 1.5rem;
+  }
 
-.bg-soft-beige::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 70%, rgba(235, 164, 114, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-}
+  .hero-form-card h3 {
+    font-size: 1.25rem;
+  }
 
-.bg-modern-white {
-  background: linear-gradient(135deg, var(--modern-white) 0%, rgba(248, 249, 250, 0.95) 100%) !important;
-  position: relative;
-}
+  .process-step {
+    padding: 2rem 1rem;
+  }
 
-.bg-modern-white::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 70% 30%, rgba(235, 164, 114, 0.03) 0%, transparent 50%);
-  pointer-events: none;
-}
+  .step-number {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
 
-/* Additional utility for better spacing */
-.max-w-3xl {
-  max-width: 48rem;
+  .benefit-item {
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .benefit-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .benefit-icon i {
+    font-size: 1.1rem;
+  }
+
+  .btn-sunset-orange {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 </style>
