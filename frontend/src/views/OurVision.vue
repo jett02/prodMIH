@@ -21,7 +21,7 @@
     </section>
 
     <!-- Vision Statement Section -->
-    <section class="py-xl-20 py-15 bg-dark text-white">
+    <section class="py-xl-20 py-15 vision-statement-bg text-white">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
@@ -104,7 +104,7 @@
     </section>
 
     <!-- Future Goals Section -->
-    <section class="py-xl-20 py-15 bg-secondary bg-opacity-10">
+    <section class="py-xl-20 py-15 looking-ahead-bg">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
@@ -153,7 +153,7 @@
     </section>
 
     <!-- City Images Section -->
-    <section class="py-xl-20 py-15 bg-dark text-white">
+    <section class="py-xl-20 py-15 communities-bg text-white">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center" data-aos="fade-up">
@@ -190,7 +190,7 @@
     </section>
 
     <!-- Social Media Section -->
-    <section class="py-xl-15 py-10 bg-secondary bg-opacity-10">
+    <section class="py-xl-15 py-10 social-media-bg">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center" data-aos="fade-up">
@@ -373,6 +373,92 @@ export default {
 .hero-section {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   position: relative;
+}
+
+/* Enhanced Background Styles */
+.vision-statement-bg {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 25%, #1e1e1e 50%, #2a2a2a 75%, #1a1a1a 100%);
+  position: relative;
+}
+
+.vision-statement-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(235, 164, 114, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 147, 94, 0.08) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
+  pointer-events: none;
+}
+
+.looking-ahead-bg {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 25%, #f1f3f4 50%, #e9ecef 75%, #f8f9fa 100%);
+  position: relative;
+}
+
+.looking-ahead-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(235, 164, 114, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(212, 147, 94, 0.03) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 40%, rgba(0, 0, 0, 0.02) 50%, transparent 60%);
+  pointer-events: none;
+}
+
+.communities-bg {
+  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 25%, #2e2e2e 50%, #1c1c1c 75%, #2a2a2a 100%);
+  position: relative;
+}
+
+.communities-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 40% 20%, rgba(235, 164, 114, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 60% 80%, rgba(212, 147, 94, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, transparent 20%, rgba(255, 255, 255, 0.03) 50%, transparent 80%);
+  pointer-events: none;
+}
+
+.social-media-bg {
+  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 25%, #f5f6f7 50%, #e8eaed 75%, #f1f3f4 100%);
+  position: relative;
+}
+
+.social-media-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(235, 164, 114, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 75% 70%, rgba(212, 147, 94, 0.04) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 30%, rgba(0, 0, 0, 0.015) 50%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Ensure content appears above background overlays */
+.vision-statement-bg .container,
+.looking-ahead-bg .container,
+.communities-bg .container,
+.social-media-bg .container {
+  position: relative;
+  z-index: 1;
 }
 
 .text-warm-sunset {
@@ -697,31 +783,53 @@ export default {
 
 .vision-image-placeholder {
   height: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  border: 2px dashed rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(235, 164, 114, 0.1), rgba(255, 255, 255, 0.08));
+  border: 2px dashed rgba(235, 164, 114, 0.4);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.vision-image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(235, 164, 114, 0.1) 50%, transparent 70%);
+  pointer-events: none;
 }
 
 .vision-image-placeholder i {
   font-size: 3rem;
   margin-bottom: 1rem;
-  opacity: 0.5;
+  opacity: 0.7;
+  color: rgba(235, 164, 114, 0.8);
+  position: relative;
+  z-index: 1;
 }
 
 .vision-image-placeholder h5 {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   margin-bottom: 0.5rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
 }
 
 .vision-image-placeholder p {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
   margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
 
