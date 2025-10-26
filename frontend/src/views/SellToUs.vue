@@ -772,4 +772,3 @@ export default {
   }
 }
 </style>
-</style>
