@@ -776,13 +776,22 @@ router.post('/content/upload-hero-gallery', (req, res) => {
           originalname: file.originalname,
           mimetype: file.mimetype,
           size: file.size,
-          path: file.path
+          path: file.path,
+          isVideo: file.mimetype.startsWith('video/')
         });
       });
 
-      const imageUrls = req.files.map(file => file.path); // Cloudinary returns full URLs
-      console.log('Hero gallery images uploaded successfully:', imageUrls);
-      res.json({ imageUrls });
+      const mediaUrls = req.files.map(file => {
+        // For videos processed asynchronously, Cloudinary still returns the URL
+        // The video will be available immediately but transformations happen in background
+        return file.path;
+      });
+
+      console.log('Hero gallery media uploaded successfully:', mediaUrls);
+      res.json({
+        imageUrls: mediaUrls, // Keep same property name for backward compatibility
+        message: 'Files uploaded successfully. Large videos may take a few minutes to process.'
+      });
     } catch (error) {
       console.error('=== HERO GALLERY UPLOAD ERROR ===', error);
       res.status(500).json({ message: error.message });

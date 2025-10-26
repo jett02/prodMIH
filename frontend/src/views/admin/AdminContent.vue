@@ -1749,7 +1749,13 @@ export default {
           // Clear the file input
           event.target.value = ''
 
-          alert(`${response.data.imageUrls.length} file(s) uploaded successfully!`)
+          // Show appropriate success message
+          let successMessage = `${response.data.imageUrls.length} file(s) uploaded successfully!`
+          if (response.data.message) {
+            successMessage += '\n\n' + response.data.message
+          }
+
+          alert(successMessage)
         } catch (error) {
           console.error('=== CLIENT-SIDE UPLOAD ERROR ===', error)
           console.error('Error response:', error.response?.data)

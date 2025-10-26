@@ -37,6 +37,11 @@ const createCloudinaryStorage = (folder, allowedFormats = ['jpg', 'jpeg', 'png',
           // For other images: normal optimization
           { width: 1200, height: 800, crop: 'limit', quality: 'auto', format: 'auto' }
         ],
+        // Enable async processing for large videos
+        eager_async: isVideo,
+        eager: isVideo ? [
+          { width: 1200, height: 800, crop: 'limit', quality: 'auto', format: 'mp4' }
+        ] : undefined,
         public_id: `${folder}-${timestamp}-${random}`,
         // Preserve original format for GIFs, optimize videos to MP4
         format: isGif ? 'gif' : isVideo ? 'mp4' : undefined
