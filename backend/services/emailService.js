@@ -60,6 +60,13 @@ class EmailService {
           : [{ emailAddress: { address: mailOptions.cc } }])
         : [];
 
+      // Debug logging for email service
+      console.log('=== EMAIL SERVICE DEBUG ===');
+      console.log('Original mailOptions.to:', mailOptions.to);
+      console.log('Original mailOptions.cc:', mailOptions.cc);
+      console.log('Converted toRecipients:', toRecipients);
+      console.log('Converted ccRecipients:', ccRecipients);
+
       // Create the email message in Microsoft Graph format
       const message = {
         subject: mailOptions.subject,

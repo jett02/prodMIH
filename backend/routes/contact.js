@@ -109,6 +109,14 @@ router.post('/agent', async (req, res) => {
     // Remove duplicates and filter out the primary recipient from CC list
     const ccEmails = [...new Set(teamEmails)].filter(email => email !== primaryRecipient);
 
+    // Debug logging
+    console.log('=== EMAIL DEBUG: Contact Agent ===');
+    console.log('TEAM_NOTIFICATION_EMAILS env var:', process.env.TEAM_NOTIFICATION_EMAILS);
+    console.log('Parsed team emails:', teamEmails);
+    console.log('Primary recipient:', primaryRecipient);
+    console.log('CC emails after filtering:', ccEmails);
+    console.log('Final mail options will have CC:', ccEmails.length > 0 ? ccEmails : 'undefined');
+
     // Send email to agent with team members in CC
     const mailOptions = {
       from: process.env.EMAIL_FROM || 'noreply@makeithome.com',
@@ -244,6 +252,14 @@ router.post('/tour', async (req, res) => {
 
     // Remove duplicates and filter out the primary recipient from CC list
     const ccEmails = [...new Set(teamEmails)].filter(email => email !== primaryRecipient);
+
+    // Debug logging
+    console.log('=== EMAIL DEBUG: Tour Request ===');
+    console.log('TEAM_NOTIFICATION_EMAILS env var:', process.env.TEAM_NOTIFICATION_EMAILS);
+    console.log('Parsed team emails:', teamEmails);
+    console.log('Primary recipient:', primaryRecipient);
+    console.log('CC emails after filtering:', ccEmails);
+    console.log('Final mail options will have CC:', ccEmails.length > 0 ? ccEmails : 'undefined');
 
     // Send email to agent with team members in CC
     const mailOptions = {
