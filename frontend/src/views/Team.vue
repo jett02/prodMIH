@@ -221,6 +221,13 @@ export default {
         }
         
         console.log('=== TEAM DEBUG: Final team members count ===', this.teamMembers.length)
+        console.log('=== TEAM DEBUG: Team members with specialties ===', this.teamMembers.map(member => ({
+          name: member.name,
+          specialties: member.specialties,
+          linkedin: member.linkedin
+        })))
+        console.log('=== TEAM DEBUG: hasSpecialties computed ===', this.hasSpecialties)
+        console.log('=== TEAM DEBUG: teamMembersWithSpecialties computed ===', this.teamMembersWithSpecialties)
       } catch (error) {
         console.error('=== TEAM DEBUG: Error loading team members ===', error)
         this.teamMembers = []
