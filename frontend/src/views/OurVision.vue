@@ -501,6 +501,11 @@ export default {
 /* Scroll Indicator */
 .scroll-indicator-container {
   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .scroll-arrow {
@@ -1238,6 +1243,18 @@ export default {
   .hero-content {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+
+  .scroll-indicator-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .scroll-arrow {
+    margin: 0 auto !important;
   }
 
   .min-vh-75 {
