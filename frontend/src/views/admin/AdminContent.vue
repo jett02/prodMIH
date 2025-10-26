@@ -285,6 +285,13 @@
                             </div>
                           </div>
                           <p class="text-muted small mb-3">{{ member.bio }}</p>
+                          <div v-if="member.specialties && member.specialties.length > 0" class="mb-3">
+                            <small class="text-muted d-block mb-1">Specialties:</small>
+                            <span v-for="specialty in member.specialties" :key="specialty"
+                                  class="badge bg-info text-white me-1 mb-1 small">
+                              {{ specialty }}
+                            </span>
+                          </div>
                           <div class="d-flex gap-2">
                             <button @click="editTeamMember(index)" class="btn btn-sm btn-outline-primary">
                               <i class="fas fa-edit me-1"></i>Edit
@@ -1107,6 +1114,25 @@
                 <input v-model="teamMemberForm.linkedin" type="url" class="form-control" placeholder="https://linkedin.com/in/username">
               </div>
               <div class="col-12">
+                <label class="form-label">Specialties</label>
+                <div class="mb-2">
+                  <div class="input-group">
+                    <input v-model="newSpecialty" @keyup.enter="addSpecialty" type="text" class="form-control" placeholder="Enter a specialty (e.g., First-time Buyers, Luxury Homes)">
+                    <button @click="addSpecialty" type="button" class="btn btn-outline-primary">
+                      <i class="fas fa-plus"></i> Add
+                    </button>
+                  </div>
+                </div>
+                <div v-if="teamMemberForm.specialties && teamMemberForm.specialties.length > 0" class="mb-2">
+                  <span v-for="(specialty, index) in teamMemberForm.specialties" :key="index"
+                        class="badge bg-primary me-2 mb-2 d-inline-flex align-items-center">
+                    {{ specialty }}
+                    <button @click="removeSpecialty(index)" type="button" class="btn-close btn-close-white ms-2" style="font-size: 0.7em;"></button>
+                  </span>
+                </div>
+                <small class="text-muted">Add specialties that highlight this team member's expertise (e.g., First-time Buyers, Investment Properties, Commercial Real Estate)</small>
+              </div>
+              <div class="col-12">
                 <label class="form-label">Photo</label>
                 <div class="mb-3">
                   <input @change="handleTeamPhotoUpload" type="file" accept="image/*" class="form-control">
@@ -1288,8 +1314,10 @@ export default {
         email: '',
         phone: '',
         photo: '',
-        linkedin: ''
+        linkedin: '',
+        specialties: []
       },
+      newSpecialty: '',
       saving: false,
       searchQuery: '',
       activeFilter: 'all',
@@ -1453,7 +1481,8 @@ export default {
         email: member.email || '',
         phone: member.phone || '',
         photo: member.photo || '',
-        linkedin: member.linkedin || ''
+        linkedin: member.linkedin || '',
+        specialties: member.specialties ? [...member.specialties] : []
       }
       
       this.showAddTeamMember = true
@@ -1491,7 +1520,8 @@ export default {
         email: this.teamMemberForm.email || '',
         phone: this.teamMemberForm.phone || '',
         photo: this.teamMemberForm.photo || '',
-        linkedin: this.teamMemberForm.linkedin || ''
+        linkedin: this.teamMemberForm.linkedin || '',
+        specialties: this.teamMemberForm.specialties || []
       }
 
       if (this.editingTeamMember !== null) {
@@ -1513,8 +1543,10 @@ export default {
         email: '',
         phone: '',
         photo: '',
-        linkedin: ''
+        linkedin: '',
+        specialties: []
       }
+      this.newSpecialty = ''
     },
     async saveTeamContent() {
       try {
@@ -1609,6 +1641,18 @@ export default {
     },
     updateBio() {
       this.teamMemberForm.bio = this.$refs.bioEditor.innerHTML
+    },
+    addSpecialty() {
+      if (this.newSpecialty && this.newSpecialty.trim()) {
+        const specialty = this.newSpecialty.trim()
+        if (!this.teamMemberForm.specialties.includes(specialty)) {
+          this.teamMemberForm.specialties.push(specialty)
+          this.newSpecialty = ''
+        }
+      }
+    },
+    removeSpecialty(index) {
+      this.teamMemberForm.specialties.splice(index, 1)
     },
     formatBannerText(command) {
       document.execCommand(command, false, null)

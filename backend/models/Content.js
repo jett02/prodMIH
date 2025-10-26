@@ -30,7 +30,9 @@ const contentSchema = new mongoose.Schema({
     bio: { type: String, required: true },
     photo: { type: String, default: '' },
     phone: { type: String, default: '' },
-    email: { type: String, default: '' }
+    email: { type: String, default: '' },
+    linkedin: { type: String, default: '' },
+    specialties: [{ type: String }]
   }],
   contact: {
     phone: { type: String, default: '' },
