@@ -6,7 +6,7 @@
         <div class="row justify-content-center my-auto">
           <div class="col-lg-10 text-center hero-content">
             <span class="eyebrow mb-3 text-warm-sunset" data-aos="fade-up">About Make It Home</span>
-            <h1 class="fw-bold display-3 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <h1 class="fw-bold display-3 mb-4 hero-title" data-aos="fade-up" data-aos-delay="200">
               We're not a <span class="text-warm-sunset">real estate company.</span><br>
               We're a <span class="text-warm-sunset">movement</span> disguised as one.
             </h1>
@@ -37,12 +37,12 @@
         </div>
       </figure>
       
-      <!-- Smooth transition element -->
+      <!-- Enhanced smooth transition element -->
       <div class="hero-transition"></div>
     </section>
 
     <!-- Our Story Section -->
-    <section id="our-story" class="py-xl-15 py-10 bg-light">
+    <section id="our-story" class="py-xl-20 py-15 story-section">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
@@ -65,8 +65,24 @@
       </div>
     </section>
 
+    <!-- Our Mission Section -->
+    <section class="py-xl-20 py-15 mission-bg inverted">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center" data-aos="fade-up">
+            <h2 class="display-4 fw-bold mb-5 text-white">Our Mission</h2>
+            <blockquote class="mission-quote">
+              <p class="display-5 fw-light text-white mb-0 lh-base mission-text">
+                "Our mission is to rebuild, reimagine, and reinvest in the Omaha community by creating homes people are proud to live in."
+              </p>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- What Makes Us Different Section -->
-    <section class="py-xl-15 py-10 bg-white">
+    <section class="py-xl-20 py-15 different-section">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center" data-aos="fade-up">
@@ -123,24 +139,10 @@
       </div>
     </section>
 
-    <!-- Our Mission Section -->
-    <section class="py-xl-15 py-10 mission-bg inverted">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-10 text-center" data-aos="fade-up">
-            <h2 class="display-5 fw-bold mb-5 text-white">Our Mission</h2>
-            <blockquote class="mission-quote">
-              <p class="display-6 fw-light text-white mb-4 lh-base">
-                "Our mission is to rebuild, reimagine, and reinvest in the Omaha community by creating homes people are proud to live in."
-              </p>
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <!-- Closing Statement Section -->
-    <section class="py-xl-15 py-10 bg-light">
+    <section class="py-xl-20 py-15 closing-section">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10 text-center" data-aos="fade-up">
@@ -196,9 +198,27 @@ export default {
   position: relative;
 }
 
+/* Hero Title Enhanced Visibility */
+.hero-title {
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.5);
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+.hero-title .text-warm-sunset {
+  color: #EBA472 !important;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8), 0 0 25px rgba(235, 164, 114, 0.3);
+}
+
 @media (max-width: 768px) {
   .hero-content {
     padding-top: 60px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem !important;
+    line-height: 1.2;
   }
 }
 
@@ -306,15 +326,57 @@ export default {
   font-size: 1.2rem;
 }
 
-/* Hero Transition */
+/* Enhanced Hero Transition */
 .hero-transition {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
-  background: linear-gradient(to bottom, transparent 0%, #f8f9fa 100%);
+  height: 150px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(248, 249, 250, 0.1) 20%,
+    rgba(248, 249, 250, 0.3) 40%,
+    rgba(248, 249, 250, 0.6) 60%,
+    rgba(248, 249, 250, 0.8) 80%,
+    #f8f9fa 100%);
   z-index: 5;
+}
+
+/* Story Section Enhanced Background */
+.story-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+  position: relative;
+}
+
+.story-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom,
+    rgba(26, 26, 26, 0.05) 0%,
+    transparent 100%);
+  z-index: 1;
+}
+
+.story-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Different Section Enhanced Background */
+.different-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
+  position: relative;
+}
+
+/* Closing Section Enhanced Background */
+.closing-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+  position: relative;
 }
 
 /* Content Sections */
@@ -375,20 +437,40 @@ export default {
   margin-bottom: 0;
 }
 
-/* Mission Section */
+/* Enhanced Mission Section */
 .mission-bg {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   position: relative;
+  margin: 0;
 }
 
 .mission-quote {
   border: none;
   margin: 0;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 2.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 25px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.mission-text {
+  font-style: italic;
+  line-height: 1.4;
+  font-weight: 300 !important;
+}
+
+@media (max-width: 768px) {
+  .mission-quote {
+    padding: 2rem 1.5rem;
+  }
+
+  .mission-text {
+    font-size: 1.5rem !important;
+  }
 }
 
 /* CTA Buttons */

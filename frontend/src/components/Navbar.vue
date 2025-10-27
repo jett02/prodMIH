@@ -40,14 +40,12 @@
           <li class="nav-item">
             <router-link class="nav-link text-slate-gray" to="/agents" @click="closeMobileMenu">Agents</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link text-slate-gray" to="/about-us" @click="closeMobileMenu">About Us</router-link>
-          </li>
           <li class="nav-item dropdown dropdown-hover">
             <a class="nav-link dropdown-toggle text-slate-gray" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Company
+              About Us
             </a>
             <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+              <li><router-link class="dropdown-item text-slate-gray" to="/about-us" @click="closeMobileMenu">About Us</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/about" @click="closeMobileMenu">Our Leadership</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-vision" @click="closeMobileMenu">Our Vision</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-partners" @click="closeMobileMenu">Our Partners</router-link></li>
