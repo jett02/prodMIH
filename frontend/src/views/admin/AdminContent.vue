@@ -288,7 +288,66 @@
             </div>
           </div>
 
-          <!-- Row 2: Values and Team -->
+          <!-- Row 2: Leadership and Values -->
+          <div class="row g-3 mb-4">
+            <!-- Leadership Section -->
+            <div class="col-lg-6 content-section" data-category="leadership" data-keywords="leadership logo banner about team">
+              <div class="card shadow-sm h-100 admin-card">
+                <div class="card-header bg-warm-sunset text-white cursor-pointer" @click="toggleSection('leadership')">
+                  <h5 class="card-title mb-0">
+                    <i class="fas fa-users me-2"></i>Leadership Page
+                    <i class="fas fa-chevron-down float-end transition-transform" :class="{ 'rotate-180': expandedSections.leadership }"></i>
+                  </h5>
+                </div>
+                <div class="card-body collapsible-section" v-show="expandedSections.leadership">
+                  <form @submit.prevent="saveLeadershipContent" class="row g-3">
+                    <div class="col-12">
+                      <label class="form-label fw-bold">Leadership Banner Logo</label>
+                      <div class="mb-3">
+                        <input type="file"
+                               class="form-control"
+                               @change="handleLeadershipLogoUpload"
+                               accept="image/*"
+                               :disabled="isUploading">
+                        <small class="text-muted">Upload a logo for the leadership page banner (appears above the title)</small>
+                      </div>
+
+                      <!-- Current Logo Preview -->
+                      <div v-if="content.leadership && content.leadership.logo" class="mb-3">
+                        <label class="form-label fw-bold">Current Logo:</label>
+                        <div class="position-relative d-inline-block">
+                          <img :src="getImageUrl(content.leadership.logo)"
+                               alt="Leadership Logo"
+                               class="img-thumbnail"
+                               style="max-width: 200px; max-height: 100px;">
+                          <button type="button"
+                                  class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                  @click="removeLeadershipLogo"
+                                  style="transform: translate(50%, -50%);">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Placeholder when no logo -->
+                      <div v-else class="text-center p-4 border border-dashed rounded">
+                        <i class="fas fa-image fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No leadership logo uploaded</p>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <button type="submit" class="btn btn-warm-sunset" :disabled="saving">
+                        <i class="fas fa-save me-2"></i>
+                        {{ saving ? 'Saving...' : 'Save Leadership Content' }}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          <!-- Row 3: Values and Team -->
           <div class="row g-3 mb-4">
             <!-- Values Section -->
             <div class="col-lg-6 content-section" data-category="hero" data-keywords="values company culture mission vision">
@@ -1809,6 +1868,9 @@ export default {
         aboutUs: {
           missionImage: ''
         },
+        leadership: {
+          logo: ''
+        },
         values: {
           title: 'Our Values',
           description: 'These core values guide everything we do at Make It Home LLC.',
@@ -1976,6 +2038,7 @@ export default {
         hero: false,
         about: false,
         aboutUs: false,
+        leadership: false,
         values: false,
         propertiesBanner: false,
         rentalsBanner: false,
@@ -2023,6 +2086,9 @@ export default {
           },
           aboutUs: response.data.aboutUs || {
             missionImage: ''
+          },
+          leadership: response.data.leadership || {
+            logo: ''
           },
           values: response.data.values || {
             title: 'Our Values',
@@ -2172,6 +2238,52 @@ export default {
       if (confirm('Are you sure you want to remove the mission image?')) {
         this.content.aboutUs.missionImage = ''
         this.showSuccessPopup('Mission image removed. Remember to save changes.')
+      }
+    },
+    async saveLeadershipContent() {
+      try {
+        this.saving = true
+        await axios.put('/api/admin/content/leadership', this.content.leadership)
+        this.showSuccessPopup('Leadership content saved successfully!')
+      } catch (error) {
+        console.error('Error saving Leadership content:', error)
+        this.showErrorPopup('Error saving Leadership content. Please try again.')
+      } finally {
+        this.saving = false
+      }
+    },
+    async handleLeadershipLogoUpload(event) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          this.isUploading = true
+          const formData = new FormData()
+          formData.append('leadershipLogo', file)
+
+          const response = await axios.post('/api/admin/content/upload-leadership-logo', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+
+          // Ensure leadership object exists
+          if (!this.content.leadership) {
+            this.content.leadership = {}
+          }
+
+          this.content.leadership.logo = response.data.imageUrl
+          this.showSuccessPopup('Leadership logo uploaded successfully!')
+        } catch (error) {
+          console.error('Error uploading leadership logo:', error)
+          this.showErrorPopup('Error uploading logo. Please try again.')
+        } finally {
+          this.isUploading = false
+          event.target.value = '' // Clear the input
+        }
+      }
+    },
+    removeLeadershipLogo() {
+      if (confirm('Are you sure you want to remove the leadership logo?')) {
+        this.content.leadership.logo = ''
+        this.showSuccessPopup('Leadership logo removed. Remember to save changes.')
       }
     },
     async saveFooterContent() {

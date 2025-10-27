@@ -773,6 +773,42 @@ router.post('/content/upload-mission-image', heroUpload.single('missionImage'), 
   }
 });
 
+// Update Leadership content
+router.put('/content/leadership', async (req, res) => {
+  try {
+    let content = await Content.findOne();
+    if (!content) {
+      content = new Content({});
+    }
+    content.leadership = req.body;
+    content.updatedAt = new Date();
+    await content.save();
+    res.json({ message: 'Leadership content updated successfully' });
+  } catch (error) {
+    console.error('Error saving Leadership content:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Upload leadership logo
+router.post('/content/upload-leadership-logo', heroUpload.single('leadershipLogo'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No image file provided' });
+    }
+
+    const imageUrl = req.file.path; // Cloudinary URL
+
+    res.json({
+      message: 'Leadership logo uploaded successfully',
+      imageUrl: imageUrl
+    });
+  } catch (error) {
+    console.error('Error uploading leadership logo:', error);
+    res.status(500).json({ message: 'Error uploading leadership logo' });
+  }
+});
+
 // Agent management routes
 router.get('/agents', async (req, res) => {
   try {

@@ -5,14 +5,21 @@
       <div class="d-flex flex-column py-15 min-vh-75 container foreground">
         <div class="row justify-content-center my-auto">
           <div class="col-lg-8 text-center">
-            <span class="eyebrow mb-3 text-secondary" data-aos="fade-up">About Make It Home</span>
-            <h1 class="fw-bold display-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <!-- Logo Section -->
+            <div v-if="content.leadership && content.leadership.logo" class="mb-4" data-aos="fade-up">
+              <img :src="getImageUrl(content.leadership.logo)"
+                   alt="Make It Home Logo"
+                   class="leadership-logo">
+            </div>
+
+            <span class="eyebrow mb-3 text-secondary" data-aos="fade-up" :data-aos-delay="content.leadership && content.leadership.logo ? '200' : '0'">About Make It Home</span>
+            <h1 class="fw-bold display-4 mb-4" data-aos="fade-up" :data-aos-delay="content.leadership && content.leadership.logo ? '400' : '200'">
               Our <span class="text-primary">Leadership</span>
             </h1>
-            <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
+            <p class="lead mb-4" data-aos="fade-up" :data-aos-delay="content.leadership && content.leadership.logo ? '600' : '400'">
               Meet the team behind Make It Home
             </p>
-            <div class="scroll-down" data-aos="fade-up" data-aos-delay="600"></div>
+            <div class="scroll-down" data-aos="fade-up" :data-aos-delay="content.leadership && content.leadership.logo ? '800' : '600'"></div>
           </div>
         </div>
       </div>
@@ -22,31 +29,7 @@
               data-top-bottom="transform: scale(1.05);"></figure>
     </section>
 
-    <!-- About Content -->
-    <section class="py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <div class="text-center mb-5">
-              <h2 class="display-4 fw-bold text-warm-sunset">Meet Our Leadership</h2>
-              <p class="lead text-muted">The dedicated professionals driving Make It Home's success</p>
-            </div>
 
-
-
-            <!-- Animated scroll indicator -->
-            <div class="text-center mt-5" v-if="teamMembers && teamMembers.length > 0">
-              <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="200">
-                <p class="text-muted mb-3">Meet our leadership team</p>
-                <div class="scroll-arrow">
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Team Section - Using Agency Template Style -->
     <section class="py-15 py-xl-20 bg-black inverted" v-if="teamMembers && teamMembers.length > 0">
@@ -236,6 +219,9 @@ export default {
           story: '',
           mission: ''
         },
+        leadership: {
+          logo: ''
+        },
         values: {
           title: 'Our Values',
           description: '',
@@ -256,8 +242,9 @@ export default {
         const response = await axios.get('/api/admin/content/public')
         console.log('About page - Full content response:', response.data)
         
-        this.content = response.data || { 
+        this.content = response.data || {
           about: { story: '', mission: '' },
+          leadership: { logo: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
         }
         
@@ -281,8 +268,9 @@ export default {
         }
       } catch (error) {
         console.error('Error loading content:', error)
-        this.content = { 
+        this.content = {
           about: { story: '', mission: '' },
+          leadership: { logo: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
         }
         this.teamMembers = []
@@ -319,6 +307,28 @@ export default {
 .hero-section {
   background: linear-gradient(135deg, #EBA472 0%, #A15E3B 100%);
   position: relative;
+}
+
+/* Leadership Logo Styling */
+.leadership-logo {
+  max-height: 120px;
+  max-width: 300px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.leadership-logo:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .leadership-logo {
+    max-height: 80px;
+    max-width: 200px;
+  }
 }
 
 .min-vh-75 {
