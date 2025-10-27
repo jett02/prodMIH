@@ -346,6 +346,7 @@
                 </div>
               </div>
             </div>
+          </div>
 
           <!-- Row 3: Values and Team -->
           <div class="row g-3 mb-4">
