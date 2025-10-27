@@ -28,64 +28,16 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <div class="text-center mb-5">
-              <h2 class="display-5 fw-bold">Our Leadership Team</h2>
-              <p class="lead text-muted">The people behind Make It Home's vision and mission</p>
-            </div>
-            
-            <div class="content-section mb-5">
-              <p class="fs-5" v-if="content.about.story">
-                {{ content.about.story }}
-              </p>
-              <p class="fs-5" v-else>
-                At Make It Home, we believe that finding the right property is just the beginning. 
-                Whether you're looking to buy, rent, or invest, we bring the hustle to make your 
-                real estate dreams a reality.
-              </p>
-              
-              <p v-if="content.about.mission">
-                {{ content.about.mission }}
-              </p>
-              <p v-else>
-                We flip homes with intention, creating spaces people want to live in. We rent with 
-                care, ensuring our tenants feel at home. And we build the kind of spaces people 
-                want to stay in for years to come.
-              </p>
+              <h2 class="display-4 fw-bold text-warm-sunset">Meet Our Leadership</h2>
+              <p class="lead text-muted">The dedicated professionals driving Make It Home's success</p>
             </div>
 
-            <div class="row g-4 mb-5">
-              <div class="col-md-4">
-                <div class="text-center">
-                  <div class="service-icon mb-3">
-                    <i class="fas fa-home fa-3x text-primary"></i>
-                  </div>
-                  <h4>Property Sales</h4>
-                  <p class="text-muted">Find your perfect home with our extensive property listings.</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="text-center">
-                  <div class="service-icon mb-3">
-                    <i class="fas fa-key fa-3x text-primary"></i>
-                  </div>
-                  <h4>Rental Management</h4>
-                  <p class="text-muted">Quality rental properties managed with care and attention.</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="text-center">
-                  <div class="service-icon mb-3">
-                    <i class="fas fa-tools fa-3x text-primary"></i>
-                  </div>
-                  <h4>Home Flipping</h4>
-                  <p class="text-muted">We flip homes with intention, creating spaces people love.</p>
-                </div>
-              </div>
-            </div>
+
 
             <!-- Animated scroll indicator -->
             <div class="text-center mt-5" v-if="teamMembers && teamMembers.length > 0">
               <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="200">
-                <p class="text-muted mb-3">Meet our team</p>
+                <p class="text-muted mb-3">Meet our leadership team</p>
                 <div class="scroll-arrow">
                   <i class="fas fa-chevron-down"></i>
                 </div>
