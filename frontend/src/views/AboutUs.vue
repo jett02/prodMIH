@@ -66,12 +66,12 @@
     </section>
 
     <!-- Our Mission Section -->
-    <section class="py-xl-25 py-20 mission-bg inverted">
+    <section class="py-xl-30 py-25 mission-bg inverted">
       <div class="container">
         <div class="row align-items-center">
           <!-- Mission Text Column -->
           <div class="col-lg-7 mb-5 mb-lg-0" data-aos="fade-right">
-            <h2 class="display-3 fw-bold mb-5 text-white">Our Mission</h2>
+            <h2 class="display-3 fw-bold mb-6 text-white">Our Mission</h2>
             <div class="mission-content">
               <blockquote class="mission-quote-new">
                 <p class="mission-text-new text-white mb-4">
@@ -80,7 +80,7 @@
               </blockquote>
               <div class="mission-details">
                 <p class="text-light fs-5 mb-0 lh-lg">
-                  We believe every family deserves a home that reflects their worth and contributes to a thriving community. Through thoughtful renovation and community investment, we're building more than houses—we're building hope.
+                  We believe every family deserves a home that reflects their worth and contributes to a thriving community. Through thoughtful renovation and community investment, we're building more than houses, we're building hope.
                 </p>
               </div>
             </div>
@@ -495,16 +495,18 @@ export default {
 
 /* New Mission Content Styling */
 .mission-content {
-  padding-right: 2rem;
+  padding-right: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .mission-quote-new {
   border: none;
-  margin: 0 0 2rem 0;
+  margin: 0 0 3rem 0;
   padding: 0;
   background: none;
   border-left: 4px solid #EBA472;
-  padding-left: 2rem;
+  padding-left: 2.5rem;
 }
 
 .mission-text-new {
@@ -512,20 +514,23 @@ export default {
   font-style: italic;
   line-height: 1.4;
   font-weight: 300;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .mission-details {
-  padding-left: 2rem;
+  padding-left: 2.5rem;
+  margin-top: 1.5rem;
 }
 
 /* Mission Image Styling */
 .mission-image-container {
   position: relative;
-  height: 400px;
+  height: 500px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .mission-image {
@@ -562,7 +567,9 @@ export default {
 @media (max-width: 991px) {
   .mission-content {
     padding-right: 0;
-    margin-bottom: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 3rem;
   }
 
   .mission-text-new {
@@ -570,14 +577,17 @@ export default {
   }
 
   .mission-image-container {
-    height: 300px;
+    height: 400px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .mission-quote-new {
-    padding-left: 1.5rem;
+    padding-left: 2rem;
     border-left-width: 3px;
+    margin-bottom: 2.5rem;
   }
 
   .mission-text-new {
@@ -585,11 +595,16 @@ export default {
   }
 
   .mission-details {
-    padding-left: 1.5rem;
+    padding-left: 2rem;
   }
 
   .mission-image-container {
-    height: 250px;
+    height: 350px;
+  }
+
+  .mission-content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 }
 
