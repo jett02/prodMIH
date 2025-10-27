@@ -7,6 +7,7 @@ import Upcoming from '@/views/Upcoming.vue'
 import Contact from '@/views/Contact.vue'
 import PropertyDetail from '@/views/PropertyDetail.vue'
 import Agents from '@/views/Agents.vue'
+import AboutUs from '@/views/AboutUs.vue'
 import OurLeadership from '@/views/About.vue'
 import OurPartners from '@/views/OurPartners.vue'
 import OurVision from '@/views/OurVision.vue'
@@ -48,6 +49,11 @@ const routes = [
     path: '/agents',
     name: 'Agents',
     component: Agents
+  },
+  {
+    path: '/about-us',
+    name: 'AboutUs',
+    component: AboutUs
   },
   {
     path: '/about',
