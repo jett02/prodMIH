@@ -54,8 +54,67 @@
 
           <!-- Content Sections Grid -->
 
-          <!-- Row 1: Hero and About -->
+          <!-- Row 1: Hero and About Us -->
           <div class="row g-3 mb-4" id="content-sections">
+            <!-- About Us Section -->
+            <div class="col-lg-6 content-section" data-category="aboutus" data-keywords="about us mission image company">
+              <div class="card shadow-sm h-100 admin-card">
+                <div class="card-header bg-warm-sunset text-white cursor-pointer" @click="toggleSection('aboutUs')">
+                  <h5 class="card-title mb-0">
+                    <i class="fas fa-building me-2"></i>About Us Page
+                    <i class="fas fa-chevron-down float-end transition-transform" :class="{ 'rotate-180': expandedSections.aboutUs }"></i>
+                  </h5>
+                </div>
+                <div class="card-body collapsible-section" v-show="expandedSections.aboutUs">
+                  <form @submit.prevent="saveAboutUsContent" class="row g-3">
+                    <div class="col-12">
+                      <label class="form-label fw-bold">Mission Section Image</label>
+                      <div class="mb-3">
+                        <input type="file"
+                               class="form-control"
+                               @change="handleMissionImageUpload"
+                               accept="image/*"
+                               :disabled="isUploading">
+                        <small class="text-muted">Upload an image for the Our Mission section (appears on the right side)</small>
+                      </div>
+
+                      <!-- Current Mission Image Preview -->
+                      <div v-if="content.aboutUs && content.aboutUs.missionImage" class="mb-3">
+                        <label class="form-label fw-bold">Current Mission Image:</label>
+                        <div class="position-relative d-inline-block">
+                          <img :src="getImageUrl(content.aboutUs.missionImage)"
+                               alt="Mission Image"
+                               class="img-thumbnail"
+                               style="max-width: 200px; max-height: 150px;">
+                          <button type="button"
+                                  class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                  @click="removeMissionImage"
+                                  style="transform: translate(50%, -50%);">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Placeholder when no image -->
+                      <div v-else class="text-center p-4 border border-dashed rounded">
+                        <i class="fas fa-image fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No mission image uploaded</p>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <button type="submit" class="btn btn-warm-sunset" :disabled="saving">
+                        <i class="fas fa-save me-2"></i>
+                        {{ saving ? 'Saving...' : 'Save About Us Content' }}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          <!-- Row 2: Hero and About (Leadership) -->
+          <div class="row g-3 mb-4" id="content-sections-2">
             <!-- Hero Section -->
             <div class="col-lg-6 content-section" data-category="hero" data-keywords="hero homepage banner main title subtitle">
               <div class="card shadow-sm h-100 admin-card">
@@ -1746,6 +1805,9 @@ export default {
           story: 'At Make It Home, we believe that finding the right property is just the beginning...',
           mission: 'We flip homes with intention, creating spaces people want to live in...'
         },
+        aboutUs: {
+          missionImage: ''
+        },
         values: {
           title: 'Our Values',
           description: 'These core values guide everything we do at Make It Home LLC.',
@@ -1912,6 +1974,7 @@ export default {
       expandedSections: {
         hero: false,
         about: false,
+        aboutUs: false,
         values: false,
         propertiesBanner: false,
         rentalsBanner: false,
@@ -1953,9 +2016,12 @@ export default {
             foregroundImage: '',
             companyImage: ''
           },
-          about: response.data.about || { 
+          about: response.data.about || {
             story: '',
             mission: ''
+          },
+          aboutUs: response.data.aboutUs || {
+            missionImage: ''
           },
           values: response.data.values || {
             title: 'Our Values',
@@ -2059,6 +2125,52 @@ export default {
       } catch (error) {
         console.error('Error saving about content:', error)
         alert('Error saving content. Please try again.')
+      }
+    },
+    async saveAboutUsContent() {
+      try {
+        this.saving = true
+        await axios.put('/api/admin/content/about-us', this.content.aboutUs)
+        this.showSuccessPopup('About Us content saved successfully!')
+      } catch (error) {
+        console.error('Error saving About Us content:', error)
+        this.showErrorPopup('Error saving About Us content. Please try again.')
+      } finally {
+        this.saving = false
+      }
+    },
+    async handleMissionImageUpload(event) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          this.isUploading = true
+          const formData = new FormData()
+          formData.append('missionImage', file)
+
+          const response = await axios.post('/api/admin/content/upload-mission-image', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+
+          // Ensure aboutUs object exists
+          if (!this.content.aboutUs) {
+            this.content.aboutUs = {}
+          }
+
+          this.content.aboutUs.missionImage = response.data.imageUrl
+          this.showSuccessPopup('Mission image uploaded successfully!')
+        } catch (error) {
+          console.error('Error uploading mission image:', error)
+          this.showErrorPopup('Error uploading image. Please try again.')
+        } finally {
+          this.isUploading = false
+          event.target.value = '' // Clear the input
+        }
+      }
+    },
+    removeMissionImage() {
+      if (confirm('Are you sure you want to remove the mission image?')) {
+        this.content.aboutUs.missionImage = ''
+        this.showSuccessPopup('Mission image removed. Remember to save changes.')
       }
     },
     async saveFooterContent() {

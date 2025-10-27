@@ -66,16 +66,39 @@
     </section>
 
     <!-- Our Mission Section -->
-    <section class="py-xl-20 py-15 mission-bg inverted">
+    <section class="py-xl-25 py-20 mission-bg inverted">
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-10 text-center" data-aos="fade-up">
-            <h2 class="display-4 fw-bold mb-5 text-white">Our Mission</h2>
-            <blockquote class="mission-quote">
-              <p class="display-5 fw-light text-white mb-0 lh-base mission-text">
-                "Our mission is to rebuild, reimagine, and reinvest in the Omaha community by creating homes people are proud to live in."
-              </p>
-            </blockquote>
+        <div class="row align-items-center">
+          <!-- Mission Text Column -->
+          <div class="col-lg-7 mb-5 mb-lg-0" data-aos="fade-right">
+            <h2 class="display-3 fw-bold mb-5 text-white">Our Mission</h2>
+            <div class="mission-content">
+              <blockquote class="mission-quote-new">
+                <p class="mission-text-new text-white mb-4">
+                  "Our mission is to rebuild, reimagine, and reinvest in the Omaha community by creating homes people are proud to live in."
+                </p>
+              </blockquote>
+              <div class="mission-details">
+                <p class="text-light fs-5 mb-0 lh-lg">
+                  We believe every family deserves a home that reflects their worth and contributes to a thriving community. Through thoughtful renovation and community investment, we're building more than houses—we're building hope.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mission Image Column -->
+          <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
+            <div class="mission-image-container">
+              <img v-if="content.aboutUs && content.aboutUs.missionImage"
+                   :src="getImageUrl(content.aboutUs.missionImage)"
+                   alt="Our Mission"
+                   class="mission-image">
+              <div v-else class="mission-placeholder">
+                <i class="fas fa-home fa-4x text-warm-sunset mb-3"></i>
+                <p class="text-light mb-0">Mission Image</p>
+                <small class="text-muted">Upload via admin panel</small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -166,12 +189,38 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'AboutUs',
-  mounted() {
+  data() {
+    return {
+      content: {
+        aboutUs: {
+          missionImage: ''
+        }
+      }
+    }
+  },
+  async mounted() {
     document.title = 'About Us - Make It Home'
+    await this.loadContent()
   },
   methods: {
+    async loadContent() {
+      try {
+        const response = await axios.get('/api/admin/content/public')
+        this.content = response.data || { aboutUs: { missionImage: '' } }
+      } catch (error) {
+        console.error('Error loading content:', error)
+        this.content = { aboutUs: { missionImage: '' } }
+      }
+    },
+    getImageUrl(imagePath) {
+      if (!imagePath) return ''
+      if (imagePath.startsWith('http')) return imagePath
+      return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imagePath}`
+    },
     scrollToStory() {
       const element = document.getElementById('our-story')
       if (element) {
@@ -444,32 +493,103 @@ export default {
   margin: 0;
 }
 
-.mission-quote {
-  border: none;
-  margin: 0;
-  padding: 3rem 2.5rem;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 25px;
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  max-width: 900px;
-  margin: 0 auto;
+/* New Mission Content Styling */
+.mission-content {
+  padding-right: 2rem;
 }
 
-.mission-text {
+.mission-quote-new {
+  border: none;
+  margin: 0 0 2rem 0;
+  padding: 0;
+  background: none;
+  border-left: 4px solid #EBA472;
+  padding-left: 2rem;
+}
+
+.mission-text-new {
+  font-size: 2rem;
   font-style: italic;
   line-height: 1.4;
-  font-weight: 300 !important;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.mission-details {
+  padding-left: 2rem;
+}
+
+/* Mission Image Styling */
+.mission-image-container {
+  position: relative;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.mission-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.mission-image:hover {
+  transform: scale(1.05);
+}
+
+.mission-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(235, 164, 114, 0.3);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.text-warm-sunset {
+  color: #EBA472 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .mission-content {
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
+
+  .mission-text-new {
+    font-size: 1.75rem;
+  }
+
+  .mission-image-container {
+    height: 300px;
+  }
 }
 
 @media (max-width: 768px) {
-  .mission-quote {
-    padding: 2rem 1.5rem;
+  .mission-quote-new {
+    padding-left: 1.5rem;
+    border-left-width: 3px;
   }
 
-  .mission-text {
-    font-size: 1.5rem !important;
+  .mission-text-new {
+    font-size: 1.5rem;
+  }
+
+  .mission-details {
+    padding-left: 1.5rem;
+  }
+
+  .mission-image-container {
+    height: 250px;
   }
 }
 

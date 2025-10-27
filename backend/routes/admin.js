@@ -737,6 +737,42 @@ router.put('/content/about', async (req, res) => {
   }
 });
 
+// Update About Us content
+router.put('/content/about-us', async (req, res) => {
+  try {
+    let content = await Content.findOne();
+    if (!content) {
+      content = new Content({});
+    }
+    content.aboutUs = req.body;
+    content.updatedAt = new Date();
+    await content.save();
+    res.json({ message: 'About Us content updated successfully' });
+  } catch (error) {
+    console.error('Error saving About Us content:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Upload mission image for About Us page
+router.post('/content/upload-mission-image', heroUpload.single('missionImage'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No image file provided' });
+    }
+
+    const imageUrl = req.file.path; // Cloudinary URL
+
+    res.json({
+      message: 'Mission image uploaded successfully',
+      imageUrl: imageUrl
+    });
+  } catch (error) {
+    console.error('Error uploading mission image:', error);
+    res.status(500).json({ message: 'Error uploading mission image' });
+  }
+});
+
 // Agent management routes
 router.get('/agents', async (req, res) => {
   try {

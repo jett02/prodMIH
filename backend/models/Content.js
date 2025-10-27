@@ -15,6 +15,9 @@ const contentSchema = new mongoose.Schema({
     story: { type: String, default: '' },
     mission: { type: String, default: '' }
   },
+  aboutUs: {
+    missionImage: { type: String, default: '' }
+  },
   values: {
     title: { type: String, default: 'Our Values' },
     description: { type: String, default: '' },
