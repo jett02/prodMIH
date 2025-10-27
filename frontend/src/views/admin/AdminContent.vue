@@ -112,6 +112,7 @@
                 </div>
               </div>
             </div>
+          </div>
 
           <!-- Row 2: Hero and About (Leadership) -->
           <div class="row g-3 mb-4" id="content-sections-2">
