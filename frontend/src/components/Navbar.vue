@@ -47,8 +47,15 @@
               <li><router-link class="dropdown-item text-slate-gray" to="/about-us" @click="closeMobileMenu">About Us</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/about" @click="closeMobileMenu">Our Leadership</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-vision" @click="closeMobileMenu">Our Vision</router-link></li>
-              <li><router-link class="dropdown-item text-slate-gray" to="/our-partners" @click="closeMobileMenu">Our Partners</router-link></li>
-              <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
+              <li class="nav-item dropdown dropdown-hover dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle text-slate-gray" href="#" id="partnersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Our Partners
+                </a>
+                <ul class="dropdown-menu dropdown-submenu" aria-labelledby="partnersDropdown">
+                  <li><router-link class="dropdown-item text-slate-gray" to="/our-partners" @click="closeMobileMenu">Our Partners</router-link></li>
+                  <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
+                </ul>
+              </li>
             </ul>
           </li>
         </ul>
@@ -230,6 +237,46 @@ export default {
 .dropdown-item:focus {
   background-color: #EDE0D4;
   color: #EBA472 !important;
+}
+
+/* Nested dropdown submenu styles */
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.dropdown-submenu > .dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid transparent;
+  border-right: 0;
+  border-bottom: 0.3em solid transparent;
+  border-left: 0.3em solid;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-submenu:hover > .dropdown-toggle::after {
+  transform: rotate(90deg);
 }
 
 /* Remove Bootstrap's default dropdown arrow behavior */
