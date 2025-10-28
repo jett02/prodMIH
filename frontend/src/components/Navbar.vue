@@ -47,11 +47,19 @@
               <li><router-link class="dropdown-item text-slate-gray" to="/about-us" @click="closeMobileMenu">About Us</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/about" @click="closeMobileMenu">Our Leadership</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-vision" @click="closeMobileMenu">Our Vision</router-link></li>
-              <li class="nav-item dropdown dropdown-hover dropdown-submenu">
-                <a class="dropdown-item dropdown-toggle text-slate-gray" href="#" id="partnersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <li class="nav-item dropdown dropdown-hover dropdown-submenu" :class="{ 'show-mobile': showPartnersSubmenu }">
+                <a class="dropdown-item dropdown-toggle text-slate-gray"
+                   href="#"
+                   id="partnersDropdown"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false"
+                   @click="togglePartnersSubmenu($event)">
                   Our Partners
                 </a>
-                <ul class="dropdown-menu dropdown-submenu" aria-labelledby="partnersDropdown">
+                <ul class="dropdown-menu dropdown-submenu"
+                    aria-labelledby="partnersDropdown"
+                    :class="{ 'show-mobile': showPartnersSubmenu }">
                   <li><router-link class="dropdown-item text-slate-gray" to="/our-partners" @click="closeMobileMenu">Our Partners</router-link></li>
                   <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
                 </ul>
@@ -71,7 +79,8 @@ export default {
   data() {
     return {
       logoUrl: '/businessimages/makeitHomePNG.PNG',
-      logoLoaded: true
+      logoLoaded: true,
+      showPartnersSubmenu: false
     }
   },
   mounted() {
@@ -93,6 +102,16 @@ export default {
           toggle: false
         })
         bsCollapse.hide()
+      }
+      // Also close submenu when closing mobile menu
+      this.showPartnersSubmenu = false
+    },
+    togglePartnersSubmenu(event) {
+      // Only handle click on mobile devices (when navbar is collapsed)
+      const navbarCollapse = document.getElementById('navbarNav')
+      if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+        event.preventDefault()
+        this.showPartnersSubmenu = !this.showPartnersSubmenu
       }
     },
     loadLogo() {
@@ -320,6 +339,88 @@ export default {
 
 .nav-link:hover::before {
   width: 80%;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 991.98px) {
+  /* Reset nested dropdown positioning for mobile */
+  .dropdown-submenu > .dropdown-menu {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    padding-left: 1rem !important;
+    display: none;
+  }
+
+  /* Show submenu when toggled on mobile */
+  .dropdown-submenu > .dropdown-menu.show-mobile {
+    display: block !important;
+  }
+
+  /* Adjust submenu items for mobile */
+  .dropdown-submenu .dropdown-item {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+    border-left: 2px solid #EBA472 !important;
+    margin-left: 0.5rem !important;
+  }
+
+  /* Change arrow direction for mobile */
+  .dropdown-submenu > .dropdown-toggle::after {
+    border-top: 0.3em solid !important;
+    border-right: 0.3em solid transparent !important;
+    border-bottom: 0 !important;
+    border-left: 0.3em solid transparent !important;
+    transform: rotate(0deg) !important;
+  }
+
+  /* Rotate arrow when submenu is open on mobile */
+  .dropdown-submenu.show-mobile > .dropdown-toggle::after {
+    transform: rotate(180deg) !important;
+  }
+
+  /* Disable hover effects on mobile */
+  .dropdown-submenu:hover > .dropdown-menu {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    display: none !important;
+  }
+
+  /* Ensure mobile menu items are properly spaced */
+  .navbar-nav .dropdown-menu {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .navbar-nav .dropdown-item {
+    color: #6c757d !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  .navbar-nav .dropdown-item:hover {
+    background-color: #EDE0D4 !important;
+    color: #EBA472 !important;
+    transform: none !important;
+  }
+}
+
+/* Desktop hover behavior (preserve existing functionality) */
+@media (min-width: 992px) {
+  .dropdown-submenu:hover > .dropdown-menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
 }
 </style>
 
