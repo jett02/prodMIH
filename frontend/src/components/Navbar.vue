@@ -47,22 +47,41 @@
               <li><router-link class="dropdown-item text-slate-gray" to="/about-us" @click="closeMobileMenu">About Us</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/about" @click="closeMobileMenu">Our Leadership</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-vision" @click="closeMobileMenu">Our Vision</router-link></li>
-              <li class="nav-item dropdown dropdown-hover dropdown-submenu" :class="{ 'show-mobile': showPartnersSubmenu }">
+
+              <!-- Desktop: Nested dropdown -->
+              <li class="nav-item dropdown dropdown-hover dropdown-submenu d-none d-lg-block">
                 <a class="dropdown-item dropdown-toggle text-slate-gray"
                    href="#"
                    id="partnersDropdown"
                    role="button"
                    data-bs-toggle="dropdown"
-                   aria-expanded="false"
-                   @click="togglePartnersSubmenu($event)">
+                   aria-expanded="false">
                   Our Partners
                 </a>
-                <ul class="dropdown-menu dropdown-submenu"
-                    aria-labelledby="partnersDropdown"
-                    :class="{ 'show-mobile': showPartnersSubmenu }">
+                <ul class="dropdown-menu dropdown-submenu" aria-labelledby="partnersDropdown">
                   <li><router-link class="dropdown-item text-slate-gray" to="/our-partners" @click="closeMobileMenu">Our Partners</router-link></li>
                   <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
                 </ul>
+              </li>
+
+              <!-- Mobile: Direct links -->
+              <li class="d-lg-none">
+                <a class="dropdown-item text-slate-gray partners-header"
+                   href="#"
+                   @click="togglePartnersSubmenu($event)">
+                  <i class="fas fa-chevron-down me-2 partners-arrow" :class="{ 'rotated': showPartnersSubmenu }"></i>
+                  Our Partners
+                </a>
+              </li>
+              <li class="d-lg-none partners-submenu-item" :class="{ 'show': showPartnersSubmenu }">
+                <router-link class="dropdown-item text-slate-gray ps-4" to="/our-partners" @click="closeMobileMenu">
+                  <i class="fas fa-building me-2"></i>Our Partners
+                </router-link>
+              </li>
+              <li class="d-lg-none partners-submenu-item" :class="{ 'show': showPartnersSubmenu }">
+                <router-link class="dropdown-item text-slate-gray ps-4" to="/preferred-bidders" @click="closeMobileMenu">
+                  <i class="fas fa-list me-2"></i>Preferred Bidders List
+                </router-link>
               </li>
             </ul>
           </li>
@@ -343,55 +362,61 @@ export default {
 
 /* Mobile-specific styles */
 @media (max-width: 991.98px) {
-  /* Reset nested dropdown positioning for mobile */
-  .dropdown-submenu > .dropdown-menu {
-    position: static !important;
-    top: auto !important;
-    left: auto !important;
-    margin: 0 !important;
-    transform: none !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    box-shadow: none !important;
-    border: none !important;
-    background: transparent !important;
-    padding-left: 1rem !important;
-    display: none;
+  /* Mobile partners header styling */
+  .partners-header {
+    font-weight: 600 !important;
+    color: #6c757d !important;
+    cursor: pointer !important;
+    user-select: none !important;
   }
 
-  /* Show submenu when toggled on mobile */
-  .dropdown-submenu > .dropdown-menu.show-mobile {
-    display: block !important;
+  .partners-header:hover {
+    background-color: #EDE0D4 !important;
+    color: #EBA472 !important;
   }
 
-  /* Adjust submenu items for mobile */
-  .dropdown-submenu .dropdown-item {
-    padding: 0.5rem 1rem !important;
-    font-size: 0.9rem !important;
-    border-left: 2px solid #EBA472 !important;
-    margin-left: 0.5rem !important;
+  /* Partners arrow animation */
+  .partners-arrow {
+    transition: transform 0.3s ease !important;
+    color: #EBA472 !important;
   }
 
-  /* Change arrow direction for mobile */
-  .dropdown-submenu > .dropdown-toggle::after {
-    border-top: 0.3em solid !important;
-    border-right: 0.3em solid transparent !important;
-    border-bottom: 0 !important;
-    border-left: 0.3em solid transparent !important;
-    transform: rotate(0deg) !important;
-  }
-
-  /* Rotate arrow when submenu is open on mobile */
-  .dropdown-submenu.show-mobile > .dropdown-toggle::after {
+  .partners-arrow.rotated {
     transform: rotate(180deg) !important;
   }
 
-  /* Disable hover effects on mobile */
-  .dropdown-submenu:hover > .dropdown-menu {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    transform: none !important;
+  /* Mobile submenu items */
+  .partners-submenu-item {
     display: none !important;
+    opacity: 0 !important;
+    transform: translateY(-10px) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .partners-submenu-item.show {
+    display: block !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .partners-submenu-item .dropdown-item {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+    color: #6c757d !important;
+    border-left: 3px solid #EBA472 !important;
+    margin-left: 0.5rem !important;
+    background: rgba(235, 164, 114, 0.05) !important;
+  }
+
+  .partners-submenu-item .dropdown-item:hover {
+    background-color: #EDE0D4 !important;
+    color: #EBA472 !important;
+    transform: translateX(5px) !important;
+  }
+
+  .partners-submenu-item .dropdown-item i {
+    color: #EBA472 !important;
+    width: 16px !important;
   }
 
   /* Ensure mobile menu items are properly spaced */
