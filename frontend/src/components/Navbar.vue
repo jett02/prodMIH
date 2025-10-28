@@ -34,7 +34,6 @@
             <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
               <li><router-link class="dropdown-item text-slate-gray" to="/sell-to-us" @click="closeMobileMenu">Sell To Us</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/mortgage-calculator" @click="closeMobileMenu">Mortgage Calculator</router-link></li>
-              <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
             </ul>
           </li>
           <li class="nav-item">
@@ -49,6 +48,7 @@
               <li><router-link class="dropdown-item text-slate-gray" to="/about" @click="closeMobileMenu">Our Leadership</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-vision" @click="closeMobileMenu">Our Vision</router-link></li>
               <li><router-link class="dropdown-item text-slate-gray" to="/our-partners" @click="closeMobileMenu">Our Partners</router-link></li>
+              <li><router-link class="dropdown-item text-slate-gray" to="/preferred-bidders" @click="closeMobileMenu">Preferred Bidders List</router-link></li>
             </ul>
           </li>
         </ul>
