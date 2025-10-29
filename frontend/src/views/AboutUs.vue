@@ -47,18 +47,14 @@
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
-              <h2 class="display-5 fw-bold mb-4 text-dark">Our Story</h2>
+              <h2 class="display-5 fw-bold mb-4 text-dark">
+                {{ content.about.storyTitle || 'Our Story' }}
+              </h2>
               <div class="divider mx-auto mb-5"></div>
             </div>
-            
+
             <div class="story-content" data-aos="fade-up" data-aos-delay="200">
-              <p class="fs-4 text-dark mb-4 lh-lg">
-                Make It Home, LLC was built from the ground up, not just with nails and drywall, but with a deep belief that homes can change lives. We aren't interested in flipping houses for fast cash or renting units just to fill space. We are builders of opportunity, architects of change, and fierce believers in what happens when people are finally given a space that reflects their worth.
-              </p>
-              
-              <p class="fs-4 text-dark mb-4 lh-lg">
-                We buy properties that others overlook, homes with history, edges, and flaws, and we breathe new life into them. Then, we hand those homes back to the community, one buyer or renter at a time. The result is a property that's no longer forgotten. A tenant who finally feels proud to walk through their first door. A neighborhood that starts to rise again, one house at a time.
-              </p>
+              <div class="story-text" v-html="content.about.story || defaultStoryContent"></div>
             </div>
           </div>
         </div>
@@ -89,8 +85,8 @@
           <!-- Mission Image Column -->
           <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
             <div class="mission-image-container">
-              <img v-if="content.aboutUs && content.aboutUs.missionImage"
-                   :src="getImageUrl(content.aboutUs.missionImage)"
+              <img v-if="content.about && content.about.missionImage"
+                   :src="getImageUrl(content.about.missionImage)"
                    alt="Our Mission"
                    class="mission-image">
               <div v-else class="mission-placeholder">
@@ -162,7 +158,10 @@ export default {
   data() {
     return {
       content: {
-        aboutUs: {
+        about: {
+          storyTitle: 'Our Story',
+          story: '',
+          mission: '',
           missionImage: ''
         },
         values: {
@@ -170,7 +169,16 @@ export default {
           description: '',
           valuesList: []
         }
-      }
+      },
+      defaultStoryContent: `
+        <p class="fs-4 text-dark mb-4 lh-lg">
+          Make It Home, LLC was built from the ground up, not just with nails and drywall, but with a deep belief that homes can change lives. We aren't interested in flipping houses for fast cash or renting units just to fill space. We are builders of opportunity, architects of change, and fierce believers in what happens when people are finally given a space that reflects their worth.
+        </p>
+
+        <p class="fs-4 text-dark mb-4 lh-lg">
+          We buy properties that others overlook, homes with history, edges, and flaws, and we breathe new life into them. Then, we hand those homes back to the community, one buyer or renter at a time. The result is a property that's no longer forgotten. A tenant who finally feels proud to walk through their first door. A neighborhood that starts to rise again, one house at a time.
+        </p>
+      `
     }
   },
   async mounted() {
@@ -182,8 +190,13 @@ export default {
       try {
         const response = await axios.get('/api/admin/content/public')
         this.content = response.data || {
-          aboutUs: { missionImage: '' },
+          about: { storyTitle: 'Our Story', story: '', mission: '', missionImage: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
+        }
+
+        // Ensure about structure exists
+        if (!this.content.about) {
+          this.content.about = { storyTitle: 'Our Story', story: '', mission: '', missionImage: '' }
         }
 
         // Ensure values structure exists
@@ -193,7 +206,7 @@ export default {
       } catch (error) {
         console.error('Error loading content:', error)
         this.content = {
-          aboutUs: { missionImage: '' },
+          about: { storyTitle: 'Our Story', story: '', mission: '', missionImage: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
         }
       }
@@ -421,6 +434,23 @@ export default {
 .story-content p {
   text-align: justify;
   line-height: 1.8;
+}
+
+.story-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.story-text p {
+  font-size: 1.25rem;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  text-align: justify;
+}
+
+.story-text p:last-child {
+  margin-bottom: 0;
 }
 
 /* Values Cards */

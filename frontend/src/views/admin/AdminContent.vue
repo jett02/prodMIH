@@ -216,6 +216,11 @@
                 <div class="card-body collapsible-section" v-show="expandedSections.about">
                   <form @submit.prevent="saveAboutContent" class="row g-3">
                     <div class="col-12">
+                      <label class="form-label fw-bold">Story Title</label>
+                      <input v-model="content.about.storyTitle" type="text" class="form-control"
+                             placeholder="Our Story">
+                    </div>
+                    <div class="col-12">
                       <label class="form-label fw-bold">Company Story</label>
                       <div class="toolbar mb-2">
                         <button type="button" @click="formatAboutText('story', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
@@ -1863,6 +1868,7 @@ export default {
           description: ''
         },
         about: {
+          storyTitle: 'Our Story',
           story: 'At Make It Home, we believe that finding the right property is just the beginning...',
           mission: 'We flip homes with intention, creating spaces people want to live in...'
         },
@@ -2082,6 +2088,7 @@ export default {
             companyImage: ''
           },
           about: response.data.about || {
+            storyTitle: 'Our Story',
             story: '',
             mission: ''
           },
