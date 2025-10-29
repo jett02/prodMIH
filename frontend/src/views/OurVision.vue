@@ -52,6 +52,14 @@
               <div class="vision-statement">
                 <p class="fs-4 text-light opacity-75 mb-4" v-html="content.vision.statement || defaultVisionStatement"></p>
               </div>
+
+              <!-- Vision Statement -->
+              <div class="vision-mission-statement mt-5">
+                <h3 class="h4 fw-bold mb-3 text-warm-sunset">Our Vision Statement</h3>
+                <p class="fs-5 text-light opacity-90 fst-italic">
+                  "To reshape the narrative of Omaha real estate, one home, one street, one family at a time."
+                </p>
+              </div>
             </div>
 
             <!-- Vision Images Section - Ready for admin content -->
@@ -96,8 +104,8 @@
             </div>
             
             <div class="stats-row mt-5">
-              <div class="row g-4">
-                <div v-for="(stat, index) in visionStats" :key="index" class="col-6">
+              <div class="row g-4 justify-content-center">
+                <div v-for="(stat, index) in visionStats" :key="index" class="col-md-6 col-lg-4">
                   <div class="stat-item text-center">
                     <div class="stat-number">{{ stat.number }}</div>
                     <div class="stat-label">{{ stat.label }}</div>
@@ -116,6 +124,30 @@
               <div v-else class="vision-placeholder">
                 <i class="fas fa-image"></i>
                 <p>Motivation image will appear here</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Values Section -->
+    <section class="py-xl-20 py-15 bg-light" v-if="content.values && (content.values.valuesList.length > 0 || content.values.description)">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h2 class="display-6 fw-bold mb-4 text-dark">{{ content.values.title || 'Our Values' }}</h2>
+            <p class="lead text-dark opacity-75 mb-5" v-if="content.values.description">{{ content.values.description }}</p>
+
+            <div class="row g-4 justify-content-center" v-if="content.values.valuesList && content.values.valuesList.length > 0">
+              <div v-for="(value, index) in content.values.valuesList" :key="index" class="col-md-6 col-lg-4" data-aos="fade-up" :data-aos-delay="index * 100">
+                <div class="values-card">
+                  <div class="values-icon mb-3">
+                    <i :class="value.icon + ' fa-3x'"></i>
+                  </div>
+                  <h4 class="values-title">{{ value.title }}</h4>
+                  <p class="values-description">{{ value.description }}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -333,16 +365,18 @@ export default {
           ctaDescription: '',
           cityImagesTitle: '',
           cityImagesDescription: ''
+        },
+        values: {
+          title: 'Our Values',
+          description: '',
+          valuesList: []
         }
       },
       defaultVisionStatement: `At Make It Home, we envision a future where every person has access to quality housing that serves as more than just shelter—it's a foundation for building dreams, creating memories, and fostering community connections.`,
       defaultMotivation: `We're motivated by the belief that real estate should be accessible, transparent, and transformative. Every property we touch, every family we serve, and every community we impact drives us to push boundaries and redefine what's possible in real estate.`,
       defaultFutureGoals: `Our vision extends beyond today's transactions. We're building sustainable communities, pioneering innovative real estate solutions, and creating lasting partnerships that will shape the industry for generations to come.`,
       visionStats: [
-        { number: '5+', label: 'Years of Experience' },
-        { number: '4+', label: 'Properties Evaluated' },
-        { number: '3+', label: 'Neighborhoods Served' },
-        { number: '100%', label: 'Commitment to Excellence' }
+        { number: '3+', label: 'Neighborhoods Served' }
       ],
       cityImages: []
     }
@@ -359,6 +393,10 @@ export default {
         
         if (response.data && response.data.vision) {
           this.content.vision = { ...this.content.vision, ...response.data.vision }
+        }
+
+        if (response.data && response.data.values) {
+          this.content.values = { ...this.content.values, ...response.data.values }
 
           // Load city images if they exist
           if (response.data.vision.cityImages && response.data.vision.cityImages.length > 0) {
@@ -964,6 +1002,79 @@ export default {
 .vision-statement {
   max-width: 800px;
   margin: 0 auto;
+}
+
+.vision-mission-statement {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(235, 164, 114, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* Consistent body font styling */
+.vision-page p,
+.vision-page .lead,
+.vision-page .fs-4,
+.vision-page .fs-5 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.vision-detail-text,
+.goal-description,
+.social-description,
+.city-description,
+.values-description {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Our Values Section */
+.values-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(235, 164, 114, 0.1);
+  height: 100%;
+}
+
+.values-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.values-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #EBA472, #D4935E);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.values-icon i {
+  color: white;
+}
+
+.values-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.values-description {
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* Vision Detail Cards */

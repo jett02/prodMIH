@@ -102,25 +102,7 @@
       </div>
     </section>
 
-    <!-- Contact Form Section -->
-    <section class="py-5">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <div class="text-center mb-5">
-              <h2 class="fw-bold mb-3">Let's make something big. <span class="text-primary d-block">Together.</span></h2>
-              <p class="text-muted fs-lg">Ready to start your real estate journey? Fill out the form below and we'll get back to you within 24 hours.</p>
-            </div>
-            
-            <div class="card border-0 shadow-lg">
-              <div class="card-body p-5">
-                <ContactSection />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <!-- Additional Info Section -->
     <section class="py-5 bg-dark text-white">

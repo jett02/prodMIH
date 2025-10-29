@@ -58,10 +58,10 @@
                   <div class="card-wrap">
                     <div class="card-footer text-shadow mt-auto">
                       <h5 class="mb-0 text-white">{{ member.name }}</h5>
-                      <span class="text-muted">{{ member.title }}</span>
+                      <span class="text-white opacity-75">{{ member.title }}</span>
                       <div v-if="member.linkedin" class="mt-2">
-                        <a :href="member.linkedin" target="_blank" class="text-white">
-                          <i class="fab fa-linkedin me-1"></i>
+                        <a :href="member.linkedin" target="_blank" class="linkedin-btn-large">
+                          <i class="fab fa-linkedin"></i>
                         </a>
                       </div>
                     </div>
@@ -155,29 +155,6 @@
       </div>
     </section>
 
-    <!-- Values Section -->
-    <section class="py-5 bg-light" v-if="content.values && (content.values.valuesList.length > 0 || content.values.description)">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-8 text-center">
-            <h2 class="display-5 fw-bold mb-3">{{ content.values.title || 'Our Values' }}</h2>
-            <p class="lead text-muted mb-5" v-if="content.values.description">{{ content.values.description }}</p>
-            
-            <div class="row g-4" v-if="content.values.valuesList && content.values.valuesList.length > 0">
-              <div v-for="(value, index) in content.values.valuesList" :key="index" class="col-md-6 col-lg-4">
-                <div class="text-center">
-                  <div class="service-icon mb-3">
-                    <i :class="value.icon + ' fa-3x text-primary'"></i>
-                  </div>
-                  <h4>{{ value.title }}</h4>
-                  <p class="text-muted">{{ value.description }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Contact CTA Section -->
     <section class="py-15 py-xl-20">
@@ -221,11 +198,6 @@ export default {
         },
         leadership: {
           logo: ''
-        },
-        values: {
-          title: 'Our Values',
-          description: '',
-          valuesList: []
         }
       },
       teamMembers: [],
@@ -244,8 +216,7 @@ export default {
         
         this.content = response.data || {
           about: { story: '', mission: '' },
-          leadership: { logo: '' },
-          values: { title: 'Our Values', description: '', valuesList: [] }
+          leadership: { logo: '' }
         }
         
         // Load team members from the content response
@@ -270,8 +241,7 @@ export default {
         console.error('Error loading content:', error)
         this.content = {
           about: { story: '', mission: '' },
-          leadership: { logo: '' },
-          values: { title: 'Our Values', description: '', valuesList: [] }
+          leadership: { logo: '' }
         }
         this.teamMembers = []
       }
@@ -1012,6 +982,37 @@ export default {
 .linkedin-link i {
   margin-right: 0.5rem;
   font-size: 1.1em;
+}
+
+/* Larger LinkedIn button for team member cards */
+.linkedin-btn-large {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: rgba(0, 119, 181, 0.9);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.linkedin-btn-large:hover {
+  background: #0077b5;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 119, 181, 0.4);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.linkedin-btn-large i {
+  margin: 0;
+  font-size: 1.2rem;
 }
 
 .specialty-card-body {
