@@ -104,58 +104,24 @@
       </div>
     </section>
 
-    <!-- What Makes Us Different Section -->
-    <section class="py-xl-20 py-15 different-section">
+    <!-- Our Values Section -->
+    <section class="py-xl-20 py-15 values-section" v-if="content.values && (content.values.valuesList.length > 0 || content.values.description)">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center" data-aos="fade-up">
-            <h2 class="display-5 fw-bold mb-4 text-dark">What Makes Us Different</h2>
-            <p class="lead text-dark mb-5">What makes us different is simple: we care too much to cut corners.</p>
+            <h2 class="display-5 fw-bold mb-4 text-dark">{{ content.values.title || 'Our Values' }}</h2>
+            <p class="lead text-dark mb-5" v-if="content.values.description">{{ content.values.description }}</p>
           </div>
         </div>
 
-        <div class="row g-4">
-          <!-- Design with Intention -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="difference-card h-100">
-              <div class="difference-icon">
-                <i class="fas fa-drafting-compass"></i>
+        <div class="row g-4 justify-content-center" v-if="content.values.valuesList && content.values.valuesList.length > 0">
+          <div v-for="(value, index) in content.values.valuesList" :key="index" class="col-md-6 col-lg-4" data-aos="fade-up" :data-aos-delay="index * 100">
+            <div class="values-card h-100">
+              <div class="values-icon mb-3">
+                <i :class="value.icon + ' fa-3x'"></i>
               </div>
-              <h4 class="difference-title">We design with intention</h4>
-              <p class="difference-description">Every space is thoughtfully planned to create homes that truly serve the people who live in them.</p>
-            </div>
-          </div>
-
-          <!-- Real Craftsmanship -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="difference-card h-100">
-              <div class="difference-icon">
-                <i class="fas fa-hammer"></i>
-              </div>
-              <h4 class="difference-title">We renovate with real craftsmanship</h4>
-              <p class="difference-description">Quality work that stands the test of time, because homes should be built to last.</p>
-            </div>
-          </div>
-
-          <!-- Rent with Empathy -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="difference-card h-100">
-              <div class="difference-icon">
-                <i class="fas fa-heart"></i>
-              </div>
-              <h4 class="difference-title">We rent with empathy</h4>
-              <p class="difference-description">Understanding that a home is more than four walls - it's where life happens.</p>
-            </div>
-          </div>
-
-          <!-- Operate with Backbone -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="difference-card h-100">
-              <div class="difference-icon">
-                <i class="fas fa-shield-alt"></i>
-              </div>
-              <h4 class="difference-title">We operate with backbone</h4>
-              <p class="difference-description">Standing firm in our values and commitment to doing what's right for our community.</p>
+              <h4 class="values-title">{{ value.title }}</h4>
+              <p class="values-description">{{ value.description }}</p>
             </div>
           </div>
         </div>
@@ -198,6 +164,11 @@ export default {
       content: {
         aboutUs: {
           missionImage: ''
+        },
+        values: {
+          title: 'Our Values',
+          description: '',
+          valuesList: []
         }
       }
     }
@@ -210,10 +181,21 @@ export default {
     async loadContent() {
       try {
         const response = await axios.get('/api/admin/content/public')
-        this.content = response.data || { aboutUs: { missionImage: '' } }
+        this.content = response.data || {
+          aboutUs: { missionImage: '' },
+          values: { title: 'Our Values', description: '', valuesList: [] }
+        }
+
+        // Ensure values structure exists
+        if (!this.content.values) {
+          this.content.values = { title: 'Our Values', description: '', valuesList: [] }
+        }
       } catch (error) {
         console.error('Error loading content:', error)
-        this.content = { aboutUs: { missionImage: '' } }
+        this.content = {
+          aboutUs: { missionImage: '' },
+          values: { title: 'Our Values', description: '', valuesList: [] }
+        }
       }
     },
     getImageUrl(imagePath) {
@@ -416,8 +398,8 @@ export default {
   z-index: 2;
 }
 
-/* Different Section Enhanced Background */
-.different-section {
+/* Values Section Enhanced Background */
+.values-section {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
   position: relative;
 }
@@ -441,8 +423,8 @@ export default {
   line-height: 1.8;
 }
 
-/* Difference Cards */
-.difference-card {
+/* Values Cards */
+.values-card {
   background: white;
   padding: 2.5rem 2rem;
   border-radius: 15px;
@@ -452,12 +434,12 @@ export default {
   border: 1px solid rgba(235, 164, 114, 0.1);
 }
 
-.difference-card:hover {
+.values-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.difference-icon {
+.values-icon {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -468,19 +450,19 @@ export default {
   margin: 0 auto 1.5rem;
 }
 
-.difference-icon i {
+.values-icon i {
   font-size: 2rem;
   color: white;
 }
 
-.difference-title {
+.values-title {
   color: #1a1a1a;
   font-weight: 700;
   margin-bottom: 1rem;
   font-size: 1.3rem;
 }
 
-.difference-description {
+.values-description {
   color: #6c757d;
   line-height: 1.6;
   margin-bottom: 0;
@@ -686,16 +668,16 @@ export default {
     font-size: 0.75rem;
   }
   
-  .difference-card {
+  .values-card {
     padding: 2rem 1.5rem;
   }
-  
-  .difference-icon {
+
+  .values-icon {
     width: 60px;
     height: 60px;
   }
-  
-  .difference-icon i {
+
+  .values-icon i {
     font-size: 1.5rem;
   }
   

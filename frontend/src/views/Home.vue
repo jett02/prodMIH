@@ -32,12 +32,8 @@
             <!-- Foreground Image Carousel Display -->
             <div class="hero-image-carousel-container mt-4" data-aos="fade-left" data-aos-delay="400" v-if="heroContent.galleryImages && heroContent.galleryImages.length > 0">
               <div class="hero-carousel-wrapper">
-                <!-- Main Image as Stacked Cards -->
+                <!-- Main Image -->
                 <div class="hero-card-stack" @click="nextImage">
-                  <!-- Back cards (stack effect) -->
-                  <div class="hero-card card-back-2"></div>
-                  <div class="hero-card card-back-1"></div>
-
                   <!-- Front card with current media (image or video) -->
                   <div class="hero-card card-front">
                     <!-- Display video if current media is a video -->
@@ -1371,20 +1367,7 @@ export default {
   overflow: hidden;
 }
 
-/* Back cards for stacking effect */
-.hero-card.card-back-2 {
-  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
-  transform: translateY(16px) translateX(-8px) rotate(-1.5deg);
-  z-index: 1;
-  opacity: 0.6;
-}
 
-.hero-card.card-back-1 {
-  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-  transform: translateY(8px) translateX(-4px) rotate(-0.8deg);
-  z-index: 2;
-  opacity: 0.8;
-}
 
 /* Front card with image */
 .hero-card.card-front {
@@ -1950,13 +1933,7 @@ export default {
     margin: 0 auto;
   }
 
-  .hero-card.card-back-2 {
-    transform: translateY(8px) translateX(-4px) rotate(-1deg);
-  }
 
-  .hero-card.card-back-1 {
-    transform: translateY(4px) translateX(-2px) rotate(-0.5deg);
-  }
 }
 
 @media (max-width: 480px) {

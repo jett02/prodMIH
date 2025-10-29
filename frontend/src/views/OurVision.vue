@@ -131,30 +131,6 @@
       </div>
     </section>
 
-    <!-- Our Values Section -->
-    <section class="py-xl-20 py-15 bg-light" v-if="content.values && (content.values.valuesList.length > 0 || content.values.description)">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-10 text-center">
-            <h2 class="display-6 fw-bold mb-4 text-dark">{{ content.values.title || 'Our Values' }}</h2>
-            <p class="lead text-dark opacity-75 mb-5" v-if="content.values.description">{{ content.values.description }}</p>
-
-            <div class="row g-4 justify-content-center" v-if="content.values.valuesList && content.values.valuesList.length > 0">
-              <div v-for="(value, index) in content.values.valuesList" :key="index" class="col-md-6 col-lg-4" data-aos="fade-up" :data-aos-delay="index * 100">
-                <div class="values-card">
-                  <div class="values-icon mb-3">
-                    <i :class="value.icon + ' fa-3x'"></i>
-                  </div>
-                  <h4 class="values-title">{{ value.title }}</h4>
-                  <p class="values-description">{{ value.description }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Future Goals Section -->
     <section class="py-xl-20 py-15 looking-ahead-bg">
       <div class="container">
@@ -365,11 +341,6 @@ export default {
           ctaDescription: '',
           cityImagesTitle: '',
           cityImagesDescription: ''
-        },
-        values: {
-          title: 'Our Values',
-          description: '',
-          valuesList: []
         }
       },
       defaultVisionStatement: `At Make It Home, we envision a future where every person has access to quality housing that serves as more than just shelter—it's a foundation for building dreams, creating memories, and fostering community connections.`,
@@ -395,27 +366,23 @@ export default {
           this.content.vision = { ...this.content.vision, ...response.data.vision }
         }
 
-        if (response.data && response.data.values) {
-          this.content.values = { ...this.content.values, ...response.data.values }
-
-          // Load city images if they exist
-          if (response.data.vision.cityImages && response.data.vision.cityImages.length > 0) {
-            this.cityImages = response.data.vision.cityImages
-          } else {
-            // Default city images if none are set
-            this.cityImages = [
-              {
-                title: 'Omaha',
-                description: 'Serving the heart of Nebraska with quality homes and exceptional service.',
-                image: ''
-              },
-              {
-                title: 'Surrounding Areas',
-                description: 'Building communities in surrounding areas.',
-                image: ''
-              }
-            ]
-          }
+        // Load city images if they exist
+        if (response.data && response.data.vision && response.data.vision.cityImages && response.data.vision.cityImages.length > 0) {
+          this.cityImages = response.data.vision.cityImages
+        } else {
+          // Default city images if none are set
+          this.cityImages = [
+            {
+              title: 'Omaha',
+              description: 'Serving the heart of Nebraska with quality homes and exceptional service.',
+              image: ''
+            },
+            {
+              title: 'Surrounding Areas',
+              description: 'Building communities in surrounding areas.',
+              image: ''
+            }
+          ]
         }
       } catch (error) {
         console.error('Error loading vision content:', error)
@@ -1026,55 +993,9 @@ export default {
 .vision-detail-text,
 .goal-description,
 .social-description,
-.city-description,
-.values-description {
+.city-description {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.6;
-}
-
-/* Our Values Section */
-.values-card {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(235, 164, 114, 0.1);
-  height: 100%;
-}
-
-.values-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.values-icon {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, #EBA472, #D4935E);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
-}
-
-.values-icon i {
-  color: white;
-}
-
-.values-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-}
-
-.values-description {
-  color: #6c757d;
-  line-height: 1.6;
-  margin: 0;
 }
 
 /* Vision Detail Cards */
