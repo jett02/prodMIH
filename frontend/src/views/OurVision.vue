@@ -62,11 +62,15 @@
               </div>
             </div>
 
-            <!-- Vision Images Section - Ready for admin content -->
+            <!-- Vision Images Section -->
             <div class="row g-4 mt-5" data-aos="fade-up" data-aos-delay="200">
               <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="vision-image-card">
-                  <div class="vision-image-placeholder">
+                  <img v-if="content.vision.visionImage1"
+                       :src="getImageUrl(content.vision.visionImage1)"
+                       alt="Vision Image 1"
+                       class="vision-card-image">
+                  <div v-else class="vision-image-placeholder">
                     <i class="fas fa-image"></i>
                     <h5>Vision Image 1</h5>
                     <p>Future vision content will be added here</p>
@@ -76,7 +80,11 @@
 
               <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="vision-image-card">
-                  <div class="vision-image-placeholder">
+                  <img v-if="content.vision.visionImage2"
+                       :src="getImageUrl(content.vision.visionImage2)"
+                       alt="Vision Image 2"
+                       class="vision-card-image">
+                  <div v-else class="vision-image-placeholder">
                     <i class="fas fa-image"></i>
                     <h5>Vision Image 2</h5>
                     <p>Future vision content will be added here</p>
@@ -1051,6 +1059,14 @@ export default {
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  position: relative;
+}
+
+.vision-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 .vision-image-card:hover {

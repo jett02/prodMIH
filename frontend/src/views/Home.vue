@@ -65,11 +65,6 @@
                     @click="goToImage(index)">
                   </button>
                 </div>
-
-                <!-- Image Counter -->
-                <div class="image-counter">
-                  <span>{{ currentImageIndex + 1 }} / {{ heroContent.galleryImages.length }}</span>
-                </div>
               </div>
             </div>
 
@@ -1388,24 +1383,6 @@ export default {
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
-}
-
-
-
-/* Image Counter */
-.image-counter {
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-.image-counter span {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  font-weight: 500;
 }
 
 /* Single Image Fallback */

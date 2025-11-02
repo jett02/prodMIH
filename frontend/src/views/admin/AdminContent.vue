@@ -909,7 +909,36 @@
                       </div>
                     </div>
 
-
+                    <!-- Vision Images Section -->
+                    <div class="col-12 mt-4">
+                      <h6 class="fw-bold text-primary mb-3">Vision Images</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Vision Image 1</label>
+                      <div v-if="content.vision.visionImage1" class="mb-2">
+                        <img :src="getImageUrl(content.vision.visionImage1)"
+                             alt="Current Vision Image 1"
+                             style="max-height: 100px; max-width: 200px; object-fit: cover; border-radius: 8px;">
+                        <button type="button" class="btn btn-sm btn-danger ms-2" @click="removeVisionImage1">
+                          <i class="fas fa-trash"></i> Remove
+                        </button>
+                      </div>
+                      <input type="file" class="form-control" @change="handleVisionImage1Upload"
+                             accept="image/*" :disabled="isUploading">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Vision Image 2</label>
+                      <div v-if="content.vision.visionImage2" class="mb-2">
+                        <img :src="getImageUrl(content.vision.visionImage2)"
+                             alt="Current Vision Image 2"
+                             style="max-height: 100px; max-width: 200px; object-fit: cover; border-radius: 8px;">
+                        <button type="button" class="btn btn-sm btn-danger ms-2" @click="removeVisionImage2">
+                          <i class="fas fa-trash"></i> Remove
+                        </button>
+                      </div>
+                      <input type="file" class="form-control" @change="handleVisionImage2Upload"
+                             accept="image/*" :disabled="isUploading">
+                    </div>
 
                     <!-- Motivation Section -->
                     <div class="col-12 mt-4">
@@ -1970,6 +1999,8 @@ export default {
           heroSubtitle: '',
           mainTitle: '',
           statement: '',
+          visionImage1: '',
+          visionImage2: '',
           motivationTitle: '',
           motivation: '',
           motivationImage: '',
@@ -2136,6 +2167,8 @@ export default {
             heroSubtitle: '',
             mainTitle: '',
             statement: '',
+            visionImage1: '',
+            visionImage2: '',
             motivationTitle: '',
             motivation: '',
             motivationImage: '',
@@ -2436,6 +2469,80 @@ export default {
           this.content.vision = {}
         }
         this.content.vision.motivationImage = ''
+      }
+    },
+    async handleVisionImage1Upload(event) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          this.isUploading = true
+          const formData = new FormData()
+          formData.append('visionImage1', file)
+
+          const response = await axios.post('/api/admin/content/upload-vision-image1', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+
+          // Ensure vision object exists
+          if (!this.content.vision) {
+            this.content.vision = {}
+          }
+
+          this.content.vision.visionImage1 = response.data.imageUrl
+          this.showSuccessPopup('Vision Image 1 uploaded successfully!')
+        } catch (error) {
+          console.error('Error uploading vision image 1:', error)
+          alert('Error uploading image. Please try again.')
+        } finally {
+          this.isUploading = false
+          event.target.value = '' // Clear the input
+        }
+      }
+    },
+    async handleVisionImage2Upload(event) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          this.isUploading = true
+          const formData = new FormData()
+          formData.append('visionImage2', file)
+
+          const response = await axios.post('/api/admin/content/upload-vision-image2', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+
+          // Ensure vision object exists
+          if (!this.content.vision) {
+            this.content.vision = {}
+          }
+
+          this.content.vision.visionImage2 = response.data.imageUrl
+          this.showSuccessPopup('Vision Image 2 uploaded successfully!')
+        } catch (error) {
+          console.error('Error uploading vision image 2:', error)
+          alert('Error uploading image. Please try again.')
+        } finally {
+          this.isUploading = false
+          event.target.value = '' // Clear the input
+        }
+      }
+    },
+    removeVisionImage1() {
+      if (confirm('Are you sure you want to remove Vision Image 1?')) {
+        // Ensure vision object exists
+        if (!this.content.vision) {
+          this.content.vision = {}
+        }
+        this.content.vision.visionImage1 = ''
+      }
+    },
+    removeVisionImage2() {
+      if (confirm('Are you sure you want to remove Vision Image 2?')) {
+        // Ensure vision object exists
+        if (!this.content.vision) {
+          this.content.vision = {}
+        }
+        this.content.vision.visionImage2 = ''
       }
     },
     formatVisionText(field, command) {

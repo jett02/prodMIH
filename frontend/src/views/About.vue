@@ -56,13 +56,17 @@
                 <div class="card card-hover-gradient inverted team-member-card"
                      :style="{ backgroundImage: `url(${getImageUrl(member.photo)})` }">
                   <div class="card-wrap">
-                    <div class="card-footer text-shadow mt-auto">
-                      <h5 class="mb-0 text-white">{{ member.name }}</h5>
-                      <span class="text-white opacity-75">{{ member.title }}</span>
-                      <div v-if="member.linkedin" class="mt-2">
-                        <a :href="member.linkedin" target="_blank" class="linkedin-btn-large">
-                          <i class="fab fa-linkedin"></i>
-                        </a>
+                    <div class="card-footer-compact text-shadow">
+                      <div class="team-member-info">
+                        <div class="team-member-text">
+                          <h6 class="mb-1 text-white team-member-name">{{ member.name }}</h6>
+                          <span class="text-white opacity-75 team-member-title">{{ member.title }}</span>
+                        </div>
+                        <div v-if="member.linkedin" class="team-member-linkedin">
+                          <a :href="member.linkedin" target="_blank" class="linkedin-btn-compact">
+                            <i class="fab fa-linkedin"></i>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -384,6 +388,62 @@ export default {
 
 .card-footer {
   margin-top: auto;
+}
+
+.card-footer-compact {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  z-index: 3;
+}
+
+.team-member-info {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.team-member-text {
+  flex: 1;
+}
+
+.team-member-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.team-member-title {
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.team-member-linkedin {
+  flex-shrink: 0;
+}
+
+.linkedin-btn-compact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #0077b5;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.linkedin-btn-compact:hover {
+  background: #005885;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
 }
 
 .text-shadow {
@@ -719,6 +779,30 @@ export default {
   .team-member-card {
     width: 280px;
     height: 350px;
+  }
+
+  .card-footer-compact {
+    bottom: 0.75rem;
+    left: 1rem;
+    right: 1rem;
+  }
+
+  .team-member-name {
+    font-size: 1rem;
+  }
+
+  .team-member-title {
+    font-size: 0.85rem;
+  }
+
+  .team-member-info {
+    gap: 0.5rem;
+  }
+
+  .linkedin-btn-compact {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
   }
 }
 
