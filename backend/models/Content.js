@@ -141,6 +141,8 @@ const contentSchema = new mongoose.Schema({
     heroSubtitle: { type: String, default: '' },
     mainTitle: { type: String, default: '' },
     statement: { type: String, default: '' },
+    visionImage1: { type: String, default: '' },
+    visionImage2: { type: String, default: '' },
     motivationTitle: { type: String, default: '' },
     motivation: { type: String, default: '' },
     motivationImage: { type: String, default: '' },
