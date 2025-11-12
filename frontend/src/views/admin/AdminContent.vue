@@ -222,20 +222,6 @@
                     </div>
                     <div class="col-12">
                       <label class="form-label fw-bold">Company Story</label>
-
-                      <!-- Font Size Control -->
-                      <div class="mb-3">
-                        <label class="form-label">Font Size</label>
-                        <select v-model="content.about.storyFontSize" class="form-select">
-                          <option value="fs-6">Small (fs-6)</option>
-                          <option value="fs-5">Medium (fs-5)</option>
-                          <option value="fs-4">Large (fs-4) - Default</option>
-                          <option value="fs-3">Extra Large (fs-3)</option>
-                          <option value="fs-2">XXL (fs-2)</option>
-                        </select>
-                        <small class="text-muted">Choose the font size for the Company Story text on the About Us page</small>
-                      </div>
-
                       <div class="toolbar mb-2">
                         <button type="button" @click="formatAboutText('story', 'bold')" class="btn btn-sm btn-outline-secondary me-1">
                           <i class="fas fa-bold"></i>
@@ -260,9 +246,9 @@
                            @input="updateAboutStory"
                            contenteditable="true"
                            class="bio-editor form-control"
-                           style="min-height: 150px;"
+                           style="min-height: 120px;"
                            v-html="content.about.story"
-                           placeholder="Tell your company story">
+                           placeholder="At Make It Home, we believe that finding the right property is just the beginning...">
                       </div>
                     </div>
                     <div class="col-12">
@@ -1913,8 +1899,7 @@ export default {
         about: {
           storyTitle: 'Our Story',
           story: 'At Make It Home, we believe that finding the right property is just the beginning...',
-          mission: 'We flip homes with intention, creating spaces people want to live in...',
-          storyFontSize: 'fs-4'
+          mission: 'We flip homes with intention, creating spaces people want to live in...'
         },
         aboutUs: {
           missionImage: ''
@@ -2136,8 +2121,7 @@ export default {
           about: response.data.about || {
             storyTitle: 'Our Story',
             story: '',
-            mission: '',
-            storyFontSize: 'fs-4'
+            mission: ''
           },
           aboutUs: response.data.aboutUs || {
             missionImage: ''

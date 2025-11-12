@@ -13,8 +13,7 @@ const contentSchema = new mongoose.Schema({
   },
   about: {
     story: { type: String, default: '' },
-    mission: { type: String, default: '' },
-    storyFontSize: { type: String, default: 'fs-4' }
+    mission: { type: String, default: '' }
   },
   aboutUs: {
     missionImage: { type: String, default: '' }
