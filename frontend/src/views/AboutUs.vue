@@ -455,7 +455,7 @@ export default {
   color: #1a1a1a;
   margin-bottom: 1.5rem;
   line-height: 1.75;
-  text-align: justify;
+  text-align: center;
 }
 
 .story-text p:last-child {

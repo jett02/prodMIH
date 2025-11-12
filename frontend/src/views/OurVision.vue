@@ -50,7 +50,7 @@
                 {{ content.vision.mainTitle || 'Our Vision for the Future' }}
               </h2>
               <div class="vision-statement">
-                <p class="fs-4 text-light opacity-75 mb-4" v-html="content.vision.statement || defaultVisionStatement"></p>
+                <p class="fs-4 text-light opacity-75 mb-4 vision-statement-text" v-html="content.vision.statement || defaultVisionStatement"></p>
               </div>
 
               <!-- Vision Statement -->
@@ -977,6 +977,11 @@ export default {
 .vision-statement {
   max-width: 800px;
   margin: 0 auto;
+}
+
+.vision-statement-text {
+  font-weight: 300 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 .vision-mission-statement {
