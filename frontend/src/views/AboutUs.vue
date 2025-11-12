@@ -42,20 +42,58 @@
     </section>
 
     <!-- Our Story Section -->
-    <section id="our-story" class="py-xl-20 py-15 story-section">
+    <section id="our-story" class="py-xl-20 py-15 story-section-bg">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
+              <div class="story-badge mb-4">
+                <span class="badge-text">📖 Our Journey</span>
+              </div>
               <h2 class="display-5 fw-bold mb-4 text-dark">
                 {{ content.about.storyTitle || 'Our Story' }}
               </h2>
-              <div class="divider mx-auto mb-5"></div>
+              <div class="story-divider mx-auto mb-5"></div>
             </div>
 
             <div class="story-content" data-aos="fade-up" data-aos-delay="200">
               <div class="story-statement">
-                <p class="fs-4 text-dark opacity-75 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
+                <div class="story-text-container">
+                  <p class="fs-4 text-dark opacity-75 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
+                </div>
+              </div>
+
+              <!-- Story Highlights -->
+              <div class="story-highlights mt-5" data-aos="fade-up" data-aos-delay="400">
+                <div class="row g-4">
+                  <div class="col-md-4">
+                    <div class="story-highlight-item">
+                      <div class="highlight-icon">
+                        <i class="fas fa-heart text-warm-sunset"></i>
+                      </div>
+                      <h5 class="mb-2 text-dark">Community Focused</h5>
+                      <p class="text-muted mb-0">Building stronger neighborhoods through quality homes</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="story-highlight-item">
+                      <div class="highlight-icon">
+                        <i class="fas fa-handshake text-warm-sunset"></i>
+                      </div>
+                      <h5 class="mb-2 text-dark">Trust & Integrity</h5>
+                      <p class="text-muted mb-0">Every relationship built on honesty and transparency</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="story-highlight-item">
+                      <div class="highlight-icon">
+                        <i class="fas fa-star text-warm-sunset"></i>
+                      </div>
+                      <h5 class="mb-2 text-dark">Excellence</h5>
+                      <p class="text-muted mb-0">Delivering exceptional results in every project</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -447,10 +485,63 @@ export default {
   line-height: 1.8;
 }
 
+/* Enhanced Story Section */
+.story-section-bg {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+  position: relative;
+}
+
+.story-section-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(235, 164, 114, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(235, 164, 114, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.story-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #EBA472, #D4935E);
+  padding: 8px 20px;
+  border-radius: 25px;
+  box-shadow: 0 4px 15px rgba(235, 164, 114, 0.3);
+}
+
+.story-badge .badge-text {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.story-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #EBA472, #D4935E);
+  border-radius: 2px;
+  box-shadow: 0 2px 10px rgba(235, 164, 114, 0.3);
+}
+
 /* Story Statement - matching Vision Statement styling */
 .story-statement {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.story-text-container {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(235, 164, 114, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .story-statement-text {
@@ -460,6 +551,7 @@ export default {
   opacity: 0.85;
   text-align: center;
   line-height: 1.6;
+  margin-bottom: 0 !important;
 }
 
 .story-statement-text p {
@@ -469,6 +561,58 @@ export default {
 
 .story-statement-text p:last-child {
   margin-bottom: 0;
+}
+
+/* Story Highlights */
+.story-highlights {
+  margin-top: 4rem;
+}
+
+.story-highlight-item {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(235, 164, 114, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.story-highlight-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(235, 164, 114, 0.15);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.highlight-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(235, 164, 114, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  transition: all 0.3s ease;
+}
+
+.story-highlight-item:hover .highlight-icon {
+  background: rgba(235, 164, 114, 0.2);
+  transform: scale(1.1);
+}
+
+.highlight-icon i {
+  font-size: 1.5rem;
+}
+
+.story-highlight-item h5 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.story-highlight-item p {
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 /* Values Cards */
