@@ -85,8 +85,8 @@
           <!-- Mission Image Column -->
           <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
             <div class="mission-image-container">
-              <img v-if="content.about && content.about.missionImage"
-                   :src="getImageUrl(content.about.missionImage)"
+              <img v-if="content.aboutUs && content.aboutUs.missionImage"
+                   :src="getImageUrl(content.aboutUs.missionImage)"
                    alt="Our Mission"
                    class="mission-image">
               <div v-else class="mission-placeholder">
@@ -161,7 +161,9 @@ export default {
         about: {
           storyTitle: 'Our Story',
           story: '',
-          mission: '',
+          mission: ''
+        },
+        aboutUs: {
           missionImage: ''
         },
         values: {
@@ -190,13 +192,19 @@ export default {
       try {
         const response = await axios.get('/api/admin/content/public')
         this.content = response.data || {
-          about: { storyTitle: 'Our Story', story: '', mission: '', missionImage: '' },
+          about: { storyTitle: 'Our Story', story: '', mission: '' },
+          aboutUs: { missionImage: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
         }
 
         // Ensure about structure exists
         if (!this.content.about) {
-          this.content.about = { storyTitle: 'Our Story', story: '', mission: '', missionImage: '' }
+          this.content.about = { storyTitle: 'Our Story', story: '', mission: '' }
+        }
+
+        // Ensure aboutUs structure exists
+        if (!this.content.aboutUs) {
+          this.content.aboutUs = { missionImage: '' }
         }
 
         // Ensure values structure exists
@@ -206,7 +214,8 @@ export default {
       } catch (error) {
         console.error('Error loading content:', error)
         this.content = {
-          about: { storyTitle: 'Our Story', story: '', mission: '', missionImage: '' },
+          about: { storyTitle: 'Our Story', story: '', mission: '' },
+          aboutUs: { missionImage: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
         }
       }
