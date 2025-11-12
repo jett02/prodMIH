@@ -244,6 +244,7 @@
                       </div>
                       <div ref="aboutStoryEditor"
                            @input="updateAboutStory"
+                           @paste="handleAboutStoryPaste"
                            contenteditable="true"
                            class="bio-editor form-control"
                            style="min-height: 120px;"
@@ -2668,6 +2669,21 @@ export default {
           }
         })
       }
+    },
+    handleAboutStoryPaste(event) {
+      // Prevent default paste behavior
+      event.preventDefault()
+
+      // Get plain text from clipboard
+      const paste = (event.clipboardData || window.clipboardData).getData('text')
+
+      // Insert plain text without any formatting
+      document.execCommand('insertText', false, paste)
+
+      // Update the content after paste
+      this.$nextTick(() => {
+        this.updateAboutStory()
+      })
     },
     updateAboutMission() {
       // Save cursor position

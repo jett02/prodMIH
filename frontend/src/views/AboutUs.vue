@@ -42,16 +42,16 @@
     </section>
 
     <!-- Our Story Section -->
-    <section id="our-story" class="py-xl-20 py-15 story-statement-bg text-white">
+    <section id="our-story" class="py-xl-20 py-15 story-statement-bg">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
-              <h2 class="display-5 fw-bold mb-4">
+              <h2 class="display-5 fw-bold mb-4 text-dark">
                 {{ content.about.storyTitle || 'Our Story' }}
               </h2>
               <div class="story-statement">
-                <p class="fs-4 text-light opacity-75 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
+                <p class="fs-4 text-dark opacity-75 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
               </div>
             </div>
           </div>
@@ -443,39 +443,13 @@ export default {
   line-height: 1.8;
 }
 
-/* Story Statement Background - matching Vision Statement exactly */
+/* Story Statement Background - white background to blend with banner */
 .story-statement-bg {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 25%, #1e1e1e 50%, #2a2a2a 75%, #1a1a1a 100%);
+  background: #ffffff;
   position: relative;
 }
 
-.story-statement-bg::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(circle at 25% 25%, rgba(235, 164, 114, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(212, 147, 94, 0.06) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.story-statement-bg::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.015) 50%, transparent 70%),
-    linear-gradient(-45deg, transparent 30%, rgba(0, 0, 0, 0.015) 50%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Story Statement - matching Vision Statement styling exactly */
+/* Story Statement - consistent styling */
 .story-statement {
   max-width: 800px;
   margin: 0 auto;
@@ -484,6 +458,55 @@ export default {
 .story-statement-text {
   font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  text-align: center !important;
+}
+
+/* Override any pasted formatting to maintain consistency */
+.story-statement-text * {
+  font-weight: 300 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  background: none !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.story-statement-text p {
+  font-weight: 300 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  margin-bottom: 1.5rem !important;
+  color: inherit !important;
+}
+
+.story-statement-text p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Remove any bold, italic, or other formatting from pasted content */
+.story-statement-text strong,
+.story-statement-text b {
+  font-weight: 300 !important;
+}
+
+.story-statement-text em,
+.story-statement-text i {
+  font-style: normal !important;
+}
+
+.story-statement-text span {
+  font-weight: 300 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 1.25rem !important;
+  color: inherit !important;
+  background: none !important;
 }
 
 /* Values Cards */
