@@ -54,7 +54,9 @@
             </div>
 
             <div class="story-content" data-aos="fade-up" data-aos-delay="200">
-              <div class="story-text" v-html="content.about.story || defaultStoryContent"></div>
+              <div class="story-statement">
+                <div class="story-text fs-4 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -445,20 +447,27 @@ export default {
   line-height: 1.8;
 }
 
-.story-text {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+/* Story Statement - matching Vision Statement styling */
+.story-statement {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.story-statement-text {
+  font-weight: 300 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  color: #1a1a1a !important;
+  opacity: 0.85;
+  text-align: center;
   line-height: 1.6;
 }
 
-.story-text p {
-  font-size: 1.25rem;
-  color: #1a1a1a;
+.story-statement-text p {
   margin-bottom: 1.5rem;
-  line-height: 1.75;
-  text-align: center;
+  line-height: 1.6;
 }
 
-.story-text p:last-child {
+.story-statement-text p:last-child {
   margin-bottom: 0;
 }
 
