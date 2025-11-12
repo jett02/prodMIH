@@ -377,7 +377,7 @@ export default {
   font-size: 1.2rem;
 }
 
-/* Enhanced Hero Transition */
+/* Enhanced Hero Transition - blends with professional background */
 .hero-transition {
   position: absolute;
   bottom: 0;
@@ -386,9 +386,10 @@ export default {
   height: 150px;
   background: linear-gradient(to bottom,
     transparent 0%,
-    rgba(248, 249, 250, 0.1) 20%,
-    rgba(248, 249, 250, 0.3) 40%,
-    rgba(248, 249, 250, 0.6) 60%,
+    rgba(248, 249, 250, 0.1) 15%,
+    rgba(233, 236, 239, 0.2) 25%,
+    rgba(241, 243, 244, 0.4) 40%,
+    rgba(233, 236, 239, 0.6) 60%,
     rgba(248, 249, 250, 0.8) 80%,
     #f8f9fa 100%);
   z-index: 5;
@@ -443,16 +444,46 @@ export default {
   line-height: 1.8;
 }
 
-/* Story Statement Background - white background to blend with banner */
+/* Story Statement Background - sleek professional gradient */
 .story-statement-bg {
-  background: #ffffff;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 25%, #f1f3f4 50%, #e9ecef 75%, #f8f9fa 100%);
   position: relative;
+  overflow: hidden;
 }
 
-/* Story Statement - consistent styling */
+.story-statement-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(235, 164, 114, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(212, 147, 94, 0.06) 0%, transparent 60%),
+    linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
+  pointer-events: none;
+}
+
+.story-statement-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(135deg, transparent 30%, rgba(235, 164, 114, 0.03) 50%, transparent 70%),
+    linear-gradient(-45deg, transparent 30%, rgba(0, 0, 0, 0.02) 50%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Story Statement - enhanced for text pop */
 .story-statement {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .story-statement-text {
@@ -461,6 +492,16 @@ export default {
   font-size: 1.25rem !important;
   line-height: 1.6 !important;
   text-align: center !important;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 4px 20px rgba(235, 164, 114, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(235, 164, 114, 0.15);
+  backdrop-filter: blur(10px);
+  color: #1a1a1a !important;
 }
 
 /* Override any pasted formatting to maintain consistency */
