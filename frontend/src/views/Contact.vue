@@ -1,6 +1,18 @@
 <template>
   <div class="contact-page">
-    <!-- Hero Section with Animated Background -->
+    <!-- Loading State -->
+    <div v-if="loading" class="loading-container">
+      <div class="loading-spinner">
+        <div class="spinner-border text-warm-sunset" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Loading contact information...</p>
+      </div>
+    </div>
+
+    <!-- Content (hidden while loading) -->
+    <div v-else>
+      <!-- Hero Section with Animated Background -->
     <section class="hero-section bg-dark text-white overflow-hidden position-relative">
       <!-- Animated Background Elements -->
       <div class="hero-animations">
@@ -209,6 +221,7 @@
         </div>
       </div>
     </section>
+    </div> <!-- End content div -->
   </div>
 </template>
 
@@ -223,6 +236,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       contactInfo: {
         phone: "402-XXX-XXXX",
         email: "info@makeithome.com",
@@ -273,6 +287,8 @@ export default {
         this.$forceUpdate()
       } catch (error) {
         console.error('Error loading contact info:', error)
+      } finally {
+        this.loading = false
       }
     },
     openMap() {
@@ -294,6 +310,23 @@ export default {
   background-color: #f8f9fa; /* Soft gray background */
   min-height: 100vh;
   padding-top: 80px;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.loading-spinner {
+  text-align: center;
+}
+
+.text-warm-sunset {
+  color: #EBA472 !important;
 }
 
 .contact-card {

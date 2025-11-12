@@ -55,7 +55,7 @@
 
             <div class="story-content" data-aos="fade-up" data-aos-delay="200">
               <div class="story-statement">
-                <div class="story-text fs-4 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></div>
+                <div class="story-text mb-4 story-statement-text" :class="content.about.storyFontSize || 'fs-4'" v-html="content.about.story || defaultStoryContent"></div>
               </div>
             </div>
           </div>
@@ -194,14 +194,14 @@ export default {
       try {
         const response = await axios.get('/api/admin/content/public')
         this.content = response.data || {
-          about: { storyTitle: 'Our Story', story: '', mission: '' },
+          about: { storyTitle: 'Our Story', story: '', mission: '', storyFontSize: 'fs-4' },
           aboutUs: { missionImage: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
         }
 
         // Ensure about structure exists
         if (!this.content.about) {
-          this.content.about = { storyTitle: 'Our Story', story: '', mission: '' }
+          this.content.about = { storyTitle: 'Our Story', story: '', mission: '', storyFontSize: 'fs-4' }
         }
 
         // Ensure aboutUs structure exists
@@ -216,7 +216,7 @@ export default {
       } catch (error) {
         console.error('Error loading content:', error)
         this.content = {
-          about: { storyTitle: 'Our Story', story: '', mission: '' },
+          about: { storyTitle: 'Our Story', story: '', mission: '', storyFontSize: 'fs-4' },
           aboutUs: { missionImage: '' },
           values: { title: 'Our Values', description: '', valuesList: [] }
         }
