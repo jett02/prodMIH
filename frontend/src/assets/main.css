@@ -176,9 +176,41 @@
 
 /* General body styling */
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 300;
   color: #4A4A4A;
   background-color: #FFFFFF;
+  line-height: 1.6;
+}
+
+/* Standardize all body text to match Our Vision Hero Subtitle style */
+p,
+.lead,
+.fs-4,
+.fs-5,
+.fs-6,
+li,
+td,
+.card-text,
+.text-muted,
+.description,
+.content-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: 300 !important;
+  line-height: 1.6 !important;
+}
+
+/* Keep headings with appropriate weight */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 500;
+}
+
+/* Special case for lead text to maintain its intended appearance */
+.lead {
+  font-weight: 300 !important;
+  font-size: 1.25rem;
 }
 
 /* Remove any conflicting blue colors */
