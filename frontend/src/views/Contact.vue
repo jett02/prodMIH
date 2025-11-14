@@ -64,14 +64,14 @@
         <div class="row g-4">
           <!-- Phone Card -->
           <div class="col-lg-4">
-            <div class="card h-100 border-0 shadow-sm card-hover">
+            <div class="card h-100 border-0 glass-card card-hover">
               <div class="card-body text-center p-4">
-                <div class="icon-circle bg-primary text-white mb-3 mx-auto">
+                <div class="icon-circle bg-warm-sunset text-white mb-3 mx-auto">
                   <i class="fas fa-phone"></i>
                 </div>
-                <h5 class="card-title mb-2">Call Us</h5>
-                <p class="text-muted mb-3">{{ contactInfo.phoneDescription || 'Ready to talk? Give us a call' }}</p>
-                <a :href="`tel:${contactInfo.phone}`" class="btn btn-outline-primary">
+                <h5 class="card-title mb-2 text-white">Call Us</h5>
+                <p class="text-light opacity-75 mb-3">{{ contactInfo.phoneDescription || 'Ready to talk? Give us a call' }}</p>
+                <a :href="`tel:${contactInfo.phone}`" class="btn btn-outline-warm-sunset">
                   {{ contactInfo.phone || '402-XXX-XXXX' }}
                 </a>
               </div>
@@ -80,14 +80,14 @@
 
           <!-- Email Card -->
           <div class="col-lg-4">
-            <div class="card h-100 border-0 shadow-sm card-hover">
+            <div class="card h-100 border-0 glass-card card-hover">
               <div class="card-body text-center p-4">
-                <div class="icon-circle bg-success text-white mb-3 mx-auto">
+                <div class="icon-circle bg-slate-gray text-white mb-3 mx-auto">
                   <i class="fas fa-envelope"></i>
                 </div>
-                <h5 class="card-title mb-2">Email Us</h5>
-                <p class="text-muted mb-3">{{ contactInfo.emailDescription || 'Send us your questions' }}</p>
-                <a :href="`mailto:${contactInfo.email}`" class="btn btn-outline-success">
+                <h5 class="card-title mb-2 text-white">Email Us</h5>
+                <p class="text-light opacity-75 mb-3">{{ contactInfo.emailDescription || 'Send us your questions' }}</p>
+                <a :href="`mailto:${contactInfo.email}`" class="btn btn-outline-slate-gray">
                   {{ contactInfo.email || 'info@makeithome.com' }}
                 </a>
               </div>
@@ -96,15 +96,15 @@
 
           <!-- Location Card -->
           <div class="col-lg-4">
-            <div class="card h-100 border-0 shadow-sm card-hover">
+            <div class="card h-100 border-0 glass-card card-hover">
               <div class="card-body text-center p-4">
-                <div class="icon-circle bg-info text-white mb-3 mx-auto">
+                <div class="icon-circle bg-midnight-black text-warm-sunset mb-3 mx-auto">
                   <i class="fas fa-map-marker-alt"></i>
                 </div>
-                <h5 class="card-title mb-2">Visit Us</h5>
-                <p class="text-muted mb-3">{{ contactInfo.locationDescription || 'Visit our office' }}</p>
-                <p class="text-muted mb-3">{{ contactInfo.address || 'Omaha, Nebraska' }}</p>
-                <button class="btn btn-outline-info" @click="openMap">
+                <h5 class="card-title mb-2 text-white">Visit Us</h5>
+                <p class="text-light opacity-75 mb-3">{{ contactInfo.locationDescription || 'Visit our office' }}</p>
+                <p class="text-light opacity-75 mb-3">{{ contactInfo.address || 'Omaha, Nebraska' }}</p>
+                <button class="btn btn-outline-midnight-black" @click="openMap">
                   Get Directions
                 </button>
               </div>
@@ -125,7 +125,7 @@
             <div class="row g-4">
               <div class="col-md-4">
                 <div class="feature-item">
-                  <div class="icon-circle bg-primary text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
+                  <div class="icon-circle bg-warm-sunset text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
                     <i class="fas fa-home"></i>
                   </div>
                   <h5 class="mb-2">Local Expertise</h5>
@@ -134,7 +134,7 @@
               </div>
               <div class="col-md-4">
                 <div class="feature-item">
-                  <div class="icon-circle bg-success text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
+                  <div class="icon-circle bg-slate-gray text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
                     <i class="fas fa-handshake"></i>
                   </div>
                   <h5 class="mb-2">Personalized Service</h5>
@@ -143,7 +143,7 @@
               </div>
               <div class="col-md-4">
                 <div class="feature-item">
-                  <div class="icon-circle bg-info text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
+                  <div class="icon-circle bg-midnight-black text-warm-sunset mb-3 mx-auto" style="width: 60px; height: 60px;">
                     <i class="fas fa-chart-line"></i>
                   </div>
                   <h5 class="mb-2">Market Insights</h5>
@@ -854,6 +854,98 @@ export default {
 @keyframes shimmerSweep {
   0% { transform: translateX(-100%) translateZ(0); }
   100% { transform: translateX(100%) translateZ(0); }
+}
+
+/* Glass-Morphism Contact Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 20px !important;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.15),
+    0 5px 15px rgba(235, 164, 114, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  background: rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.3),
+    0 15px 40px rgba(0, 0, 0, 0.2),
+    0 8px 25px rgba(235, 164, 114, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Brand Color Utilities */
+.bg-warm-sunset {
+  background-color: #EBA472 !important;
+}
+
+.bg-slate-gray {
+  background-color: #4A4A4A !important;
+}
+
+.bg-midnight-black {
+  background-color: #000000 !important;
+}
+
+.text-warm-sunset {
+  color: #EBA472 !important;
+}
+
+.text-slate-gray {
+  color: #4A4A4A !important;
+}
+
+.text-midnight-black {
+  color: #000000 !important;
+}
+
+/* Brand Color Button Utilities */
+.btn-outline-warm-sunset {
+  color: #EBA472 !important;
+  border-color: #EBA472 !important;
+  background: transparent;
+}
+
+.btn-outline-warm-sunset:hover {
+  background-color: #EBA472 !important;
+  border-color: #EBA472 !important;
+  color: #ffffff !important;
+}
+
+.btn-outline-slate-gray {
+  color: #4A4A4A !important;
+  border-color: #4A4A4A !important;
+  background: transparent;
+}
+
+.btn-outline-slate-gray:hover {
+  background-color: #4A4A4A !important;
+  border-color: #4A4A4A !important;
+  color: #ffffff !important;
+}
+
+.btn-outline-midnight-black {
+  color: #000000 !important;
+  border-color: #000000 !important;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.btn-outline-midnight-black:hover {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #EBA472 !important;
 }
 </style>
 
