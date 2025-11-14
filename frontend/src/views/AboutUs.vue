@@ -47,11 +47,11 @@
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
-              <h2 class="display-5 fw-bold mb-4 text-white story-title">
+              <h2 class="display-3 fw-bold mb-4 text-white story-title">
                 {{ content.about.storyTitle || 'Our Story' }}
               </h2>
               <div class="story-statement">
-                <p class="fs-5 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
+                <p class="fs-4 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
               </div>
             </div>
           </div>
@@ -537,7 +537,7 @@ export default {
 
 .story-statement-text {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.125rem !important;
+  font-size: 1.25rem !important;
   line-height: 1.6 !important;
   text-align: center !important;
   background: rgba(255, 255, 255, 0.15);
@@ -575,7 +575,7 @@ export default {
 /* Override any pasted formatting to maintain consistency */
 .story-statement-text * {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.125rem !important;
+  font-size: 1.25rem !important;
   line-height: 1.6 !important;
   color: inherit !important;
   text-decoration: none !important;
@@ -587,7 +587,7 @@ export default {
 
 .story-statement-text p {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.125rem !important;
+  font-size: 1.25rem !important;
   line-height: 1.6 !important;
   margin-bottom: 1.5rem !important;
   color: inherit !important;
@@ -610,7 +610,7 @@ export default {
 
 .story-statement-text span {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.125rem !important;
+  font-size: 1.25rem !important;
   color: inherit !important;
   background: none !important;
 }
