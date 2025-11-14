@@ -980,7 +980,6 @@ export default {
 }
 
 .vision-statement-text {
-  font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 

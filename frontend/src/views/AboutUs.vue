@@ -528,7 +528,6 @@ export default {
 }
 
 .story-statement-text {
-  font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
   font-size: 1.125rem !important;
   line-height: 1.6 !important;
@@ -558,7 +557,6 @@ export default {
 
 /* Override any pasted formatting to maintain consistency */
 .story-statement-text * {
-  font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
   font-size: 1.125rem !important;
   line-height: 1.6 !important;
@@ -571,7 +569,6 @@ export default {
 }
 
 .story-statement-text p {
-  font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
   font-size: 1.125rem !important;
   line-height: 1.6 !important;
@@ -586,7 +583,7 @@ export default {
 /* Remove any bold, italic, or other formatting from pasted content */
 .story-statement-text strong,
 .story-statement-text b {
-  font-weight: 300 !important;
+  font-weight: normal !important;
 }
 
 .story-statement-text em,
@@ -595,7 +592,6 @@ export default {
 }
 
 .story-statement-text span {
-  font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
   font-size: 1.125rem !important;
   color: inherit !important;
