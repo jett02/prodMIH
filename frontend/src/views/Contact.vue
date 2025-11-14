@@ -59,7 +59,7 @@
     </section>
 
     <!-- Contact Information Cards -->
-    <section class="py-5 bg-light">
+    <section class="py-5 contact-cards-section">
       <div class="container">
         <div class="row g-4">
           <!-- Phone Card -->
@@ -117,7 +117,7 @@
 
 
     <!-- Additional Info Section -->
-    <section class="py-5 bg-dark text-white">
+    <section class="py-5 why-choose-section text-white">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-8 text-center">
@@ -725,6 +725,135 @@ export default {
   background: #333333;
   color: white;
   transform: translateY(-2px);
+}
+
+/* Contact Cards Section - Home Page Style Background */
+.contact-cards-section {
+  background: linear-gradient(135deg, #000000 0%, #000000 50%, #000000 100%);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  margin-top: -20px;
+  padding-top: 40px;
+  z-index: 2;
+}
+
+.contact-cards-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgb(0, 0, 0) 0%,
+    rgba(255, 178, 142, 0.89) 25%,
+    rgb(0, 0, 0) 50%,
+    rgb(252, 187, 140) 75%,
+    rgb(0, 0, 0) 100%
+  );
+  background-size: 400% 400%;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  animation: shimmerFlow 18s ease-in-out infinite;
+  will-change: background-position;
+}
+
+.contact-cards-section::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    rgba(235, 164, 114, 0.2),
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  animation: shimmerSweep 6s linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.contact-cards-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Why Choose Section - Home Page Style Background */
+.why-choose-section {
+  background: linear-gradient(135deg, #000000 0%, #000000 50%, #000000 100%);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  z-index: 2;
+}
+
+.why-choose-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgb(0, 0, 0) 0%,
+    rgba(255, 178, 142, 0.89) 25%,
+    rgb(0, 0, 0) 50%,
+    rgb(252, 187, 140) 75%,
+    rgb(0, 0, 0) 100%
+  );
+  background-size: 400% 400%;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  animation: shimmerFlow 18s ease-in-out infinite;
+  will-change: background-position;
+}
+
+.why-choose-section::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    rgba(235, 164, 114, 0.2),
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  animation: shimmerSweep 6s linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.why-choose-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Shimmer Animations - Same as Home Page */
+@keyframes shimmerFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%) translateZ(0); }
+  100% { transform: translateX(100%) translateZ(0); }
 }
 </style>
 
