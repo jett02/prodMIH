@@ -377,7 +377,7 @@ export default {
   font-size: 1.2rem;
 }
 
-/* Enhanced Hero Transition - blends with darker designed background */
+/* Enhanced Hero Transition - blends with much darker animated background */
 .hero-transition {
   position: absolute;
   bottom: 0;
@@ -386,13 +386,13 @@ export default {
   height: 150px;
   background: linear-gradient(to bottom,
     transparent 0%,
-    rgba(233, 236, 239, 0.1) 15%,
-    rgba(222, 226, 230, 0.2) 25%,
-    rgba(206, 212, 218, 0.3) 35%,
-    rgba(222, 226, 230, 0.5) 50%,
-    rgba(233, 236, 239, 0.7) 70%,
-    rgba(222, 226, 230, 0.9) 85%,
-    #e9ecef 100%);
+    rgba(73, 80, 87, 0.1) 15%,
+    rgba(52, 58, 64, 0.2) 25%,
+    rgba(33, 37, 41, 0.3) 35%,
+    rgba(52, 58, 64, 0.5) 50%,
+    rgba(73, 80, 87, 0.7) 70%,
+    rgba(52, 58, 64, 0.9) 85%,
+    #495057 100%);
   z-index: 5;
 }
 
@@ -445,14 +445,14 @@ export default {
   line-height: 1.8;
 }
 
-/* Story Statement Background - darker designed background with animations */
+/* Story Statement Background - much darker with enhanced animations */
 .story-statement-bg {
-  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 25%, #ced4da 50%, #dee2e6 75%, #e9ecef 100%);
+  background: linear-gradient(135deg, #495057 0%, #343a40 25%, #212529 50%, #343a40 75%, #495057 100%);
   position: relative;
   overflow: hidden;
 }
 
-/* Animated floating elements */
+/* Enhanced animated floating elements */
 .story-statement-bg::before {
   content: '';
   position: absolute;
@@ -461,14 +461,15 @@ export default {
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(235, 164, 114, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(212, 147, 94, 0.10) 0%, transparent 50%),
-    radial-gradient(circle at 50% 20%, rgba(235, 164, 114, 0.08) 0%, transparent 40%);
-  animation: floatingGlow 8s ease-in-out infinite;
+    radial-gradient(circle at 20% 30%, rgba(235, 164, 114, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(212, 147, 94, 0.20) 0%, transparent 55%),
+    radial-gradient(circle at 50% 20%, rgba(235, 164, 114, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 30% 80%, rgba(255, 193, 7, 0.15) 0%, transparent 45%);
+  animation: floatingGlow 6s ease-in-out infinite;
   pointer-events: none;
 }
 
-/* Animated geometric patterns */
+/* Enhanced animated geometric patterns */
 .story-statement-bg::after {
   content: '';
   position: absolute;
@@ -477,45 +478,63 @@ export default {
   right: 0;
   bottom: 0;
   background:
-    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%),
-    linear-gradient(-45deg, transparent 30%, rgba(0, 0, 0, 0.05) 50%, transparent 70%),
+    linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.08) 50%, transparent 75%),
+    linear-gradient(-45deg, transparent 25%, rgba(235, 164, 114, 0.12) 50%, transparent 75%),
+    linear-gradient(135deg, transparent 30%, rgba(212, 147, 94, 0.10) 50%, transparent 70%),
     repeating-linear-gradient(
       90deg,
       transparent,
-      transparent 100px,
-      rgba(235, 164, 114, 0.02) 101px,
-      rgba(235, 164, 114, 0.02) 102px
+      transparent 80px,
+      rgba(235, 164, 114, 0.06) 81px,
+      rgba(235, 164, 114, 0.06) 83px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 120px,
+      rgba(255, 193, 7, 0.04) 121px,
+      rgba(255, 193, 7, 0.04) 123px
     );
-  animation: geometricShift 12s linear infinite;
+  animation: geometricShift 10s linear infinite;
   pointer-events: none;
 }
 
-/* Floating particles animation */
+/* Enhanced floating particles animation */
 @keyframes floatingGlow {
   0%, 100% {
-    transform: translateY(0px) scale(1);
+    transform: translateY(0px) scale(1) rotate(0deg);
     opacity: 1;
   }
-  33% {
-    transform: translateY(-10px) scale(1.05);
-    opacity: 0.8;
+  25% {
+    transform: translateY(-15px) scale(1.08) rotate(1deg);
+    opacity: 0.7;
   }
-  66% {
-    transform: translateY(5px) scale(0.95);
-    opacity: 1.2;
+  50% {
+    transform: translateY(-8px) scale(1.12) rotate(-0.5deg);
+    opacity: 1.3;
+  }
+  75% {
+    transform: translateY(8px) scale(0.92) rotate(0.8deg);
+    opacity: 0.9;
   }
 }
 
-/* Geometric pattern animation */
+/* Enhanced geometric pattern animation */
 @keyframes geometricShift {
   0% {
-    transform: translateX(0px) rotate(0deg);
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(15px) translateY(-5px) rotate(0.3deg);
   }
   50% {
-    transform: translateX(20px) rotate(0.5deg);
+    transform: translateX(25px) translateY(3px) rotate(0.8deg);
+  }
+  75% {
+    transform: translateX(10px) translateY(-8px) rotate(-0.2deg);
   }
   100% {
-    transform: translateX(0px) rotate(0deg);
+    transform: translateX(0px) translateY(0px) rotate(0deg);
   }
 }
 
@@ -532,27 +551,36 @@ export default {
   font-size: 1.125rem !important;
   line-height: 1.6 !important;
   text-align: center !important;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   padding: 3rem 2.5rem;
-  border-radius: 20px;
+  border-radius: 24px;
   box-shadow:
-    0 15px 50px rgba(0, 0, 0, 0.12),
-    0 8px 25px rgba(206, 212, 218, 0.3),
-    0 4px 15px rgba(235, 164, 114, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 1);
-  border: 1px solid rgba(235, 164, 114, 0.2);
-  color: #1a1a1a !important;
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.15),
+    0 5px 15px rgba(235, 164, 114, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   transform: translateY(0);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .story-statement-text:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px) scale(1.02);
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  background: rgba(255, 255, 255, 0.2);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.15),
-    0 10px 30px rgba(206, 212, 218, 0.4),
-    0 6px 20px rgba(235, 164, 114, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 1);
+    0 25px 80px rgba(0, 0, 0, 0.3),
+    0 15px 40px rgba(0, 0, 0, 0.2),
+    0 8px 25px rgba(235, 164, 114, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Override any pasted formatting to maintain consistency */
