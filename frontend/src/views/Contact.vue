@@ -58,10 +58,11 @@
       </div>
     </section>
 
-    <!-- Contact Information Cards -->
-    <section class="py-5 contact-cards-section">
+    <!-- Combined Contact & Why Choose Section -->
+    <section class="py-5 combined-contact-section">
       <div class="container">
-        <div class="row g-4">
+        <!-- Contact Information Cards -->
+        <div class="row g-4 mb-5">
           <!-- Phone Card -->
           <div class="col-lg-4">
             <div class="card h-100 border-0 glass-card card-hover">
@@ -71,7 +72,7 @@
                 </div>
                 <h5 class="card-title mb-2 text-white">Call Us</h5>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.phoneDescription || 'Ready to talk? Give us a call' }}</p>
-                <a :href="`tel:${contactInfo.phone}`" class="btn btn-outline-warm-sunset">
+                <a :href="`tel:${contactInfo.phone}`" class="btn btn-warm-sunset">
                   {{ contactInfo.phone || '402-XXX-XXXX' }}
                 </a>
               </div>
@@ -87,7 +88,7 @@
                 </div>
                 <h5 class="card-title mb-2 text-white">Email Us</h5>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.emailDescription || 'Send us your questions' }}</p>
-                <a :href="`mailto:${contactInfo.email}`" class="btn btn-outline-slate-gray">
+                <a :href="`mailto:${contactInfo.email}`" class="btn btn-warm-sunset">
                   {{ contactInfo.email || 'info@makeithome.com' }}
                 </a>
               </div>
@@ -104,24 +105,18 @@
                 <h5 class="card-title mb-2 text-white">Visit Us</h5>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.locationDescription || 'Visit our office' }}</p>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.address || 'Omaha, Nebraska' }}</p>
-                <button class="btn btn-outline-midnight-black" @click="openMap">
+                <button class="btn btn-warm-sunset" @click="openMap">
                   Get Directions
                 </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-
-
-    <!-- Additional Info Section -->
-    <section class="py-5 why-choose-section text-white">
-      <div class="container">
+        <!-- Why Choose Make It Home Section -->
         <div class="row justify-content-center">
-          <div class="col-lg-8 text-center">
-            <h3 class="fw-bold mb-5">Why Choose Make It Home?</h3>
+          <div class="col-lg-10 text-center text-white">
+            <h3 class="fw-bold mb-5 display-6">Why Choose Make It Home?</h3>
             <div class="row g-4">
               <div class="col-md-4">
                 <div class="feature-item">
@@ -727,8 +722,8 @@ export default {
   transform: translateY(-2px);
 }
 
-/* Contact Cards Section - Home Page Style Background */
-.contact-cards-section {
+/* Combined Contact Section - Home Page Style Background */
+.combined-contact-section {
   background: linear-gradient(135deg, #000000 0%, #000000 50%, #000000 100%);
   position: relative;
   overflow: hidden;
@@ -738,7 +733,7 @@ export default {
   z-index: 2;
 }
 
-.contact-cards-section::before {
+.combined-contact-section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -760,7 +755,7 @@ export default {
   will-change: background-position;
 }
 
-.contact-cards-section::after {
+.combined-contact-section::after {
   content: '';
   position: absolute;
   top: -50%;
@@ -780,63 +775,7 @@ export default {
   will-change: transform;
 }
 
-.contact-cards-section .container {
-  position: relative;
-  z-index: 2;
-}
-
-/* Why Choose Section - Home Page Style Background */
-.why-choose-section {
-  background: linear-gradient(135deg, #000000 0%, #000000 50%, #000000 100%);
-  position: relative;
-  overflow: hidden;
-  will-change: transform;
-  z-index: 2;
-}
-
-.why-choose-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    45deg,
-    rgb(0, 0, 0) 0%,
-    rgba(255, 178, 142, 0.89) 25%,
-    rgb(0, 0, 0) 50%,
-    rgb(252, 187, 140) 75%,
-    rgb(0, 0, 0) 100%
-  );
-  background-size: 400% 400%;
-  backdrop-filter: blur(8px);
-  pointer-events: none;
-  animation: shimmerFlow 18s ease-in-out infinite;
-  will-change: background-position;
-}
-
-.why-choose-section::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -100%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    rgba(235, 164, 114, 0.2),
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-  animation: shimmerSweep 6s linear infinite;
-  pointer-events: none;
-  will-change: transform;
-}
-
-.why-choose-section .container {
+.combined-contact-section .container {
   position: relative;
   z-index: 2;
 }
@@ -946,6 +885,27 @@ export default {
   background-color: #000000 !important;
   border-color: #000000 !important;
   color: #EBA472 !important;
+}
+
+/* Warm Sunset Button - Matches Navbar Contact Us Button */
+.btn-warm-sunset {
+  background-color: #EBA472 !important;
+  border-color: #EBA472 !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid #EBA472;
+}
+
+.btn-warm-sunset:hover {
+  background-color: #D4935E !important;
+  border-color: #D4935E !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(235, 164, 114, 0.3);
 }
 </style>
 
