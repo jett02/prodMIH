@@ -51,7 +51,7 @@
                 {{ content.about.storyTitle || 'Our Story' }}
               </h2>
               <div class="story-statement">
-                <p class="fs-4 text-dark opacity-75 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
+                <p class="fs-5 text-dark opacity-75 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
               </div>
             </div>
           </div>
@@ -530,7 +530,7 @@ export default {
 .story-statement-text {
   font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.25rem !important;
+  font-size: 1.125rem !important;
   line-height: 1.6 !important;
   text-align: center !important;
   background: #ffffff;
@@ -560,7 +560,7 @@ export default {
 .story-statement-text * {
   font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.25rem !important;
+  font-size: 1.125rem !important;
   line-height: 1.6 !important;
   color: inherit !important;
   text-decoration: none !important;
@@ -573,7 +573,7 @@ export default {
 .story-statement-text p {
   font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.25rem !important;
+  font-size: 1.125rem !important;
   line-height: 1.6 !important;
   margin-bottom: 1.5rem !important;
   color: inherit !important;
@@ -597,7 +597,7 @@ export default {
 .story-statement-text span {
   font-weight: 300 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  font-size: 1.25rem !important;
+  font-size: 1.125rem !important;
   color: inherit !important;
   background: none !important;
 }

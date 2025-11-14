@@ -50,7 +50,7 @@
                 {{ content.vision.mainTitle || 'Our Vision for the Future' }}
               </h2>
               <div class="vision-statement">
-                <p class="fs-4 text-light opacity-75 mb-4 vision-statement-text" v-html="content.vision.statement || defaultVisionStatement"></p>
+                <p class="fs-5 text-light opacity-75 mb-4 vision-statement-text" v-html="content.vision.statement || defaultVisionStatement"></p>
               </div>
 
               <!-- Vision Statement -->
