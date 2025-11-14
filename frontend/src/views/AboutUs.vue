@@ -47,11 +47,11 @@
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="text-center mb-5" data-aos="fade-up">
-              <h2 class="display-5 fw-bold mb-4 text-dark">
+              <h2 class="display-5 fw-bold mb-4 text-white story-title">
                 {{ content.about.storyTitle || 'Our Story' }}
               </h2>
               <div class="story-statement">
-                <p class="fs-5 text-dark opacity-75 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
+                <p class="fs-5 mb-4 story-statement-text" v-html="content.about.story || defaultStoryContent"></p>
               </div>
             </div>
           </div>
@@ -469,7 +469,7 @@ export default {
   pointer-events: none;
 }
 
-/* Enhanced animated geometric patterns */
+/* Subtle static geometric patterns - no moving rectangles */
 .story-statement-bg::after {
   content: '';
   position: absolute;
@@ -478,24 +478,20 @@ export default {
   right: 0;
   bottom: 0;
   background:
-    linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.08) 50%, transparent 75%),
-    linear-gradient(-45deg, transparent 25%, rgba(235, 164, 114, 0.12) 50%, transparent 75%),
-    linear-gradient(135deg, transparent 30%, rgba(212, 147, 94, 0.10) 50%, transparent 70%),
     repeating-linear-gradient(
       90deg,
       transparent,
-      transparent 80px,
-      rgba(235, 164, 114, 0.06) 81px,
-      rgba(235, 164, 114, 0.06) 83px
+      transparent 100px,
+      rgba(235, 164, 114, 0.03) 101px,
+      rgba(235, 164, 114, 0.03) 102px
     ),
     repeating-linear-gradient(
       45deg,
       transparent,
-      transparent 120px,
-      rgba(255, 193, 7, 0.04) 121px,
-      rgba(255, 193, 7, 0.04) 123px
+      transparent 150px,
+      rgba(255, 193, 7, 0.02) 151px,
+      rgba(255, 193, 7, 0.02) 152px
     );
-  animation: geometricShift 10s linear infinite;
   pointer-events: none;
 }
 
@@ -519,23 +515,16 @@ export default {
   }
 }
 
-/* Enhanced geometric pattern animation */
-@keyframes geometricShift {
-  0% {
-    transform: translateX(0px) translateY(0px) rotate(0deg);
-  }
-  25% {
-    transform: translateX(15px) translateY(-5px) rotate(0.3deg);
-  }
-  50% {
-    transform: translateX(25px) translateY(3px) rotate(0.8deg);
-  }
-  75% {
-    transform: translateX(10px) translateY(-8px) rotate(-0.2deg);
-  }
-  100% {
-    transform: translateX(0px) translateY(0px) rotate(0deg);
-  }
+
+
+/* Story Title - enhanced visibility */
+.story-title {
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(235, 164, 114, 0.3);
+  position: relative;
+  z-index: 15;
 }
 
 /* Story Statement - solid light background against darker animated background */
