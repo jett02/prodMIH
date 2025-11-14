@@ -495,22 +495,22 @@ export default {
   pointer-events: none;
 }
 
-/* Enhanced floating particles animation */
+/* Gentle floating particles animation - no scaling or rotation */
 @keyframes floatingGlow {
   0%, 100% {
-    transform: translateY(0px) scale(1) rotate(0deg);
+    transform: translateY(0px);
     opacity: 1;
   }
   25% {
-    transform: translateY(-15px) scale(1.08) rotate(1deg);
-    opacity: 0.7;
+    transform: translateY(-10px);
+    opacity: 0.8;
   }
   50% {
-    transform: translateY(-8px) scale(1.12) rotate(-0.5deg);
-    opacity: 1.3;
+    transform: translateY(-5px);
+    opacity: 1.2;
   }
   75% {
-    transform: translateY(8px) scale(0.92) rotate(0.8deg);
+    transform: translateY(5px);
     opacity: 0.9;
   }
 }
