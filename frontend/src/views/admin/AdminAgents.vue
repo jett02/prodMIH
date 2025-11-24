@@ -123,6 +123,14 @@
             </div>
 
             <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Agency Logo</label>
+              <input @change="handleAgencyLogoUpload" type="file" accept="image/*"
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+              <img v-if="agentForm.agencyLogo" :src="getImageUrl(agentForm.agencyLogo)" class="mt-2 h-12 w-auto max-w-24 object-contain border rounded">
+              <p class="text-xs text-gray-500 mt-1">Upload the logo of the agency this agent works for</p>
+            </div>
+
+            <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Bio</label>
               <textarea v-model="agentForm.bio" rows="3"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
@@ -187,6 +195,7 @@ export default {
         email: '',
         phone: '',
         photo: '',
+        agencyLogo: '',
         bio: '',
         company: 'Make It Home',
         license: '',
@@ -229,7 +238,7 @@ export default {
         title: '',
         email: '',
         phone: '',
-        photo: '',
+        agencyLogo: '',
         bio: '',
         company: 'Make It Home',
         license: '',
@@ -240,10 +249,10 @@ export default {
     async handlePhotoUpload(event) {
       const file = event.target.files[0]
       if (!file) return
-      
+
       const formData = new FormData()
       formData.append('photo', file)
-      
+
       try {
         const response = await axios.post('/api/admin/agents/upload-photo', formData, {
           headers: {
@@ -254,6 +263,26 @@ export default {
       } catch (error) {
         console.error('Error uploading photo:', error)
         alert('Error uploading photo. Please try again.')
+      }
+    },
+
+    async handleAgencyLogoUpload(event) {
+      const file = event.target.files[0]
+      if (!file) return
+
+      const formData = new FormData()
+      formData.append('agencyLogo', file)
+
+      try {
+        const response = await axios.post('/api/admin/agents/upload-agency-logo', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        this.agentForm.agencyLogo = response.data.logoUrl
+      } catch (error) {
+        console.error('Error uploading agency logo:', error)
+        alert('Error uploading agency logo. Please try again.')
       }
     },
     

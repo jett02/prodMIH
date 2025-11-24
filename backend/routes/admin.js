@@ -910,6 +910,27 @@ router.post('/agents/upload-photo', heroUpload.single('photo'), async (req, res)
   }
 });
 
+// Agent agency logo upload (using Cloudinary)
+router.post('/agents/upload-agency-logo', heroUpload.single('agencyLogo'), async (req, res) => {
+  try {
+    console.log('=== AGENT AGENCY LOGO UPLOAD ATTEMPT ===');
+    console.log('Using heroUpload for agency logo upload');
+
+    if (!req.file) {
+      console.log('No file received');
+      return res.status(400).json({ message: 'No agency logo uploaded' });
+    }
+
+    const logoUrl = req.file.path; // Cloudinary returns the full URL in path
+    console.log('Agent agency logo uploaded successfully:', logoUrl);
+    res.json({ logoUrl });
+  } catch (error) {
+    console.error('Error uploading agent agency logo:', error);
+    console.error('Error details:', error.message);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Upload multiple hero gallery images (including GIFs)
 router.post('/content/upload-hero-gallery', (req, res) => {
   console.log('=== HERO GALLERY UPLOAD START ===');

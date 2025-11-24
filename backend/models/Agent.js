@@ -8,6 +8,7 @@ const agentSchema = new mongoose.Schema({
   photo: { type: String, default: '' },
   bio: { type: String, default: '' },
   company: { type: String, default: 'Make It Home' },
+  agencyLogo: { type: String, default: '' }, // New field for agency logo
   license: { type: String, default: '' },
   specialties: [{ type: String }],
   socialMedia: {

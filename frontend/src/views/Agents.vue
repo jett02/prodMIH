@@ -29,20 +29,12 @@
     <!-- Team Section -->
     <section class="py-15 py-xl-20" style="padding-top: 3rem !important;">
       <div class="container">
-        <div class="row align-items-end mb-5">
-          <div class="col-lg-8">
+        <div class="row justify-content-center mb-5">
+          <div class="col-lg-10 text-center">
             <h2 class="fw-bold mb-3" data-aos="fade-up">Meet the people behind our success.</h2>
             <p class="text-muted fs-lg" data-aos="fade-up" data-aos-delay="100">
-              Our dedicated team of real estate professionals is committed to helping you achieve your property goals.
+              Here's the dedicated team of real estate professionals that are committed to helping you achieve your property goals.
             </p>
-          </div>
-          <div class="col-lg-4 text-lg-end" data-aos="fade-up" data-aos-delay="200">
-            <div class="agent-stats">
-              <div class="stat-item">
-                <h4 class="text-primary mb-0">{{ agents.length }}+</h4>
-                <span class="text-muted">Expert Agents</span>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -81,7 +73,14 @@
               
               <div class="card-body text-center p-4">
                 <h5 class="card-title fw-bold mb-2">{{ agent.name }}</h5>
-                <p class="text-primary fw-medium mb-3">{{ agent.title }}</p>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                  <p class="text-primary fw-medium mb-0 me-2">{{ agent.title }}</p>
+                  <img v-if="agent.agencyLogo"
+                       :src="getImageUrl(agent.agencyLogo)"
+                       :alt="agent.company + ' logo'"
+                       class="agency-logo"
+                       @error="handleLogoError">
+                </div>
                 <p class="card-text text-muted mb-4">{{ agent.bio }}</p>
                 
                 <div class="contact-info">
@@ -177,6 +176,10 @@ export default {
     },
     handleImageError(event) {
       event.target.src = '/placeholder-agent.jpg'
+    },
+    handleLogoError(event) {
+      // Hide the logo if it fails to load
+      event.target.style.display = 'none'
     },
     contactAgent(agent) {
       // You can implement a modal or redirect to contact form
@@ -530,6 +533,21 @@ export default {
   .cta-section {
     padding: 2rem !important;
   }
+}
+
+/* Agency Logo Styles */
+.agency-logo {
+  height: 24px;
+  width: auto;
+  max-width: 60px;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.agency-logo:hover {
+  transform: scale(1.05);
 }
 </style>
 
