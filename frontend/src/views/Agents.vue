@@ -51,36 +51,36 @@
                :data-aos-delay="index * 150">
             <div class="agent-card card h-100 border-0 shadow-sm">
               <div class="card-image-wrapper">
-                <img :src="getImageUrl(agent.photo)" 
-                     class="card-img-top agent-image" 
+                <img :src="getImageUrl(agent.photo)"
+                     class="card-img-top agent-image"
                      :alt="agent.name"
                      @error="handleImageError">
                 <div class="image-overlay">
                   <div class="contact-actions">
-                    <a v-if="agent.phone" :href="`tel:${agent.phone}`" 
-                       class="btn btn-sm btn-light rounded-circle me-2" 
+                    <a v-if="agent.phone" :href="`tel:${agent.phone}`"
+                       class="btn btn-sm btn-light rounded-circle me-2"
                        title="Call">
                       <i class="fas fa-phone"></i>
                     </a>
-                    <a v-if="agent.email" :href="`mailto:${agent.email}`" 
-                       class="btn btn-sm btn-light rounded-circle" 
+                    <a v-if="agent.email" :href="`mailto:${agent.email}`"
+                       class="btn btn-sm btn-light rounded-circle"
                        title="Email">
                       <i class="fas fa-envelope"></i>
                     </a>
                   </div>
                 </div>
+                <!-- Agency Logo Overlay -->
+                <div v-if="agent.agencyLogo" class="agency-logo-overlay">
+                  <img :src="getImageUrl(agent.agencyLogo)"
+                       :alt="agent.company + ' logo'"
+                       class="agency-logo-corner"
+                       @error="handleLogoError">
+                </div>
               </div>
               
               <div class="card-body text-center p-4">
                 <h5 class="card-title fw-bold mb-2">{{ agent.name }}</h5>
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                  <p class="text-primary fw-medium mb-0 me-2">{{ agent.title }}</p>
-                  <img v-if="agent.agencyLogo"
-                       :src="getImageUrl(agent.agencyLogo)"
-                       :alt="agent.company + ' logo'"
-                       class="agency-logo"
-                       @error="handleLogoError">
-                </div>
+                <p class="text-primary fw-medium mb-3">{{ agent.title }}</p>
                 <p class="card-text text-muted mb-4">{{ agent.bio }}</p>
                 
                 <div class="contact-info">
@@ -535,19 +535,30 @@ export default {
   }
 }
 
-/* Agency Logo Styles */
-.agency-logo {
-  height: 24px;
-  width: auto;
-  max-width: 60px;
-  object-fit: contain;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+/* Agency Logo Overlay Styles */
+.agency-logo-overlay {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 10;
 }
 
-.agency-logo:hover {
-  transform: scale(1.05);
+.agency-logo-corner {
+  height: 32px;
+  width: auto;
+  max-width: 80px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.agency-logo-corner:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 </style>
 

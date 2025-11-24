@@ -172,17 +172,16 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                  {{ propertyForm.status === 'upcoming' ? 'Estimated Price' : 'Price' }} *
+                  {{ propertyForm.status === 'upcoming' ? 'Estimated Price (Optional)' : 'Price' }} {{ propertyForm.status !== 'upcoming' ? '*' : '' }}
                 </label>
                 <input v-if="propertyForm.status === 'upcoming'"
-                       type="number" 
-                       v-model="propertyForm.estimatedPrice" 
-                       required
-                       placeholder="Estimated price"
+                       type="number"
+                       v-model="propertyForm.estimatedPrice"
+                       placeholder="Estimated price (optional)"
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
                 <input v-else
-                       type="number" 
-                       v-model="propertyForm.price" 
+                       type="number"
+                       v-model="propertyForm.price"
                        required
                        placeholder="Property price"
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
