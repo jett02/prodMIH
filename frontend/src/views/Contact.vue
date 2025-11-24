@@ -72,7 +72,7 @@
                 </div>
                 <h5 class="card-title mb-2 text-white">Call Us</h5>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.phoneDescription || 'Ready to talk? Give us a call' }}</p>
-                <a :href="`tel:${contactInfo.phone}`" class="btn btn-warm-sunset">
+                <a :href="`tel:${contactInfo.phone}`" class="btn btn-warm-sunset-enhanced">
                   {{ contactInfo.phone || '402-XXX-XXXX' }}
                 </a>
               </div>
@@ -88,7 +88,7 @@
                 </div>
                 <h5 class="card-title mb-2 text-white">Email Us</h5>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.emailDescription || 'Send us your questions' }}</p>
-                <a :href="`mailto:${contactInfo.email}`" class="btn btn-warm-sunset">
+                <a :href="`mailto:${contactInfo.email}`" class="btn btn-warm-sunset-enhanced">
                   {{ contactInfo.email || 'info@makeithome.com' }}
                 </a>
               </div>
@@ -105,7 +105,7 @@
                 <h5 class="card-title mb-2 text-white">Visit Us</h5>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.locationDescription || 'Visit our office' }}</p>
                 <p class="text-light opacity-75 mb-3">{{ contactInfo.address || 'Omaha, Nebraska' }}</p>
-                <button class="btn btn-warm-sunset" @click="openMap">
+                <button class="btn btn-warm-sunset-enhanced" @click="openMap">
                   Get Directions
                 </button>
               </div>
@@ -119,30 +119,45 @@
             <h3 class="fw-bold mb-5 display-6">Why Choose Make It Home?</h3>
             <div class="row g-4">
               <div class="col-md-4">
-                <div class="feature-item">
-                  <div class="icon-circle bg-warm-sunset text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
-                    <i class="fas fa-home"></i>
+                <div class="card h-100 border-0 glass-card card-hover">
+                  <div class="card-body text-center p-4">
+                    <div class="icon-circle bg-warm-sunset text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
+                      <i class="fas fa-home"></i>
+                    </div>
+                    <h5 class="card-title mb-2 text-white">Local Expertise</h5>
+                    <p class="text-light opacity-75 mb-3">Deep knowledge of Omaha's neighborhoods</p>
+                    <button class="btn btn-warm-sunset-enhanced" @click="scrollToContact">
+                      Learn More
+                    </button>
                   </div>
-                  <h5 class="mb-2">Local Expertise</h5>
-                  <p class="text-light opacity-75">Deep knowledge of Omaha's neighborhoods</p>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="feature-item">
-                  <div class="icon-circle bg-slate-gray text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
-                    <i class="fas fa-handshake"></i>
+                <div class="card h-100 border-0 glass-card card-hover">
+                  <div class="card-body text-center p-4">
+                    <div class="icon-circle bg-slate-gray text-white mb-3 mx-auto" style="width: 60px; height: 60px;">
+                      <i class="fas fa-handshake"></i>
+                    </div>
+                    <h5 class="card-title mb-2 text-white">Personalized Service</h5>
+                    <p class="text-light opacity-75 mb-3">Tailored approach for every client</p>
+                    <button class="btn btn-warm-sunset-enhanced" @click="scrollToContact">
+                      Learn More
+                    </button>
                   </div>
-                  <h5 class="mb-2">Personalized Service</h5>
-                  <p class="text-light opacity-75">Tailored approach for every client</p>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="feature-item">
-                  <div class="icon-circle bg-midnight-black text-warm-sunset mb-3 mx-auto" style="width: 60px; height: 60px;">
-                    <i class="fas fa-chart-line"></i>
+                <div class="card h-100 border-0 glass-card card-hover">
+                  <div class="card-body text-center p-4">
+                    <div class="icon-circle bg-midnight-black text-warm-sunset mb-3 mx-auto" style="width: 60px; height: 60px;">
+                      <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h5 class="card-title mb-2 text-white">Market Insights</h5>
+                    <p class="text-light opacity-75 mb-3">Data-driven real estate decisions</p>
+                    <button class="btn btn-warm-sunset-enhanced" @click="scrollToContact">
+                      Learn More
+                    </button>
                   </div>
-                  <h5 class="mb-2">Market Insights</h5>
-                  <p class="text-light opacity-75">Data-driven real estate decisions</p>
                 </div>
               </div>
             </div>
@@ -294,6 +309,13 @@ export default {
         console.log('No Google Maps link found, using address search')
         const address = encodeURIComponent(this.contactInfo.address || 'Make It Home LLC')
         window.open(`https://www.google.com/maps/search/${address}`, '_blank')
+      }
+    },
+    scrollToContact() {
+      // Scroll to the contact cards section
+      const contactSection = document.querySelector('.combined-contact-section')
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
     }
   }
@@ -906,6 +928,51 @@ export default {
   color: #FFFFFF !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(235, 164, 114, 0.3);
+}
+
+/* Enhanced Warm Sunset Button - Better Visibility Against Animated Background */
+.btn-warm-sunset-enhanced {
+  background: linear-gradient(135deg, #EBA472 0%, #D4935E 100%) !important;
+  border: 2px solid #EBA472 !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  padding: 0.6rem 1.8rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 15px rgba(235, 164, 114, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-warm-sunset-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-warm-sunset-enhanced:hover::before {
+  left: 100%;
+}
+
+.btn-warm-sunset-enhanced:hover {
+  background: linear-gradient(135deg, #D4935E 0%, #C8834A 100%) !important;
+  border-color: #D4935E !important;
+  color: #FFFFFF !important;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 30px rgba(235, 164, 114, 0.5),
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 </style>
 
