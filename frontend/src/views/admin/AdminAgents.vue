@@ -126,7 +126,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-2">Agency Logo</label>
               <input @change="handleAgencyLogoUpload" type="file" accept="image/*"
                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-              <img v-if="agentForm.agencyLogo" :src="getImageUrl(agentForm.agencyLogo)" class="mt-2 h-12 w-auto max-w-24 object-contain border rounded">
+              <img v-if="agentForm.agencyLogo" :src="getImageUrl(agentForm.agencyLogo)" class="mt-2 h-16 w-auto max-w-32 object-contain border rounded bg-white p-2">
               <p class="text-xs text-gray-500 mt-1">Upload the logo of the agency this agent works for</p>
             </div>
 

@@ -544,21 +544,21 @@ export default {
 }
 
 .agency-logo-corner {
-  height: 32px;
+  height: 48px;
   width: auto;
-  max-width: 80px;
+  max-width: 120px;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.95);
-  padding: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 .agency-logo-corner:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.35);
 }
 </style>
 
