@@ -1,12 +1,13 @@
 <template>
   <div class="admin-partners">
-    <!-- Header Section -->
-    <div class="header-section d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded">
+    <!-- Header Section - Always Visible -->
+    <div class="header-section d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded" style="min-height: 80px; border: 2px solid #007bff;">
       <div>
         <h2 class="mb-0">Manage Partners</h2>
         <p class="text-muted mb-0">Add and manage your business partners</p>
+        <small class="text-info">Partners count: {{ partners.length }}</small>
       </div>
-      <button class="btn btn-primary btn-lg" @click="showCreateModal">
+      <button class="btn btn-primary btn-lg" @click="showCreateModal" style="z-index: 1000; position: relative;">
         <i class="fas fa-plus me-2"></i>Add New Partner
       </button>
     </div>
