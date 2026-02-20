@@ -82,8 +82,21 @@
               autocomplete="off">
           </div>
           <div class="col-md-2">
+            <div class="form-check d-flex align-items-center h-100">
+              <input
+                class="form-check-input me-2"
+                type="checkbox"
+                v-model="filters.showSoldProperties"
+                @change="applyFilters"
+                id="showSoldProperties">
+              <label class="form-check-label small text-nowrap" for="showSoldProperties">
+                Show Sold
+              </label>
+            </div>
+          </div>
+          <div class="col-md-1">
             <button @click="clearFilters" class="btn btn-outline-secondary btn-sm filter-btn-compact w-100">
-              <i class="fas fa-times me-1"></i>Clear
+              <i class="fas fa-times"></i>
             </button>
           </div>
         </div>
@@ -230,7 +243,8 @@ export default {
         maxPrice: '',
         bedrooms: '',
         bathrooms: '',
-        location: ''
+        location: '',
+        showSoldProperties: false
       },
       sortBy: 'newest',
       showMap: false,
@@ -302,7 +316,7 @@ export default {
           
           response.data = response.data.filter(p => {
             console.log('Property:', p.title, 'Type:', p.type, 'Status:', p.status)
-            return p.type === 'sale' && p.status === 'available'
+            return p.type === 'sale' && p.status !== 'upcoming'
           })
           
           console.log('Filtered sale properties:', response.data)
@@ -311,7 +325,7 @@ export default {
           try {
             response = await axios.get('/api/admin/properties')
             response.data = response.data.filter(p =>
-              p.type === 'sale' && p.status === 'available'
+              p.type === 'sale' && p.status !== 'upcoming'
             )
           } catch (adminError) {
             console.error('Error loading from admin endpoint:', adminError)
@@ -353,7 +367,8 @@ export default {
         maxPrice: '',
         bedrooms: '',
         bathrooms: '',
-        location: ''
+        location: '',
+        showSoldProperties: false
       }
       this.filteredProperties = [...this.properties]
       
@@ -799,17 +814,22 @@ export default {
 
       // When map bounds exist, prioritize geographic filtering over location text filter
       const baseFiltered = this.properties.filter(property => {
+        // Status filter - show only available properties unless "Show Sold" is checked
+        if (!this.filters.showSoldProperties && property.status !== 'available') {
+          return false
+        }
+
         // Apply all filters EXCEPT location when map bounds are active
         if (this.filters.priceRange) {
           const [min, max] = this.filters.priceRange.split('-').map(Number)
           if (property.price < min || property.price > max) return false
         }
-        
+
         if (this.filters.minPrice && property.price < this.filters.minPrice) return false
         if (this.filters.maxPrice && property.price > this.filters.maxPrice) return false
         if (this.filters.bedrooms && property.bedrooms < this.filters.bedrooms) return false
         if (this.filters.bathrooms && property.bathrooms < this.filters.bathrooms) return false
-        
+
         // Skip location filter when using map bounds
         return true
       })
@@ -858,23 +878,28 @@ export default {
 
     applyBaseFilters() {
       return this.properties.filter(property => {
+        // Status filter - show only available properties unless "Show Sold" is checked
+        if (!this.filters.showSoldProperties && property.status !== 'available') {
+          return false
+        }
+
         if (this.filters.priceRange) {
           const [min, max] = this.filters.priceRange.split('-').map(Number)
           if (property.price < min || property.price > max) return false
         }
-        
+
         if (this.filters.minPrice && property.price < this.filters.minPrice) return false
         if (this.filters.maxPrice && property.price > this.filters.maxPrice) return false
         if (this.filters.bedrooms && property.bedrooms < this.filters.bedrooms) return false
         if (this.filters.bathrooms && property.bathrooms < this.filters.bathrooms) return false
-        
+
         if (this.filters.location) {
           const location = this.filters.location.toLowerCase()
           const address = (property.address || '').toLowerCase()
           const title = (property.title || '').toLowerCase()
           if (!address.includes(location) && !title.includes(location)) return false
         }
-        
+
         return true
       })
     },
