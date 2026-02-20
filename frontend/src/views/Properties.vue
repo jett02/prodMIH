@@ -82,17 +82,11 @@
               autocomplete="off">
           </div>
           <div class="col-md-2">
-            <div class="form-check d-flex align-items-center h-100">
-              <input
-                class="form-check-input me-2"
-                type="checkbox"
-                v-model="filters.showSoldProperties"
-                @change="applyFilters"
-                id="showSoldProperties">
-              <label class="form-check-label small text-nowrap" for="showSoldProperties">
-                Show Sold
-              </label>
-            </div>
+            <select v-model="filters.propertyStatus" @change="applyFilters" class="form-select form-select-sm filter-select-compact">
+              <option value="available">Available Only</option>
+              <option value="sold">Sold Only</option>
+              <option value="all">Show All</option>
+            </select>
           </div>
           <div class="col-md-1">
             <button @click="clearFilters" class="btn btn-outline-secondary btn-sm filter-btn-compact w-100">
@@ -244,7 +238,7 @@ export default {
         bedrooms: '',
         bathrooms: '',
         location: '',
-        showSoldProperties: false
+        propertyStatus: 'available' // 'available', 'sold', 'all'
       },
       sortBy: 'newest',
       showMap: false,
@@ -370,7 +364,7 @@ export default {
         bedrooms: '',
         bathrooms: '',
         location: '',
-        showSoldProperties: false
+        propertyStatus: 'available'
       }
       // Apply base filters after clearing to maintain default behavior (available only)
       this.filteredProperties = this.applyBaseFilters()
@@ -817,10 +811,14 @@ export default {
 
       // When map bounds exist, prioritize geographic filtering over location text filter
       const baseFiltered = this.properties.filter(property => {
-        // Status filter - show only available properties unless "Show Sold" is checked
-        if (!this.filters.showSoldProperties && property.status !== 'available') {
+        // Status filter - three options: available, sold, or all
+        if (this.filters.propertyStatus === 'available' && property.status !== 'available') {
           return false
         }
+        if (this.filters.propertyStatus === 'sold' && property.status !== 'sold') {
+          return false
+        }
+        // If propertyStatus is 'all', show all properties regardless of status
 
         // Apply all filters EXCEPT location when map bounds are active
         if (this.filters.priceRange) {
@@ -881,10 +879,14 @@ export default {
 
     applyBaseFilters() {
       return this.properties.filter(property => {
-        // Status filter - show only available properties unless "Show Sold" is checked
-        if (!this.filters.showSoldProperties && property.status !== 'available') {
+        // Status filter - three options: available, sold, or all
+        if (this.filters.propertyStatus === 'available' && property.status !== 'available') {
           return false
         }
+        if (this.filters.propertyStatus === 'sold' && property.status !== 'sold') {
+          return false
+        }
+        // If propertyStatus is 'all', show all properties regardless of status
 
         if (this.filters.priceRange) {
           const [min, max] = this.filters.priceRange.split('-').map(Number)
