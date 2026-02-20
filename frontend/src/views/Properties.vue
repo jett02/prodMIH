@@ -337,8 +337,10 @@ export default {
           ...property,
           currentImageIndex: 0
         })) || []
-        this.filteredProperties = [...this.properties]
+        // Apply filters immediately to prevent showing all properties initially
+        this.filteredProperties = this.applyBaseFilters()
         console.log('Final properties count:', this.properties.length)
+        console.log('Filtered properties count:', this.filteredProperties.length)
         
         if (this.map && this.filteredProperties.length > 0) {
           this.addPropertyMarkers()
@@ -370,7 +372,8 @@ export default {
         location: '',
         showSoldProperties: false
       }
-      this.filteredProperties = [...this.properties]
+      // Apply base filters after clearing to maintain default behavior (available only)
+      this.filteredProperties = this.applyBaseFilters()
       
       // Reset map to original position and zoom
       if (this.map) {
