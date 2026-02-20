@@ -91,9 +91,9 @@
     </section>
 
     <!-- Main Content: Map + Properties -->
-    <section class="main-content">
+    <section class="main-content mb-5">
       <div class="container-fluid p-0">
-        <div class="row g-0" style="height: calc(100vh - 200px);">
+        <div class="row g-0" style="min-height: calc(100vh - 250px); height: auto;">
           <!-- Map Section - Left Side (67% - 2/3) -->
           <div class="col-lg-8">
             <div id="properties-map" class="h-100"></div>
@@ -302,7 +302,7 @@ export default {
           
           response.data = response.data.filter(p => {
             console.log('Property:', p.title, 'Type:', p.type, 'Status:', p.status)
-            return p.type === 'sale' && p.status !== 'upcoming'
+            return p.type === 'sale' && p.status === 'available'
           })
           
           console.log('Filtered sale properties:', response.data)
@@ -310,8 +310,8 @@ export default {
           console.error('Error loading from /api/properties:', error)
           try {
             response = await axios.get('/api/admin/properties')
-            response.data = response.data.filter(p => 
-              p.type === 'sale' && p.status !== 'upcoming'
+            response.data = response.data.filter(p =>
+              p.type === 'sale' && p.status === 'available'
             )
           } catch (adminError) {
             console.error('Error loading from admin endpoint:', adminError)

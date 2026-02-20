@@ -449,17 +449,17 @@ export default {
   methods: {
     async loadFeaturedProperties() {
       try {
-        // Include both available and sold properties in featured properties
-        const response = await axios.get('/api/properties?limit=6')
+        // Load more properties to have better selection for featured
+        const response = await axios.get('/api/properties?limit=10')
         // Filter to get a mix of available and sold properties, prioritizing available
         const availableProperties = response.data.filter(p => p.status === 'available')
         const soldProperties = response.data.filter(p => p.status === 'sold')
 
-        // Take up to 3 available properties, then fill remaining slots with sold properties
+        // Take up to 5 available properties, then fill remaining slots with sold properties
         const featured = [
-          ...availableProperties.slice(0, 3),
-          ...soldProperties.slice(0, Math.max(0, 3 - availableProperties.length))
-        ].slice(0, 3)
+          ...availableProperties.slice(0, 5),
+          ...soldProperties.slice(0, Math.max(0, 5 - availableProperties.length))
+        ].slice(0, 5)
 
         this.featuredProperties = featured
       } catch (error) {
