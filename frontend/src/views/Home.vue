@@ -265,7 +265,12 @@
             <div class="spinner-border text-dark" role="status"></div>
           </div>
           
-          <div v-else class="properties-horizontal-scroll">
+          <div v-else class="properties-horizontal-scroll"
+               ref="propertiesScroll"
+               @mouseenter="pauseAutoScroll"
+               @mouseleave="resumeAutoScroll"
+               @touchstart="pauseAutoScroll"
+               @touchend="resumeAutoScrollDelayed">
             <div class="properties-row">
               <div v-for="property in featuredProperties" :key="property._id" class="property-item">
                 <div class="card h-100 featured-property-card">
@@ -418,7 +423,11 @@ export default {
       // Carousel functionality
       currentImageIndex: 0,
       carouselInterval: null,
-      isTransitioning: false
+      isTransitioning: false,
+      // Properties auto-scroll functionality
+      propertiesAutoScrollInterval: null,
+      propertiesScrollPaused: false,
+      resumeScrollTimeout: null
     }
   },
   async mounted() {
@@ -434,16 +443,23 @@ export default {
     Promise.all([
       this.loadFeaturedProperties(),
       this.loadUpcomingProperties()
-    ])
+    ]).then(() => {
+      // Start properties auto-scroll after properties are loaded
+      this.$nextTick(() => {
+        this.startPropertiesAutoScroll()
+      })
+    })
   },
 
   beforeUnmount() {
     this.stopCarouselTimer()
+    this.stopPropertiesAutoScroll()
   },
 
   beforeRouteLeave(_, __, next) {
     // Stop carousel when leaving the page
     this.stopCarouselTimer()
+    this.stopPropertiesAutoScroll()
     next()
   },
   methods: {
@@ -726,6 +742,58 @@ export default {
           behavior: 'smooth',
           block: 'start'
         })
+      }
+    },
+
+    // Properties Auto-Scroll Methods
+    startPropertiesAutoScroll() {
+      if (this.propertiesAutoScrollInterval) {
+        clearInterval(this.propertiesAutoScrollInterval)
+      }
+
+      this.propertiesAutoScrollInterval = setInterval(() => {
+        if (!this.propertiesScrollPaused && this.$refs.propertiesScroll) {
+          const scrollContainer = this.$refs.propertiesScroll
+          const scrollAmount = 240 // 220px card width + 16px gap + 4px extra
+          const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
+
+          if (scrollContainer.scrollLeft >= maxScroll - 10) {
+            // Reached the end, smoothly scroll back to start
+            scrollContainer.scrollTo({ left: 0, behavior: 'smooth' })
+          } else {
+            // Scroll to next property
+            scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+          }
+        }
+      }, 3000) // Auto-scroll every 3 seconds
+    },
+
+    pauseAutoScroll() {
+      this.propertiesScrollPaused = true
+    },
+
+    resumeAutoScroll() {
+      this.propertiesScrollPaused = false
+    },
+
+    resumeAutoScrollDelayed() {
+      // For mobile touch - resume after a 2 second delay
+      if (this.resumeScrollTimeout) {
+        clearTimeout(this.resumeScrollTimeout)
+      }
+      this.resumeScrollTimeout = setTimeout(() => {
+        this.propertiesScrollPaused = false
+      }, 2000)
+    },
+
+    stopPropertiesAutoScroll() {
+      if (this.propertiesAutoScrollInterval) {
+        clearInterval(this.propertiesAutoScrollInterval)
+        this.propertiesAutoScrollInterval = null
+      }
+      if (this.resumeScrollTimeout) {
+        clearTimeout(this.resumeScrollTimeout)
+        this.resumeScrollTimeout = null
       }
     }
   }
