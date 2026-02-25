@@ -267,7 +267,7 @@
           
           <div v-else class="properties-horizontal-scroll">
             <div class="properties-row">
-              <div v-for="property in featuredProperties.slice(0, 5)" :key="property._id" class="property-item">
+              <div v-for="property in featuredProperties" :key="property._id" class="property-item">
                 <div class="card h-100 featured-property-card">
                   <div class="position-relative">
                     <img :src="getImageUrl(property.thumbnail || property.images?.[0])" 
@@ -455,11 +455,11 @@ export default {
         const availableProperties = response.data.filter(p => p.status === 'available')
         const soldProperties = response.data.filter(p => p.status === 'sold')
 
-        // Take up to 5 available properties, then fill remaining slots with sold properties
+        // Show all properties (both available and sold) up to 6 total
         const featured = [
-          ...availableProperties.slice(0, 5),
-          ...soldProperties.slice(0, Math.max(0, 5 - availableProperties.length))
-        ].slice(0, 5)
+          ...availableProperties,
+          ...soldProperties
+        ].slice(0, 6)
 
         this.featuredProperties = featured
       } catch (error) {
@@ -1248,7 +1248,28 @@ export default {
 /* Horizontal Properties Layout */
 .properties-horizontal-scroll {
   overflow-x: auto;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: #EBA472 #f1f1f1;
+}
+
+/* Webkit scrollbar styling for better appearance */
+.properties-horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.properties-horizontal-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.properties-horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #EBA472;
+  border-radius: 4px;
+}
+
+.properties-horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #A15E3B;
 }
 
 .properties-row {
